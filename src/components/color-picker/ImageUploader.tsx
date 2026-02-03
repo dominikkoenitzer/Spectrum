@@ -15,7 +15,17 @@ export function ImageUploader({ onImageLoad, className }: ImageUploaderProps) {
   const handleFileChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
-      if (file && file.type.startsWith('image/')) {
+      if (file) {
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+          console.error('Invalid file type');
+          return;
+        }
+        // Validate file size (10MB max)
+        if (file.size > 10 * 1024 * 1024) {
+          console.error('File too large (max 10MB)');
+          return;
+        }
         onImageLoad(file);
       }
       // Reset input so same file can be selected again
@@ -32,7 +42,17 @@ export function ImageUploader({ onImageLoad, className }: ImageUploaderProps) {
       e.stopPropagation();
       
       const file = e.dataTransfer.files[0];
-      if (file && file.type.startsWith('image/')) {
+      if (file) {
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+          console.error('Invalid file type');
+          return;
+        }
+        // Validate file size (10MB max)
+        if (file.size > 10 * 1024 * 1024) {
+          console.error('File too large (max 10MB)');
+          return;
+        }
         onImageLoad(file);
       }
     },
@@ -87,7 +107,17 @@ export function ImageUrlInput({ onImageLoad, className }: ImageUrlInputProps) {
       e.preventDefault();
       const url = inputRef.current?.value.trim();
       if (url) {
-        onImageLoad(url);
+        // Basic URL validation
+        try {
+          const urlObj = new URL(url);
+          if (!['http:', 'https:'].includes(urlObj.protocol)) {
+            console.error('Invalid protocol');
+            return;
+          }
+          onImageLoad(url);
+        } catch {
+          console.error('Invalid URL');
+        }
       }
     },
     [onImageLoad]

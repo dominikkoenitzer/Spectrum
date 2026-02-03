@@ -10,6 +10,17 @@ export function loadImageToCanvas(
       let width = img.width;
       let height = img.height;
       
+      // Validate image dimensions
+      if (width === 0 || height === 0) {
+        reject(new Error('Invalid image dimensions'));
+        return;
+      }
+      
+      if (width > 16384 || height > 16384) {
+        reject(new Error('Image too large (max 16384px)'));
+        return;
+      }
+      
       // Scale down if image is too large
       if (width > maxSize || height > maxSize) {
         const ratio = Math.min(maxSize / width, maxSize / height);
@@ -38,6 +49,9 @@ export function loadImageToCanvas(
     
     img.onerror = () => {
       reject(new Error('Failed to load image. The image might be blocked by CORS policy.'));
+      if (typeof source !== 'string' || source.startsWith('blob:')) {
+        URL.revokeObjectURL(img.src);
+      }
     };
     
     if (typeof source === 'string') {
