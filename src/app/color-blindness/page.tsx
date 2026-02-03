@@ -1,10 +1,9 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { Upload, Info, Eye, Users, Lightbulb, Check, AlertTriangle, Palette, ArrowRight } from 'lucide-react';
+import { Upload, Info, Eye, Users, Lightbulb, Check, Palette, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
-import { CopyButton } from '@/components/ui/CopyButton';
 import { colorBlindnessTypes, ColorBlindnessType, applyColorBlindnessToCanvas, simulateColorBlindnessHex } from '@/lib/colorBlindness';
 import { loadImageToCanvas } from '@/lib/canvasUtils';
 import { cn } from '@/lib/utils';

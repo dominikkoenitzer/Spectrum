@@ -10,9 +10,6 @@ import {
   type NamedColor,
   type ColorPalette 
 } from '@/lib/colorData';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
 import { CopyButton } from '@/components/ui/CopyButton';
 import { 
   Search, 
@@ -31,7 +28,7 @@ import Link from 'next/link';
 type ViewMode = 'grid' | 'list';
 type TabType = 'named' | 'palettes' | 'trending' | 'brands';
 
-function ColorCard({ color, showCategory = false }: { color: NamedColor; showCategory?: boolean }) {
+function ColorCard({ color }: { color: NamedColor }) {
   const isLight = isLightColor(color.hex);
   
   return (
@@ -405,7 +402,7 @@ export default function BrowseColorsPage() {
           {viewMode === 'grid' ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
               {filteredColors.map((color, index) => (
-                <ColorCard key={index} color={color} showCategory={selectedCategory === 'all'} />
+                <ColorCard key={index} color={color} />
               ))}
             </div>
           ) : (
