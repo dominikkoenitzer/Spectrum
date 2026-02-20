@@ -75,9 +75,6 @@ export function Header() {
           <div className="flex h-14 sm:h-16 items-center justify-between gap-4">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
-              <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 shadow-lg shadow-violet-500/25 group-hover:shadow-violet-500/40 transition-all">
-                <Pipette className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
-              </div>
               <span className="text-lg sm:text-xl font-bold text-white">
                 Spectrum
               </span>
