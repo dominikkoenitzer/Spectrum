@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   keywords: ["color picker", "hex color", "rgb", "hsl", "contrast checker", "color blindness simulator", "gradient maker", "color palette", "wcag contrast", "accessibility"],
   authors: [{ name: "Spectrum" }],
   creator: "Spectrum",
+  icons: {
+    icon: [],
+    apple: [],
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
