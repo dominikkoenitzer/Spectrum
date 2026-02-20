@@ -127,17 +127,86 @@ export default function ColorBlindnessPage() {
         </p>
       </div>
 
-      {/* Statistics - Horizontal scroll on mobile */}
-      <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 mb-6 sm:mb-10">
-        <div className="flex sm:grid sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 min-w-max sm:min-w-0">
-          {statistics.map((stat) => (
-            <div key={stat.label} className="text-center p-3 sm:p-4 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-sm min-w-[120px] sm:min-w-0">
-              <p className="text-xl sm:text-3xl font-bold text-violet-600 dark:text-violet-400">{stat.value}</p>
-              <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100">{stat.label}</p>
-              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">{stat.description}</p>
-            </div>
-          ))}
-        </div>
+      {/* Image upload and comparison */}
+      <div className="grid gap-4 sm:gap-8 lg:grid-cols-2 mb-4 sm:mb-8">
+        {/* Upload area */}
+        <Card>
+          <CardHeader className="p-3 sm:p-6">
+            <CardTitle className="text-base sm:text-xl">Original Image</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Upload an image to see the simulation</CardDescription>
+          </CardHeader>
+          <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
+            {!imageSource ? (
+              <div
+                className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 p-4 sm:p-8 transition-all hover:border-violet-400 hover:bg-violet-50/50 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-violet-600 active:scale-[0.99]"
+                onClick={() => inputRef.current?.click()}
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+              >
+                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-2 sm:mb-4">
+                  <Upload className="h-6 w-6 sm:h-8 sm:w-8 text-gray-400" />
+                </div>
+                <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 text-center">
+                  Drop an image or tap to upload
+                </p>
+                <p className="text-[10px] sm:text-xs text-gray-500 mt-1">PNG, JPG, GIF up to 10MB</p>
+                <input
+                  ref={inputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+              </div>
+            ) : (
+              <div className="space-y-3 sm:space-y-4">
+                <canvas
+                  ref={originalCanvasRef}
+                  className="max-h-[250px] sm:max-h-[400px] max-w-full rounded-lg border border-gray-200 dark:border-gray-700"
+                  style={{ display: isLoaded ? 'block' : 'none' }}
+                />
+                {!isLoaded && (
+                  <div className="flex h-32 sm:h-40 items-center justify-center">
+                    <div className="h-6 w-6 sm:h-8 sm:w-8 animate-spin rounded-full border-4 border-violet-200 border-t-violet-600"></div>
+                  </div>
+                )}
+                <button
+                  onClick={() => {
+                    setImageSource(null);
+                    setIsLoaded(false);
+                  }}
+                  className="text-xs sm:text-sm font-medium text-violet-600 hover:text-violet-700 flex items-center gap-1"
+                >
+                  <Upload className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  Upload different image
+                </button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Simulated view */}
+        <Card>
+          <CardHeader className="p-3 sm:p-6">
+            <CardTitle className="text-base sm:text-xl">Simulated View</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">
+              How the image appears with {selectedTypeInfo?.name}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
+            {!imageSource ? (
+              <div className="flex h-32 sm:h-40 items-center justify-center rounded-xl border-2 border-dashed border-gray-200 dark:border-gray-700">
+                <p className="text-xs sm:text-sm text-gray-500 text-center px-4">Upload an image to see simulation</p>
+              </div>
+            ) : (
+              <canvas
+                ref={simulatedCanvasRef}
+                className="max-h-[250px] sm:max-h-[400px] max-w-full rounded-lg border border-gray-200 dark:border-gray-700"
+                style={{ display: isLoaded ? 'block' : 'none' }}
+              />
+            )}
+          </CardContent>
+        </Card>
       </div>
 
       {/* Type selector */}
@@ -301,88 +370,6 @@ export default function ColorBlindnessPage() {
         </CardContent>
       </Card>
 
-      {/* Image upload and comparison */}
-      <div className="grid gap-4 sm:gap-8 lg:grid-cols-2 mb-4 sm:mb-8">
-        {/* Upload area */}
-        <Card>
-          <CardHeader className="p-3 sm:p-6">
-            <CardTitle className="text-base sm:text-xl">Original Image</CardTitle>
-            <CardDescription className="text-xs sm:text-sm">Upload an image to see the simulation</CardDescription>
-          </CardHeader>
-          <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
-            {!imageSource ? (
-              <div
-                className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 p-4 sm:p-8 transition-all hover:border-violet-400 hover:bg-violet-50/50 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-violet-600 active:scale-[0.99]"
-                onClick={() => inputRef.current?.click()}
-                onDrop={handleDrop}
-                onDragOver={handleDragOver}
-              >
-                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-2 sm:mb-4">
-                  <Upload className="h-6 w-6 sm:h-8 sm:w-8 text-gray-400" />
-                </div>
-                <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 text-center">
-                  Drop an image or tap to upload
-                </p>
-                <p className="text-[10px] sm:text-xs text-gray-500 mt-1">PNG, JPG, GIF up to 10MB</p>
-                <input
-                  ref={inputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
-              </div>
-            ) : (
-              <div className="space-y-3 sm:space-y-4">
-                <canvas
-                  ref={originalCanvasRef}
-                  className="max-h-[250px] sm:max-h-[400px] max-w-full rounded-lg border border-gray-200 dark:border-gray-700"
-                  style={{ display: isLoaded ? 'block' : 'none' }}
-                />
-                {!isLoaded && (
-                  <div className="flex h-32 sm:h-40 items-center justify-center">
-                    <div className="h-6 w-6 sm:h-8 sm:w-8 animate-spin rounded-full border-4 border-violet-200 border-t-violet-600"></div>
-                  </div>
-                )}
-                <button
-                  onClick={() => {
-                    setImageSource(null);
-                    setIsLoaded(false);
-                  }}
-                  className="text-xs sm:text-sm font-medium text-violet-600 hover:text-violet-700 flex items-center gap-1"
-                >
-                  <Upload className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                  Upload different image
-                </button>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Simulated view */}
-        <Card>
-          <CardHeader className="p-3 sm:p-6">
-            <CardTitle className="text-base sm:text-xl">Simulated View</CardTitle>
-            <CardDescription className="text-xs sm:text-sm">
-              How the image appears with {selectedTypeInfo?.name}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
-            {!imageSource ? (
-              <div className="flex h-32 sm:h-40 items-center justify-center rounded-xl border-2 border-dashed border-gray-200 dark:border-gray-700">
-                <p className="text-xs sm:text-sm text-gray-500 text-center px-4">Upload an image to see simulation</p>
-              </div>
-            ) : (
-              <canvas
-                ref={simulatedCanvasRef}
-                className="max-h-[250px] sm:max-h-[400px] max-w-full rounded-lg border border-gray-200 dark:border-gray-700"
-                style={{ display: isLoaded ? 'block' : 'none' }}
-              />
-            )}
-          </CardContent>
-        </Card>
-      </div>
-
       {/* Design Tips */}
       <Card className="mb-4 sm:mb-8">
         <CardHeader className="p-3 sm:p-6">
@@ -444,6 +431,19 @@ export default function ColorBlindnessPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Statistics - Horizontal scroll on mobile */}
+      <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 mt-6 sm:mt-10">
+        <div className="flex sm:grid sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 min-w-max sm:min-w-0">
+          {statistics.map((stat) => (
+            <div key={stat.label} className="text-center p-3 sm:p-4 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-sm min-w-[120px] sm:min-w-0">
+              <p className="text-xl sm:text-3xl font-bold text-violet-600 dark:text-violet-400">{stat.value}</p>
+              <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100">{stat.label}</p>
+              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">{stat.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
