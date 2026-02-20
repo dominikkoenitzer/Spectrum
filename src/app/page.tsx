@@ -13,7 +13,7 @@ import { rgbToFormats, ColorFormats } from '@/lib/colorUtils';
 const quickActions = [
   { name: 'Browse', href: '/browse', icon: Grid3X3, gradient: 'from-blue-500 to-cyan-500' },
   { name: 'Generate', href: '/color-generator', icon: Sparkles, gradient: 'from-violet-500 to-purple-500' },
-  { name: 'Gradients', href: '/gradient-maker', icon: Palette, gradient: 'from-pink-500 to-rose-500' },
+  { name: 'Gradients', href: '/gradient-maker', icon: Palette, gradient: 'from-violet-500 to-purple-500' },
 ];
 
 export default function ColorPickerPage() {
