@@ -41,9 +41,6 @@ export function Footer() {
           {/* Brand Section - Full width on mobile */}
           <div className="col-span-2 sm:col-span-4 lg:col-span-2 mb-4 lg:mb-0">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 shadow-lg shadow-violet-500/25">
-                <Pipette className="h-4 w-4 text-white" />
-              </div>
               <span className="text-lg font-bold text-white">Spectrum</span>
             </Link>
             <p className="text-sm text-gray-400 leading-relaxed mb-4 max-w-xs">
@@ -87,7 +84,7 @@ export function Footer() {
             </h3>
             <div className="flex gap-2">
               <a 
-                href="https://github.com" 
+                href="https://github.com/dominikkoenitzer" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
@@ -95,37 +92,12 @@ export function Footer() {
               >
                 <Github className="h-4 w-4 text-gray-400" />
               </a>
-              <a 
-                href="https://twitter.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter className="h-4 w-4 text-gray-400" />
-              </a>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-white/5">
-        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-xs text-gray-500">
-              © {currentYear} Spectrum. Free & open source.
-            </p>
-            <div className="flex items-center gap-2 text-xs text-gray-500">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
-              </span>
-              All systems operational
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Bottom Bar removed to eliminate empty gap */}
     </footer>
   );
 }
