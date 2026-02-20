@@ -162,7 +162,7 @@ backgroundImage: {
     <div className="w-full max-w-6xl mx-auto px-4 py-6 sm:py-10">
       {/* Header */}
       <div className="text-center mb-6 sm:mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/20 text-fuchsia-400 text-xs font-medium mb-3">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-medium mb-3">
           <Palette className="h-3.5 w-3.5" />
           CSS Generator
         </div>
