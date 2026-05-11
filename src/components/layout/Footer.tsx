@@ -1,18 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import { 
-  Pipette, 
-  Grid3X3, 
-  Sparkles, 
-  Search, 
-  Contrast, 
-  Eye, 
+import {
+  Pipette,
+  Grid3X3,
+  Sparkles,
+  Search,
+  Contrast,
+  Eye,
   Palette,
   Github,
-  Twitter,
   Shield,
-  Zap
+  Zap,
+  BookOpen,
 } from 'lucide-react';
 
 const tools = [
@@ -23,6 +23,7 @@ const tools = [
   { name: 'Contrast', href: '/contrast-checker', icon: Contrast },
   { name: 'Blindness', href: '/color-blindness', icon: Eye },
   { name: 'Gradients', href: '/gradient-maker', icon: Palette },
+  { name: 'Theory', href: '/color-theory', icon: BookOpen },
 ];
 
 const features = [

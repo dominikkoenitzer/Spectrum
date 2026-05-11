@@ -14,6 +14,8 @@ import {
   Sparkles,
   Grid3X3,
   ChevronRight,
+  BookOpen,
+  ArrowRight,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -25,6 +27,7 @@ const navigation = [
   { name: 'Contrast', href: '/contrast-checker', icon: Contrast, description: 'Check WCAG compliance' },
   { name: 'Blindness', href: '/color-blindness', icon: Eye, description: 'Simulate color vision' },
   { name: 'Gradients', href: '/gradient-maker', icon: Palette, description: 'Create CSS gradients' },
+  { name: 'Theory', href: '/color-theory', icon: BookOpen, description: 'Learn colour theory' },
 ];
 
 export function Header() {
@@ -70,12 +73,17 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-gray-950/80 backdrop-blur-xl supports-[backdrop-filter]:bg-gray-950/60">
+      <header className="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-gray-950/75 backdrop-blur-2xl">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-14 sm:h-16 items-center justify-between gap-4">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
-              <span className="text-lg sm:text-xl font-bold text-white">
+            <Link href="/" className="flex items-center gap-2.5 flex-shrink-0 group">
+              <div className="relative">
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-violet-500/25 transition-shadow group-hover:shadow-violet-500/40">
+                  <Palette className="h-3.5 w-3.5 text-white" />
+                </div>
+              </div>
+              <span className="text-base sm:text-lg font-bold text-white tracking-tight">
                 Spectrum
               </span>
             </Link>
@@ -89,17 +97,20 @@ export function Header() {
                     key={item.name}
                     href={item.href}
                     className={cn(
-                      'flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-all',
+                      'relative flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors duration-150',
                       isActive
-                        ? 'bg-white/10 text-white'
-                        : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                        ? 'text-white'
+                        : 'text-gray-500 hover:text-gray-200'
                     )}
                   >
+                    {isActive && (
+                      <span className="absolute inset-0 rounded-lg bg-white/[0.08] animate-scale-in" />
+                    )}
                     <item.icon className={cn(
-                      "h-4 w-4",
-                      isActive ? "text-violet-400" : ""
+                      'relative h-3.5 w-3.5 transition-colors duration-150',
+                      isActive ? 'text-violet-400' : 'text-gray-600 group-hover:text-gray-400',
                     )} />
-                    {item.name}
+                    <span className="relative">{item.name}</span>
                   </Link>
                 );
               })}
@@ -107,15 +118,13 @@ export function Header() {
 
             {/* Mobile menu button */}
             <button
-              className="flex items-center justify-center h-10 w-10 rounded-xl text-white bg-white/5 hover:bg-white/10 lg:hidden transition-colors active:scale-95"
+              className="flex items-center justify-center h-9 w-9 rounded-xl text-gray-400 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.07] lg:hidden transition-all duration-150 active:scale-95"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
+              <span className={cn('transition-all duration-200', mobileMenuOpen ? 'rotate-90' : 'rotate-0')}>
+                {mobileMenuOpen ? <X className="h-4.5 w-4.5" /> : <Menu className="h-4.5 w-4.5" />}
+              </span>
             </button>
           </div>
         </div>

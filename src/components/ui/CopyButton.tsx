@@ -11,27 +11,22 @@ interface CopyButtonProps {
   showLabel?: boolean;
 }
 
-// Fallback copy function for environments where clipboard API is not available
-const fallbackCopyTextToClipboard = (text: string): boolean => {
-  const textArea = document.createElement('textarea');
-  textArea.value = text;
-  textArea.style.top = '0';
-  textArea.style.left = '0';
-  textArea.style.position = 'fixed';
-  textArea.style.opacity = '0';
-  document.body.appendChild(textArea);
-  textArea.focus();
-  textArea.select();
-  
+function fallbackCopy(text: string): boolean {
+  const el = document.createElement('textarea');
+  el.value = text;
+  Object.assign(el.style, { top: '0', left: '0', position: 'fixed', opacity: '0' });
+  document.body.appendChild(el);
+  el.focus();
+  el.select();
   try {
-    const successful = document.execCommand('copy');
-    document.body.removeChild(textArea);
-    return successful;
-  } catch (err) {
-    document.body.removeChild(textArea);
+    const ok = document.execCommand('copy');
+    document.body.removeChild(el);
+    return ok;
+  } catch {
+    document.body.removeChild(el);
     return false;
   }
-};
+}
 
 export function CopyButton({ text, className, label, showLabel = true }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
@@ -39,55 +34,59 @@ export function CopyButton({ text, className, label, showLabel = true }: CopyBut
   const handleCopy = useCallback(async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
     try {
-      // Try modern clipboard API first
       if (navigator?.clipboard?.writeText) {
         await navigator.clipboard.writeText(text);
-        setCopied(true);
       } else {
-        // Fallback for older browsers or insecure contexts
-        const success = fallbackCopyTextToClipboard(text);
-        if (success) {
-          setCopied(true);
-        }
+        fallbackCopy(text);
       }
-      setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
-      // Final fallback attempt
-      const success = fallbackCopyTextToClipboard(text);
-      if (success) {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      }
+    } catch {
+      fallbackCopy(text);
     }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1800);
   }, [text]);
 
   return (
     <button
       onClick={handleCopy}
       type="button"
-      className={cn(
-        'inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-medium transition-all duration-200',
-        'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100',
-        'focus:outline-none focus:ring-2 focus:ring-violet-500/50',
-        copied && 'text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/20',
-        className
-      )}
       title={`Copy ${label || text}`}
       aria-label={`Copy ${label || text} to clipboard`}
-    >
-      {copied ? (
-        <>
-          <Check className="h-4 w-4" />
-          {showLabel && <span>Copied!</span>}
-        </>
-      ) : (
-        <>
-          <Copy className="h-4 w-4" />
-          {showLabel && label && <span>{label}</span>}
-        </>
+      className={cn(
+        'relative inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs font-medium',
+        'transition-all duration-200 active:scale-95 overflow-hidden',
+        copied
+          ? 'bg-green-500/10 text-green-400 border border-green-500/20'
+          : 'bg-white/5 text-gray-400 border border-white/8 hover:bg-white/10 hover:text-gray-200 hover:border-white/15',
+        className,
       )}
+    >
+      {/* Shimmer on hover */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100"
+      />
+
+      <span
+        className={cn(
+          'flex items-center gap-1.5 transition-all duration-200',
+          copied ? 'scale-100 opacity-100' : 'scale-100 opacity-100',
+        )}
+      >
+        <span className={cn(
+          'transition-all duration-200',
+          copied ? 'rotate-0 scale-100' : '',
+        )}>
+          {copied
+            ? <Check className="h-3.5 w-3.5 text-green-400" />
+            : <Copy className="h-3.5 w-3.5" />
+          }
+        </span>
+        {showLabel && label && (
+          <span className="truncate max-w-40">{copied ? 'Copied' : label}</span>
+        )}
+      </span>
     </button>
   );
 }
