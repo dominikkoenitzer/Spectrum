@@ -116,7 +116,7 @@ export default function ColorBlindnessPage() {
       {/* Hero section - Compact on mobile */}
       <div className="mb-8 sm:mb-12">
         <p className="label-caps text-ink-3 mb-4">Vision Simulator</p>
-        <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-ink mb-3 leading-[0.98]">
+        <h1 className="font-display text-5xl sm:text-6xl font-extrabold tracking-[-0.035em] text-ink mb-3 leading-[0.98]">
           Color Blindness Simulator
         </h1>
         <p className="text-base text-ink-2 max-w-xl leading-relaxed">

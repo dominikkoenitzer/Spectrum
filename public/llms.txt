@@ -1,0 +1,20 @@
+# Spectrum
+
+> Spectrum is a free, privacy-first suite of in-browser color tools for designers and developers. Pick colors from any image, convert between formats, check WCAG contrast, simulate color blindness, generate palettes, build CSS gradients, and learn color theory — with no account and no uploads. Everything runs locally in the browser.
+
+Spectrum runs entirely client-side. It requires no sign-up, sets no cookies, runs no third-party tracking, and never uploads your images — they are processed with the browser's Canvas API and never leave your device. Color history is stored only in the browser's localStorage.
+
+## Tools
+
+- [Color Picker](https://spectrumcolor.app/): Extract the exact color of any pixel from an image you open — read it as HEX, RGB, HSL, HSV, CMYK and more.
+- [Browse Colors](https://spectrumcolor.app/browse): Explore named CSS colors, curated palettes, trending colors, and brand colors; click any swatch to copy its hex.
+- [Color Generator](https://spectrumcolor.app/color-generator): Build palettes, harmonies, shades, and tints from a single color, convert between formats (HEX, RGB, HSL, HSV, CMYK, and more), and see a full color analysis.
+- [Gradient Maker](https://spectrumcolor.app/gradient-maker): Design linear, radial, and conic CSS gradients with a live preview and copyable CSS.
+- [Contrast Checker](https://spectrumcolor.app/contrast-checker): Test color pairs against WCAG 2.1 AA and AAA contrast requirements.
+- [Color Vision Simulator](https://spectrumcolor.app/color-blindness): Preview how images and colors appear to people with different types of color vision deficiency.
+- [Color Theory](https://spectrumcolor.app/color-theory): Learn the psychology, culture, and meaning behind every major hue.
+
+## About
+
+- [Privacy Policy](https://spectrumcolor.app/privacy): No accounts, no tracking, no uploads; color history stays in your browser.
+- [Terms of Service](https://spectrumcolor.app/terms): Free, as-is terms for using Spectrum.

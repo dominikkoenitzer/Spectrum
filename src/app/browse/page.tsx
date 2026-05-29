@@ -1,91 +1,146 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { 
-  namedColors, 
-  allPalettes, 
-  colorCategories, 
+import { useState, useMemo, useRef } from 'react';
+import {
+  namedColors,
+  allPalettes,
+  colorCategories,
   trendingColors,
   brandColors,
   type NamedColor,
-  type ColorPalette 
+  type ColorPalette
 } from '@/lib/colorData';
 import { CopyButton } from '@/components/ui/CopyButton';
-import { 
-  Search, 
-  Grid3X3, 
-  List, 
-  Palette, 
-  Sparkles, 
+import {
+  Search,
+  Grid3X3,
+  List,
+  Palette,
+  Sparkles,
   Building2,
   TrendingUp,
   ChevronDown,
   ChevronUp,
-  ExternalLink
+  Check,
+  Copy,
+  ExternalLink,
 } from 'lucide-react';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
+
+/* ── Color math (auto-contrast + format strings) ── */
+function hexToRgb(hex: string) {
+  const h = hex.replace('#', '');
+  return {
+    r: parseInt(h.slice(0, 2), 16),
+    g: parseInt(h.slice(2, 4), 16),
+    b: parseInt(h.slice(4, 6), 16),
+  };
+}
+function relLuminance(hex: string) {
+  const { r, g, b } = hexToRgb(hex);
+  const lin = [r, g, b].map((v) => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+}
+const isLight = (hex: string) => relLuminance(hex) > 0.55;
+const isVeryLight = (hex: string) => relLuminance(hex) > 0.82;
+function rgbStr(hex: string) {
+  const { r, g, b } = hexToRgb(hex);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+function hexToHsl(hex: string) {
+  let { r, g, b } = hexToRgb(hex);
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h = 0, s = 0; const l = (max + min) / 2;
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      default: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  return `hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`;
+}
 
 type ViewMode = 'grid' | 'list';
 type TabType = 'named' | 'palettes' | 'trending' | 'brands';
 
-function ColorCard({ color }: { color: NamedColor }) {
-  const isLight = isLightColor(color.hex);
-  
+function ColorCard({ color, copied, onCopy }: { color: NamedColor; copied: boolean; onCopy: (hex: string) => void }) {
+  const light = isLight(color.hex);
+  const veryLight = isVeryLight(color.hex);
+  const fg = light ? '#1c1c1e' : '#ffffff';
+  const sub = light ? 'rgba(28,28,30,0.62)' : 'rgba(255,255,255,0.78)';
+
   return (
-    <div className="group relative rounded-xl overflow-hidden bg-surface  border border-line hover:border-line-strong active:scale-[0.98] sm:hover:scale-[1.02] transition-all duration-200">
-      <div 
-        className="h-16 sm:h-20 flex items-end justify-between p-2"
-        style={{ backgroundColor: color.hex }}
-      >
-        <span 
-          className={`text-[10px] sm:text-xs font-medium truncate max-w-[70%] ${isLight ? 'text-black/80' : 'text-white'}`}
-        >
-          {color.name}
-        </span>
-        <CopyButton 
-          text={color.hex} 
-          className={`sm:opacity-0 sm:group-hover:opacity-100 transition-opacity ${isLight ? 'text-black/80 hover:bg-black/10' : 'text-white hover:bg-white/20'}`}
+    <button
+      onClick={() => onCopy(color.hex)}
+      title={`Copy ${color.hex}`}
+      style={{ backgroundColor: color.hex, color: fg }}
+      className={cn(
+        'group relative block aspect-[5/4] w-full overflow-hidden rounded-[14px] text-left',
+        'shadow-[0_1px_2px_rgba(0,0,0,0.06)] transition-[transform,box-shadow] duration-200',
+        'hover:-translate-y-1 hover:z-[2] hover:shadow-[0_12px_28px_rgba(0,0,0,0.16)]',
+        veryLight && 'ring-1 ring-inset ring-[rgba(27,27,29,0.14)]',
+        light && !veryLight && 'ring-1 ring-inset ring-[rgba(27,27,29,0.08)]',
+      )}
+    >
+      {!light && (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[48%]"
+          style={{ background: 'linear-gradient(transparent, rgba(0,0,0,0.05) 35%, rgba(0,0,0,0.5))' }}
         />
-      </div>
-      <div className="bg-surface p-1.5 sm:p-2 flex justify-between items-center">
-        <span className="text-[10px] sm:text-xs font-mono text-ink-2">
-          {color.hex.toUpperCase()}
+      )}
+
+      <span
+        className="absolute left-[15px] right-[15px] top-[13px] flex flex-col gap-0.5 font-mono text-[11px] font-medium opacity-0 -translate-y-1 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100"
+        style={{ color: sub }}
+      >
+        <span className="whitespace-nowrap">{rgbStr(color.hex)}</span>
+        <span className="whitespace-nowrap">{hexToHsl(color.hex)}</span>
+      </span>
+
+      <span className="absolute inset-x-0 bottom-0 flex flex-col gap-[3px] px-[15px] py-[14px]">
+        <span className="text-[15.5px] font-bold leading-[1.15] tracking-[-0.01em]">{color.name}</span>
+        <span className="inline-flex items-center gap-1.5 font-mono text-[12.5px] font-medium uppercase" style={{ color: sub }}>
+          {copied ? (
+            <span className="inline-flex items-center gap-1 font-sans text-[12.5px] font-bold" style={{ color: fg }}>
+              <Check className="h-3 w-3" strokeWidth={2.5} /> Copied
+            </span>
+          ) : (
+            <>
+              {color.hex}
+              <Copy className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-80" />
+            </>
+          )}
         </span>
-        <Link 
-          href={`/color-generator?color=${encodeURIComponent(color.hex.slice(1))}`}
-          className="text-ink hover:text-ink p-1 -m-1"
-        >
-          <ExternalLink className="w-3 h-3" />
-        </Link>
-      </div>
-    </div>
+      </span>
+    </button>
   );
 }
 
-function ColorListItem({ color }: { color: NamedColor }) {
+function ColorRow({ color, copied, onCopy }: { color: NamedColor; copied: boolean; onCopy: (hex: string) => void }) {
   return (
-    <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 bg-surface  border border-line rounded-xl hover:border-line-strong active:scale-[0.99] transition-all">
-      <div 
-        className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg shadow-inner flex-shrink-0 ring-1 ring-line"
-        style={{ backgroundColor: color.hex }}
-      />
-      <div className="flex-grow min-w-0">
-        <p className="font-medium text-sm sm:text-base text-ink truncate">{color.name}</p>
-        <p className="text-xs sm:text-sm text-ink-3 capitalize">{color.category}</p>
-      </div>
-      <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-        <span className="font-mono text-xs sm:text-sm text-ink-2 hidden xs:block">
-          {color.hex.toUpperCase()}
-        </span>
-        <CopyButton text={color.hex} className="!p-1.5 sm:!p-2" />
-        <Link 
-          href={`/color-generator?color=${encodeURIComponent(color.hex.slice(1))}`}
-          className="p-1.5 sm:p-2 text-ink hover:text-ink hover:bg-surface-2 rounded-lg"
-        >
-          <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-        </Link>
-      </div>
-    </div>
+    <button
+      onClick={() => onCopy(color.hex)}
+      className="grid h-[60px] w-full items-center gap-4 border-b border-line px-[18px] text-left transition-colors last:border-b-0 hover:bg-[rgba(27,27,29,0.04)] [grid-template-columns:44px_1.4fr_1fr_72px] md:[grid-template-columns:56px_1.6fr_1fr_1.3fr_1.3fr_80px]"
+    >
+      <span className="h-[38px] w-[38px] rounded-[9px] ring-1 ring-inset ring-[rgba(27,27,29,0.12)]" style={{ background: color.hex }} />
+      <span className="truncate text-[15px] font-semibold tracking-[-0.01em] text-ink">{color.name}</span>
+      <span className="font-mono text-[13px] uppercase text-ink-2">{color.hex}</span>
+      <span className="hidden font-mono text-[13px] uppercase text-ink-2 md:block">{rgbStr(color.hex)}</span>
+      <span className="hidden font-mono text-[13px] uppercase text-ink-2 md:block">{hexToHsl(color.hex)}</span>
+      <span className={cn('justify-self-end text-[13px] font-semibold', copied ? 'text-positive' : 'text-ink-3')}>
+        {copied ? 'Copied ✓' : 'Copy'}
+      </span>
+    </button>
   );
 }
 
@@ -258,6 +313,15 @@ export default function BrowseColorsPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [expandedPalettes, setExpandedPalettes] = useState<Set<string>>(new Set(['Tailwind CSS']));
+  const [copiedHex, setCopiedHex] = useState<string | null>(null);
+  const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const copy = (hex: string) => {
+    navigator.clipboard?.writeText(hex);
+    setCopiedHex(hex);
+    if (copyTimer.current) clearTimeout(copyTimer.current);
+    copyTimer.current = setTimeout(() => setCopiedHex(null), 1500);
+  };
 
   const filteredColors = useMemo(() => {
     let colors = namedColors;
@@ -297,126 +361,145 @@ export default function BrowseColorsPage() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-6 sm:py-8 max-w-7xl">
-      {/* Header - Compact on mobile */}
-      <div className="mb-8 sm:mb-12">
-        <p className="label-caps text-ink-3 mb-4">Color Library</p>
-        <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-ink mb-3 leading-[0.98]">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 sm:py-10 pb-24">
+      {/* Page head */}
+      <div className="mb-8">
+        <p className="label-caps text-ink-3 mb-2.5">Color Library</p>
+        <h1 className="font-display text-5xl sm:text-6xl font-extrabold tracking-[-0.035em] text-ink mb-3 leading-[0.98]">
           Browse Colors
         </h1>
-        <p className="text-base text-ink-2 max-w-xl">
-          Explore a curated collection of named colors and palettes.
+        <p className="text-lg text-ink-2 max-w-xl leading-snug">
+          Explore a curated collection of named colors and palettes. Click any swatch to copy its hex.
         </p>
       </div>
 
-      {/* Tabs - Scrollable on mobile */}
-      <div className="flex gap-2 mb-6 sm:mb-8 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:justify-center scrollbar-hide">
-        {tabs.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`flex-shrink-0 flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-sm font-medium transition-all active:scale-[0.98] ${
-              activeTab === tab.id
-                ? 'bg-ink text-paper shadow-lg '
-                : 'bg-surface text-ink-2 hover:text-ink border border-line'
-            }`}
-          >
-            <tab.icon className="w-4 h-4" />
-            <span className="hidden sm:inline">{tab.label}</span>
-            <span className="sm:hidden">{tab.id === 'named' ? 'Named' : tab.id === 'palettes' ? 'Palettes' : tab.id === 'trending' ? 'Trending' : 'Brands'}</span>
-            <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${
-              activeTab === tab.id
-                ? 'bg-surface-2'
-                : 'bg-surface-2 text-ink-3'
-            }`}>
-              {tab.count}
-            </span>
-          </button>
-        ))}
+      {/* Tabs — segmented control */}
+      <div className="-mx-4 mb-7 overflow-x-auto px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+        <div className="inline-flex gap-[3px] rounded-[13px] border border-line bg-[rgba(27,27,29,0.05)] p-1">
+          {tabs.map(tab => {
+            const active = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={cn(
+                  'inline-flex items-center gap-2 whitespace-nowrap rounded-[9px] px-3.5 sm:px-4 py-2.5 text-sm font-semibold tracking-[-0.01em] transition',
+                  active ? 'bg-ink text-paper shadow-sm' : 'text-ink-2 hover:bg-[rgba(27,27,29,0.05)] hover:text-ink',
+                )}
+              >
+                <span>{tab.label}</span>
+                {tab.id !== 'named' && (
+                  <span className={cn(
+                    'rounded-full px-[7px] py-px font-mono text-[11.5px] font-medium',
+                    active ? 'bg-white/20 text-white/90' : 'bg-surface-2 text-ink-2',
+                  )}>
+                    {tab.count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Named Colors Tab */}
+      {/* Named Colors */}
       {activeTab === 'named' && (
-        <div className="space-y-4 sm:space-y-6">
-          {/* Filters - Stack on mobile */}
-          <div className="flex flex-col gap-3 sm:gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-3" />
+        <>
+          {/* Controls: search + view toggle on one row */}
+          <div className="mb-4 flex items-center gap-3 sm:gap-[14px]">
+            <div className="relative flex flex-1 items-center">
+              <Search className="pointer-events-none absolute left-4 h-[18px] w-[18px] text-ink-3" />
               <input
                 type="text"
-                placeholder="Search colors..."
+                placeholder="Search colors or hex…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full sm:w-72 h-10 pl-9 pr-4 rounded-xl bg-surface border border-line text-sm text-ink placeholder:text-ink-3 focus:border-line-strong focus:outline-none"
+                className="w-full rounded-[11px] border border-line-strong bg-surface py-[13px] pl-11 pr-10 text-[15.5px] text-ink outline-none transition placeholder:text-ink-3 focus:border-ink focus:shadow-[0_0_0_3px_rgba(27,27,29,0.08)]"
               />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  aria-label="Clear search"
+                  className="absolute right-3 grid h-[22px] w-[22px] place-items-center rounded-full bg-[rgba(27,27,29,0.1)] text-base leading-none text-ink-2 transition-colors hover:bg-[rgba(27,27,29,0.18)]"
+                >
+                  ×
+                </button>
+              )}
             </div>
-            
-            <div className="flex items-center gap-2 self-end">
-              <div className="flex bg-surface border border-line rounded-lg p-0.5">
+            <div className="inline-flex flex-shrink-0 gap-0.5 rounded-[11px] border border-line-strong bg-surface p-[3px]">
+              <button
+                onClick={() => setViewMode('grid')}
+                aria-label="Grid view"
+                className={cn('grid h-[38px] w-[38px] place-items-center rounded-lg transition', viewMode === 'grid' ? 'bg-ink text-paper' : 'text-ink-3 hover:text-ink-2')}
+              >
+                <Grid3X3 className="h-[17px] w-[17px]" />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                aria-label="List view"
+                className={cn('grid h-[38px] w-[38px] place-items-center rounded-lg transition', viewMode === 'list' ? 'bg-ink text-paper' : 'text-ink-3 hover:text-ink-2')}
+              >
+                <List className="h-[17px] w-[17px]" />
+              </button>
+            </div>
+          </div>
+
+          {/* Category chips — subordinate to controls */}
+          <div className="-mx-4 mb-6 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0 scrollbar-hide">
+            {colorCategories.map(category => {
+              const active = selectedCategory === category.id;
+              return (
                 <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-1.5 sm:p-2 rounded transition-colors ${viewMode === 'grid' ? 'bg-ink text-paper' : 'text-ink-2 hover:text-ink'}`}
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={cn(
+                    'inline-flex flex-shrink-0 items-center gap-[7px] rounded-full border px-[14px] py-[7px] text-[13.5px] font-medium transition',
+                    active ? 'border-ink bg-ink text-paper' : 'border-line-strong text-ink-2 hover:border-ink-2 hover:text-ink',
+                  )}
                 >
-                  <Grid3X3 className="w-4 h-4" />
+                  {category.id !== 'all' && (
+                    <span className="h-2 w-2 rounded-full" style={{ background: category.color, boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.12)' }} />
+                  )}
+                  {category.name}
                 </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`p-1.5 sm:p-2 rounded transition-colors ${viewMode === 'list' ? 'bg-ink text-paper' : 'text-ink-2 hover:text-ink'}`}
-                >
-                  <List className="w-4 h-4" />
-                </button>
+              );
+            })}
+          </div>
+
+          {/* Results bar */}
+          <div className="mb-[18px] flex items-baseline gap-2">
+            <span className="text-sm font-semibold text-ink-2">
+              {filteredColors.length} {filteredColors.length === 1 ? 'color' : 'colors'}
+            </span>
+            {selectedCategory !== 'all' && (
+              <span className="text-sm text-ink-3">in {colorCategories.find(c => c.id === selectedCategory)?.name}</span>
+            )}
+          </div>
+
+          {filteredColors.length === 0 ? (
+            <div className="py-12">
+              <div className="mx-auto flex max-w-md flex-col items-center gap-2 rounded-[14px] border border-dashed border-line-strong bg-surface px-8 py-14 text-center">
+                <span className="text-[19px] font-bold text-ink">No colors found</span>
+                <span className="max-w-sm text-[15px] leading-relaxed text-ink-2">Try a different search term or category.</span>
               </div>
             </div>
-          </div>
-
-          {/* Category Pills - Scrollable on mobile */}
-          <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap scrollbar-hide">
-            {colorCategories.map(category => (
-              <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`flex-shrink-0 flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all active:scale-[0.98] ${
-                  selectedCategory === category.id
-                    ? 'bg-ink text-paper'
-                    : 'bg-surface border border-line text-ink-2 hover:text-ink'
-                }`}
-              >
-                <span 
-                  className="w-2 h-2 rounded-full" 
-                  style={{ backgroundColor: category.color }}
-                />
-                {category.name}
-              </button>
-            ))}
-          </div>
-
-          {/* Results count */}
-          <p className="text-xs sm:text-sm text-ink-3">
-            {filteredColors.length} color{filteredColors.length !== 1 ? 's' : ''}
-          </p>
-
-          {/* Colors Grid/List */}
-          {viewMode === 'grid' ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-              {filteredColors.map((color, index) => (
-                <ColorCard key={index} color={color} />
+          ) : viewMode === 'grid' ? (
+            <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(150px,1fr))] sm:[grid-template-columns:repeat(auto-fill,minmax(200px,1fr))]">
+              {filteredColors.map((color) => (
+                <ColorCard key={color.name} color={color} copied={copiedHex === color.hex} onCopy={copy} />
               ))}
             </div>
           ) : (
-            <div className="space-y-2">
-              {filteredColors.map((color, index) => (
-                <ColorListItem key={index} color={color} />
+            <div className="overflow-hidden rounded-[14px] border border-line bg-surface">
+              <div className="grid h-[42px] items-center gap-4 border-b border-line px-[18px] text-[11.5px] font-semibold uppercase tracking-[0.08em] text-ink-3 [grid-template-columns:44px_1.4fr_1fr_72px] md:[grid-template-columns:56px_1.6fr_1fr_1.3fr_1.3fr_80px]">
+                <span /><span>Name</span><span>Hex</span><span className="hidden md:block">RGB</span><span className="hidden md:block">HSL</span><span />
+              </div>
+              {filteredColors.map((color) => (
+                <ColorRow key={color.name} color={color} copied={copiedHex === color.hex} onCopy={copy} />
               ))}
             </div>
           )}
-
-          {filteredColors.length === 0 && (
-            <div className="text-center py-12">
-              <Palette className="w-16 h-16 mx-auto text-ink-2 mb-4" />
-              <p className="text-ink-3">No colors found matching your search.</p>
-            </div>
-          )}
-        </div>
+        </>
       )}
 
       {/* Palettes Tab */}
@@ -479,6 +562,21 @@ export default function BrowseColorsPage() {
             </Link>
           </div>
         </div>
+      </div>
+
+      {/* Copy toast */}
+      <div
+        role="status"
+        aria-live="polite"
+        className={cn(
+          'fixed bottom-[30px] left-1/2 z-50 flex -translate-x-1/2 items-center gap-2.5 rounded-xl bg-ink py-[11px] pl-[13px] pr-[18px] text-paper shadow-[0_12px_30px_rgba(0,0,0,0.3)] transition-all duration-200',
+          copiedHex ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-5 opacity-0',
+        )}
+      >
+        <span className="h-[22px] w-[22px] rounded-md ring-1 ring-inset ring-white/25" style={{ background: copiedHex || 'transparent' }} />
+        <span className="text-[14.5px] font-medium">
+          Copied <strong className="font-mono font-semibold uppercase">{copiedHex}</strong> to clipboard
+        </span>
       </div>
     </div>
   );

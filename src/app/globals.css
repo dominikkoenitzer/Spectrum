@@ -7,22 +7,22 @@
 */
 
 :root {
-  /* Surfaces — warm paper, zero-to-low chroma */
-  --paper: #fafaf8;        /* page background */
-  --surface: #ffffff;      /* raised cards, inputs, dropzone */
-  --surface-2: #f1f1ee;    /* subtle fills, hover states */
+  /* Surfaces — warm greige gallery paper */
+  --paper: #e8e6e2;        /* page background */
+  --surface: #efedea;      /* raised cards, inputs, list */
+  --surface-2: #dcd9d3;    /* subtle inset fills, hover, badges */
 
   /* Ink — neutral near-black scale (this is the one accent) */
-  --ink: #18181a;          /* primary text + primary actions */
-  --ink-2: #5b5b5e;        /* secondary text */
-  --ink-3: #8a8a8d;        /* muted captions, placeholders */
+  --ink: #1b1b1d;          /* primary text + primary actions */
+  --ink-2: #56544f;        /* secondary text */
+  --ink-3: #8b8881;        /* muted captions, placeholders */
 
-  /* Hairlines */
-  --line: #e6e6e1;         /* default 1px border */
-  --line-strong: #d4d4cd;  /* emphasized border */
+  /* Hairlines — translucent ink so they blend on any surface */
+  --line: rgba(27, 27, 29, 0.10);   /* default 1px border */
+  --line-strong: rgba(27, 27, 29, 0.16); /* emphasized border */
 
   /* Functional (used sparingly, never decoratively) */
-  --positive: #15803d;
+  --positive: #2ba84a;
   --negative: #b91c1c;
 
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
@@ -47,8 +47,8 @@
   --color-positive: var(--positive);
   --color-negative: var(--negative);
 
-  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
-  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-hanken), system-ui, sans-serif;
+  --font-sans: var(--font-hanken), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
@@ -71,8 +71,9 @@ h1, h2, h3, .font-display {
 .brand-mark {
   background: conic-gradient(
     from 210deg,
-    #e5484d, #f0a93b, #e8c84b, #4ca85e, #3b82c4, #7c5cdb, #e5484d
+    #ff5d5d, #ffb24d, #ffe24d, #57d97f, #4db6ff, #9b6bff, #ff5db4, #ff5d5d
   );
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4), 0 1px 3px rgba(0, 0, 0, 0.18);
 }
 
 /* Mono micro-label — the "instrument" texture */

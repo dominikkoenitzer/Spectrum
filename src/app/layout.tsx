@@ -1,19 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
-const inter = Inter({
-  variable: "--font-inter",
+const hanken = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -40,7 +34,7 @@ export const metadata: Metadata = {
     "color palette generator", "color harmonies", "complementary colors",
     "css gradient maker", "linear gradient generator",
     "color theory", "color psychology", "color wheel",
-    "color lookup", "color name finder", "free design tools",
+    "free design tools",
     "color blind friendly palette", "color tools for designers", "color tools for developers"
   ],
   authors: [{ name: "Spectrum", url: BASE_URL }],
@@ -88,7 +82,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#fafaf8',
+  themeColor: '#e8e6e2',
 };
 
 const websiteJsonLd = {
@@ -97,14 +91,6 @@ const websiteJsonLd = {
   name: 'Spectrum',
   url: BASE_URL,
   description: 'Free color tools for designers and developers — color picker, contrast checker, palette generator, and more.',
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: `${BASE_URL}/color-lookup?q={search_term_string}`,
-    },
-    'query-input': 'required name=search_term_string',
-  },
 };
 
 const webAppJsonLd = {
@@ -119,14 +105,13 @@ const webAppJsonLd = {
     price: '0',
     priceCurrency: 'USD',
   },
-  description: 'A free, privacy-first suite of color tools: image color picker, WCAG contrast checker, color blindness simulator, palette generator, CSS gradient builder, color format converter, and color theory guide. Everything runs in your browser — no files are uploaded.',
+  description: 'A free, privacy-first suite of color tools: image color picker, WCAG contrast checker, color blindness simulator, palette generator with format conversion, CSS gradient builder, and color theory guide. Everything runs in your browser — no files are uploaded.',
   featureList: [
     'Image Color Picker — click any pixel to extract its color',
     'WCAG Contrast Checker — AA and AAA compliance testing',
     'Color Blindness Simulator — 7 vision types including protanopia and deuteranopia',
-    'Color Palette Generator — harmonies, shades, tints, and psychology',
-    'CSS Gradient Maker — linear and radial gradients with live preview',
-    'Color Format Converter — HEX, RGB, HSL, HSV, CMYK, LAB, LCH, XYZ',
+    'Color Palette Generator — harmonies, shades, tints, format conversion (HEX, RGB, HSL, HSV, CMYK, and more), and psychology',
+    'CSS Gradient Maker — linear, radial, and conic gradients with live preview',
     'Color Library — browse 16,700+ named colors',
     'Color Theory Guide — psychology, culture, and meaning of every major color',
   ],
@@ -175,7 +160,7 @@ const faqJsonLd = {
       name: 'Is Spectrum free to use?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes, Spectrum is completely free. There are no paid plans, no trial periods, and no features locked behind a paywall. All 8 tools are free for everyone, forever.',
+        text: 'Yes, Spectrum is completely free. There are no paid plans, no trial periods, and no features locked behind a paywall. All 7 tools are free for everyone, forever.',
       },
     },
     {
@@ -237,6 +222,16 @@ const faqJsonLd = {
   ],
 };
 
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Spectrum',
+  url: BASE_URL,
+  logo: `${BASE_URL}/icon`,
+  description: 'Free, privacy-first color tools for designers and developers.',
+  sameAs: ['https://github.com/dominikkoenitzer'],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -261,9 +256,13 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
       </head>
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased min-h-screen flex flex-col overflow-x-hidden bg-paper text-ink`}
+        className={`${hanken.variable} ${jetbrainsMono.variable} font-sans antialiased min-h-screen flex flex-col overflow-x-hidden bg-paper text-ink`}
       >
         <Header />
         <main className="flex-1 relative">
