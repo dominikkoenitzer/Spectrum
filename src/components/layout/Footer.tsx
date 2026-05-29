@@ -23,14 +23,16 @@ const groups: { label: string; items: { name: string; href: string }[] }[] = [
   {
     label: 'Inspect',
     items: [
-      { name: 'Browse', href: '/browse' },
       { name: 'Contrast', href: '/contrast-checker' },
       { name: 'Vision', href: '/color-blindness' },
     ],
   },
   {
     label: 'Learn',
-    items: [{ name: 'Theory', href: '/color-theory' }],
+    items: [
+      { name: 'Browse', href: '/browse' },
+      { name: 'Theory', href: '/color-theory' },
+    ],
   },
 ];
 
