@@ -1,11 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
 const inter = Inter({
   variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -75,7 +88,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#8b5cf6',
+  themeColor: '#fafaf8',
 };
 
 const websiteJsonLd = {
@@ -106,7 +119,7 @@ const webAppJsonLd = {
     price: '0',
     priceCurrency: 'USD',
   },
-  description: 'A free, privacy-first suite of color tools: image color picker, WCAG contrast checker, color blindness simulator, palette generator, CSS gradient builder, color format converter, and colour theory guide. Everything runs in your browser — no files are uploaded.',
+  description: 'A free, privacy-first suite of color tools: image color picker, WCAG contrast checker, color blindness simulator, palette generator, CSS gradient builder, color format converter, and color theory guide. Everything runs in your browser — no files are uploaded.',
   featureList: [
     'Image Color Picker — click any pixel to extract its color',
     'WCAG Contrast Checker — AA and AAA compliance testing',
@@ -115,7 +128,7 @@ const webAppJsonLd = {
     'CSS Gradient Maker — linear and radial gradients with live preview',
     'Color Format Converter — HEX, RGB, HSL, HSV, CMYK, LAB, LCH, XYZ',
     'Color Library — browse 16,700+ named colors',
-    'Colour Theory Guide — psychology, culture, and meaning of every major color',
+    'Color Theory Guide — psychology, culture, and meaning of every major color',
   ],
 };
 
@@ -250,15 +263,8 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col overflow-x-hidden`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased min-h-screen flex flex-col overflow-x-hidden bg-paper text-ink`}
       >
-        {/* Background */}
-        <div className="fixed inset-0 -z-10 overflow-hidden">
-          <div className="absolute inset-0 bg-gray-950" />
-          <div className="gradient-stripes" />
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/0 via-gray-950/50 to-gray-950" />
-        </div>
-
         <Header />
         <main className="flex-1 relative">
           {children}

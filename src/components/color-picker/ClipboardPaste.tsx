@@ -38,32 +38,27 @@ export function ClipboardPaste({ onImagePaste, className }: ClipboardPasteProps)
   }, [handlePaste]);
 
   return (
-    <div className={cn('space-y-3', className)}>
-      <div className="flex items-center gap-2 mb-4">
-        <div className={cn(
-          "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
-          isPasting ? "bg-green-500/20" : "bg-purple-500/20"
+    <div className={cn('rounded-2xl border border-line bg-surface p-4 sm:p-5', className)}>
+      <div className="mb-3 flex items-center gap-3">
+        <span className={cn(
+          'grid h-10 w-10 flex-shrink-0 place-items-center rounded-lg border transition-colors',
+          isPasting ? 'border-positive bg-positive/10' : 'border-line bg-paper',
         )}>
-          <Clipboard className={cn(
-            "h-5 w-5 transition-colors",
-            isPasting ? "text-green-400" : "text-purple-400"
-          )} />
-        </div>
+          <Clipboard className={cn('h-5 w-5 transition-colors', isPasting ? 'text-positive' : 'text-ink')} strokeWidth={1.75} />
+        </span>
         <div>
-          <h3 className="text-sm font-medium text-white">From Clipboard</h3>
-          <p className="text-xs text-gray-500">
-            {isPasting ? 'Image pasted!' : 'Press Ctrl+V to paste'}
+          <h3 className="text-sm font-medium text-ink">From the clipboard</h3>
+          <p className="font-mono text-xs text-ink-2">
+            {isPasting ? 'Image pasted' : 'Press Ctrl+V / Cmd+V to paste'}
           </p>
         </div>
       </div>
       <div className={cn(
-        "flex items-center justify-center h-24 rounded-xl border-2 border-dashed transition-colors",
-        isPasting 
-          ? "border-green-500/50 bg-green-500/10" 
-          : "border-white/20 bg-black/30"
+        'flex h-24 items-center justify-center rounded-xl border border-dashed transition-colors',
+        isPasting ? 'border-positive bg-positive/5 text-positive' : 'border-line-strong bg-paper text-ink-2',
       )}>
-        <p className="text-sm text-gray-400">
-          {isPasting ? '✓ Pasted' : 'Waiting for clipboard...'}
+        <p className="label-caps">
+          {isPasting ? 'Pasted' : 'Waiting for clipboard…'}
         </p>
       </div>
     </div>

@@ -21,13 +21,13 @@ export default function Error({
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 mb-6">
           <AlertCircle className="w-8 h-8 text-red-400" />
         </div>
-        <h1 className="text-2xl font-bold text-white mb-2">Something went wrong</h1>
-        <p className="text-gray-400 mb-6">
+        <h1 className="text-2xl font-bold text-ink mb-2">Something went wrong</h1>
+        <p className="text-ink-2 mb-6">
           An unexpected error occurred. Please try again.
         </p>
         <Button
           onClick={reset}
-          className="bg-violet-600 hover:bg-violet-700 text-white"
+          className="bg-ink hover:bg-ink/90 text-paper"
         >
           Try Again
         </Button>

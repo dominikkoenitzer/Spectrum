@@ -64,25 +64,32 @@ export function ImageUploader({ onImageLoad, className }: ImageUploaderProps) {
     e.stopPropagation();
   }, []);
 
+  const open = () => inputRef.current?.click();
+
   return (
     <div
+      role="button"
+      tabIndex={0}
+      aria-label="Upload an image"
       className={cn(
-        'relative flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-white/20 bg-gray-900/50 backdrop-blur p-8 sm:p-12 transition-all hover:border-violet-500/50 hover:bg-gray-900/70 active:scale-[0.99]',
+        'group flex cursor-pointer items-center gap-4 rounded-2xl border border-line bg-surface p-4 sm:p-5 transition-colors hover:border-line-strong active:scale-[0.997]',
         className
       )}
-      onClick={() => inputRef.current?.click()}
+      onClick={open}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } }}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
-      <div className="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 shadow-lg shadow-violet-500/25">
-        <Upload className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
+      <span className="grid h-14 w-14 flex-shrink-0 place-items-center rounded-xl border border-line bg-paper transition-transform group-hover:-translate-y-0.5">
+        <Upload className="h-6 w-6 text-ink" strokeWidth={1.75} />
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="font-display text-base font-medium text-ink">Drop an image, or browse</p>
+        <p className="mt-1 font-mono text-xs text-ink-2">PNG · JPG · GIF · WEBP — up to 10MB</p>
       </div>
-      <p className="mt-4 text-center text-sm font-semibold text-white">
-        Drop image here or tap to browse
-      </p>
-      <p className="mt-1 text-center text-xs text-gray-500">
-        PNG, JPG, GIF, WebP up to 10MB
-      </p>
+      <span className="hidden flex-shrink-0 rounded-lg bg-ink px-4 py-2.5 text-sm font-medium text-paper transition-colors group-hover:bg-ink/90 sm:inline-block">
+        Choose file
+      </span>
       <input
         ref={inputRef}
         type="file"
@@ -124,14 +131,14 @@ export function ImageUrlInput({ onImageLoad, className }: ImageUrlInputProps) {
   );
 
   return (
-    <form onSubmit={handleSubmit} className={cn('space-y-3', className)}>
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center">
-          <ImageIcon className="h-5 w-5 text-cyan-400" />
-        </div>
+    <form onSubmit={handleSubmit} className={cn('rounded-2xl border border-line bg-surface p-4 sm:p-5', className)}>
+      <div className="mb-3 flex items-center gap-3">
+        <span className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-lg border border-line bg-paper">
+          <ImageIcon className="h-5 w-5 text-ink" strokeWidth={1.75} />
+        </span>
         <div>
-          <h3 className="text-sm font-medium text-white">From URL</h3>
-          <p className="text-xs text-gray-500">Enter an image link</p>
+          <h3 className="text-sm font-medium text-ink">From a URL</h3>
+          <p className="font-mono text-xs text-ink-2">Paste a direct image link</p>
         </div>
       </div>
       <div className="flex gap-2">
@@ -139,11 +146,11 @@ export function ImageUrlInput({ onImageLoad, className }: ImageUrlInputProps) {
           ref={inputRef}
           type="url"
           placeholder="https://example.com/image.jpg"
-          className="flex-1 h-11 rounded-lg bg-black/30 border border-white/10 px-4 text-sm text-white placeholder:text-gray-500 focus:border-violet-500 focus:outline-none"
+          className="h-11 flex-1 rounded-lg border border-line bg-paper px-3.5 text-sm text-ink placeholder:text-ink-3 focus:border-ink focus:outline-none"
         />
         <button
           type="submit"
-          className="px-6 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-sm font-medium hover:opacity-90 transition-opacity active:scale-95"
+          className="rounded-lg bg-ink px-5 text-sm font-medium text-paper transition-colors hover:bg-ink/90 active:scale-95"
         >
           Load
         </button>

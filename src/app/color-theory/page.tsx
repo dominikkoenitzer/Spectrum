@@ -1,23 +1,23 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
-  ArrowLeftRight, Palette, Waves, Triangle, Thermometer,
+  ArrowLeftRight, Waves, Triangle, Thermometer,
   SlidersHorizontal, ArrowRight, ChevronRight,
 } from 'lucide-react';
 import { AnimateIn } from '@/components/ui/AnimateIn';
 
 export const metadata: Metadata = {
-  title: 'Colour Theory — The Complete Guide',
-  description: 'A complete guide to colour theory: the psychology, cultural meaning, design applications, and complementary colours for red, orange, yellow, green, blue, violet, pink, brown, black, white, and gray.',
+  title: 'Color Theory — The Complete Guide',
+  description: 'A complete guide to color theory: the psychology, cultural meaning, design applications, and complementary colors for red, orange, yellow, green, blue, violet, pink, brown, black, white, and gray.',
   keywords: [
-    'colour theory', 'color theory', 'color psychology', 'color meaning', 'color wheel',
+    'color theory', 'color theory', 'color psychology', 'color meaning', 'color wheel',
     'complementary colors', 'analogous colors', 'triadic colors', 'color harmony',
     'what does red mean', 'what does blue mean', 'color in design', 'color for designers',
     'primary colors', 'secondary colors', 'color symbolism', 'color emotions',
   ],
   openGraph: {
-    title: 'Colour Theory — The Complete Guide | Spectrum',
-    description: 'The psychology, culture, and design logic behind every major colour.',
+    title: 'Color Theory — The Complete Guide | Spectrum',
+    description: 'The psychology, culture, and design logic behind every major color.',
     url: '/color-theory',
   },
   alternates: { canonical: '/color-theory' },
@@ -27,7 +27,7 @@ const principles = [
   {
     title: 'Complementary',
     Icon: ArrowLeftRight,
-    desc: 'Colours directly opposite on the wheel. They cancel in mixing but amplify each other visually — each makes the other look more intense.',
+    desc: 'Colors directly opposite on the wheel. They cancel in mixing but amplify each other visually — each makes the other look more intense.',
     pair: ['#EF4444', '#22C55E'],
     angle: '180°',
   },
@@ -81,7 +81,7 @@ const colors = [
     shadeNames: ['Rose', 'Light', 'Red', 'Crimson', 'Dark', 'Maroon'],
     complementary: { name: 'Cyan', hex: '#06B6D4' },
     emotions: ['Passion', 'Urgency', 'Love', 'Danger', 'Energy'],
-    psychology: 'No colour acts faster on the brain than red. It raises heart rate, accelerates breathing, and pulls focus before conscious thought kicks in — which is exactly why stop signs and ambulances use it. In small doses it signals love and passion; in large doses, threat. The effect is real enough that athletes wearing red in competitive sports win statistically more often.',
+    psychology: 'No color acts faster on the brain than red. It raises heart rate, accelerates breathing, and pulls focus before conscious thought kicks in — which is exactly why stop signs and ambulances use it. In small doses it signals love and passion; in large doses, threat. The effect is real enough that athletes wearing red in competitive sports win statistically more often.',
     inDesign: 'Red converts. Studies consistently show red CTAs outperform blue and green for high-urgency actions. The trade-off: overuse it and everything feels like an error state. One red element on a page feels important. Five feel panicked.',
     cultural: [
       { place: 'China', note: 'Luck and celebration — brides wear red, envelopes are red, New Year is red' },
@@ -90,7 +90,7 @@ const colors = [
       { place: 'South Africa', note: 'Mourning and loss' },
     ],
     brands: ['Coca-Cola', 'Netflix', 'YouTube', 'Ferrari', 'Target'],
-    fact: "Red is the first colour human infants can distinguish, and appears first in virtually every language's colour vocabulary after black and white.",
+    fact: "Red is the first color human infants can distinguish, and appears first in virtually every language's color vocabulary after black and white.",
   },
   {
     name: 'Orange',
@@ -104,16 +104,16 @@ const colors = [
     shadeNames: ['Peach', 'Light', 'Orange', 'Burnt', 'Deep', 'Rust'],
     complementary: { name: 'Blue', hex: '#3B82F6' },
     emotions: ['Warmth', 'Enthusiasm', 'Playfulness', 'Confidence', 'Creativity'],
-    psychology: "Orange sits between the urgency of red and the cheerfulness of yellow — it takes the best of both without their edge. It's the most social colour: stimulates conversation, signals approachability, and reads as energetic without being aggressive. It's also the colour most associated with value and affordability.",
-    inDesign: "Orange works where red feels too serious or too alarming. It's the preferred CTA colour for brands that want action without anxiety. Food brands love it because it stimulates appetite while suggesting freshness. One underused quality: orange is extraordinarily legible against dark backgrounds at large sizes.",
+    psychology: "Orange sits between the urgency of red and the cheerfulness of yellow — it takes the best of both without their edge. It's the most social color: stimulates conversation, signals approachability, and reads as energetic without being aggressive. It's also the color most associated with value and affordability.",
+    inDesign: "Orange works where red feels too serious or too alarming. It's the preferred CTA color for brands that want action without anxiety. Food brands love it because it stimulates appetite while suggesting freshness. One underused quality: orange is extraordinarily legible against dark backgrounds at large sizes.",
     cultural: [
-      { place: 'Netherlands', note: 'National colour — the royal House of Orange-Nassau' },
+      { place: 'Netherlands', note: 'National color — the royal House of Orange-Nassau' },
       { place: 'Buddhism', note: "Sacred; monks' robes are saffron-orange, symbolising renunciation" },
       { place: 'Egypt', note: 'Historically associated with mourning and loss' },
       { place: 'Western', note: 'Halloween, autumn, construction, warnings, bargains' },
     ],
     brands: ['Amazon', 'Fanta', 'Firefox', 'Nickelodeon', 'Harley-Davidson'],
-    fact: 'Orange is the only colour in English named after a fruit. Before oranges reached Europe, the colour was called "geoluread" — yellow-red.',
+    fact: 'Orange is the only color in English named after a fruit. Before oranges reached Europe, the color was called "geoluread" — yellow-red.',
   },
   {
     name: 'Yellow',
@@ -127,16 +127,16 @@ const colors = [
     shadeNames: ['Pale', 'Light', 'Yellow', 'Amber', 'Deep', 'Ochre'],
     complementary: { name: 'Violet', hex: '#7C3AED' },
     emotions: ['Optimism', 'Clarity', 'Caution', 'Energy', 'Warmth'],
-    psychology: 'Yellow is the most visible colour to the human eye under daylight — the brain processes it before any other hue. That same visibility becomes a liability indoors: yellow rooms register as stimulating to the point of anxiety. In moderate use, yellow sharpens attention and boosts analytical thinking.',
-    inDesign: "Yellow signals 'pay attention here' better than almost any other colour at the same size. It's ideal for badges, highlights, and emphasis — but terrible for body text on white (the contrast ratio drops below WCAG minimums at medium weights). Against dark backgrounds it becomes one of the most legible colours available.",
+    psychology: 'Yellow is the most visible color to the human eye under daylight — the brain processes it before any other hue. That same visibility becomes a liability indoors: yellow rooms register as stimulating to the point of anxiety. In moderate use, yellow sharpens attention and boosts analytical thinking.',
+    inDesign: "Yellow signals 'pay attention here' better than almost any other color at the same size. It's ideal for badges, highlights, and emphasis — but terrible for body text on white (the contrast ratio drops below WCAG minimums at medium weights). Against dark backgrounds it becomes one of the most legible colors available.",
     cultural: [
-      { place: 'China', note: 'Imperial colour for centuries — only the emperor could wear true yellow' },
+      { place: 'China', note: 'Imperial color for centuries — only the emperor could wear true yellow' },
       { place: 'Japan', note: 'Courage and refinement; associated with the chrysanthemum' },
       { place: 'Western', note: 'Sunshine, happiness, caution signs, taxis' },
       { place: 'Egypt', note: 'Eternal and imperishable; used for gold in ancient art' },
     ],
     brands: ["McDonald's", 'IKEA', 'Snapchat', 'DHL', 'National Geographic'],
-    fact: "Yellow is the most commonly cited 'least favourite colour' in surveys, yet it's the colour most associated with optimism and creativity in psychological testing.",
+    fact: "Yellow is the most commonly cited 'least favourite color' in surveys, yet it's the color most associated with optimism and creativity in psychological testing.",
   },
   {
     name: 'Green',
@@ -150,16 +150,16 @@ const colors = [
     shadeNames: ['Mint', 'Light', 'Green', 'Medium', 'Forest', 'Deep'],
     complementary: { name: 'Magenta', hex: '#DB2777' },
     emotions: ['Growth', 'Calm', 'Health', 'Harmony', 'Nature'],
-    psychology: 'Humans distinguish more shades of green than any other colour — an evolutionary legacy from scanning vegetation for food and safety. Green at 120° sits exactly at the centre of the visible spectrum, making it the easiest wavelength for the eye to process. Green environments lower heart rate and reduce stress.',
-    inDesign: "Green is the universal 'go' signal — confirmation dialogs, success states, 'in stock' badges. Healthcare and finance brands use it because it implies both health and growth simultaneously. The challenge: a yellow-green reads as sickly; a forest green reads as premium. Hue matters more for green than any other colour.",
+    psychology: 'Humans distinguish more shades of green than any other color — an evolutionary legacy from scanning vegetation for food and safety. Green at 120° sits exactly at the centre of the visible spectrum, making it the easiest wavelength for the eye to process. Green environments lower heart rate and reduce stress.',
+    inDesign: "Green is the universal 'go' signal — confirmation dialogs, success states, 'in stock' badges. Healthcare and finance brands use it because it implies both health and growth simultaneously. The challenge: a yellow-green reads as sickly; a forest green reads as premium. Hue matters more for green than any other color.",
     cultural: [
-      { place: 'Islam', note: "Sacred colour — paradise is described as green, the Prophet's flag was green" },
-      { place: 'Ireland', note: '"The Emerald Isle" — green is national identity, not just a colour' },
+      { place: 'Islam', note: "Sacred color — paradise is described as green, the Prophet's flag was green" },
+      { place: 'Ireland', note: '"The Emerald Isle" — green is national identity, not just a color' },
       { place: 'Western', note: 'Go signals, money, environment, health, envy' },
       { place: 'Indonesia', note: 'Historically forbidden in some contexts, associated with bad fortune' },
     ],
     brands: ['Starbucks', 'Spotify', 'Whole Foods', 'WhatsApp', 'Animal Planet'],
-    fact: 'Night vision goggles display green because human eyes are most sensitive to that wavelength — we can distinguish more detail in green than in any other colour.',
+    fact: 'Night vision goggles display green because human eyes are most sensitive to that wavelength — we can distinguish more detail in green than in any other color.',
   },
   {
     name: 'Blue',
@@ -173,30 +173,30 @@ const colors = [
     shadeNames: ['Pale', 'Light', 'Blue', 'Medium', 'Royal', 'Navy'],
     complementary: { name: 'Orange', hex: '#F97316' },
     emotions: ['Trust', 'Calm', 'Reliability', 'Clarity', 'Depth'],
-    psychology: "Blue is the world's most universally popular colour across cultures and genders. It lowers heart rate, slows metabolism, and suppresses appetite. Blue's dominance in banking, tech, and healthcare isn't arbitrary: trust is its core psychological signal, and building trust is the primary challenge in all three industries.",
-    inDesign: "Blue is the safest primary brand colour — it rarely alienates and scales across contexts from serious to friendly by adjusting saturation and value. Saturated mid-blues feel modern and digital. Navy feels traditional and authoritative. Sky blue feels friendly and open. The one trap: blue disappears on dark backgrounds unless it's very bright or very saturated.",
+    psychology: "Blue is the world's most universally popular color across cultures and genders. It lowers heart rate, slows metabolism, and suppresses appetite. Blue's dominance in banking, tech, and healthcare isn't arbitrary: trust is its core psychological signal, and building trust is the primary challenge in all three industries.",
+    inDesign: "Blue is the safest primary brand color — it rarely alienates and scales across contexts from serious to friendly by adjusting saturation and value. Saturated mid-blues feel modern and digital. Navy feels traditional and authoritative. Sky blue feels friendly and open. The one trap: blue disappears on dark backgrounds unless it's very bright or very saturated.",
     cultural: [
       { place: 'Western', note: '"Feeling blue" for sadness; "true blue" for loyalty — contradictory, which reflects its range' },
-      { place: 'Iran', note: 'Colour of mourning, and of protection against the evil eye' },
+      { place: 'Iran', note: 'Color of mourning, and of protection against the evil eye' },
       { place: 'Judaism', note: 'Holiness and divinity; appears in the Israeli flag and religious textiles' },
       { place: 'India', note: 'Associated with Krishna — divine, infinite, and transcendent' },
     ],
     brands: ['Facebook/Meta', 'PayPal', 'Samsung', 'Ford', 'IBM', 'Visa'],
-    fact: "Ancient languages had no word for blue. Homer described the sea as 'wine-dark.' The colour blue appears almost nowhere in nature except the sky and deep water.",
+    fact: "Ancient languages had no word for blue. Homer described the sea as 'wine-dark.' The color blue appears almost nowhere in nature except the sky and deep water.",
   },
   {
     name: 'Violet',
     hex: '#8B5CF6',
     hue: '263°',
     gradient: 'from-violet-400 to-purple-700',
-    accent: 'text-violet-400',
-    border: 'border-violet-500/20',
-    bg: 'bg-violet-500/[0.07]',
+    accent: 'text-ink',
+    border: 'border-line',
+    bg: 'bg-surface-2',
     shades: ['#DDD6FE', '#C4B5FD', '#8B5CF6', '#7C3AED', '#6D28D9', '#3B0764'],
     shadeNames: ['Lavender', 'Light', 'Violet', 'Purple', 'Deep', 'Grape'],
     complementary: { name: 'Yellow', hex: '#EAB308' },
     emotions: ['Luxury', 'Creativity', 'Mystery', 'Wisdom', 'Ambition'],
-    psychology: 'Violet sits at the extreme edge of human colour perception — just before the spectrum crosses into invisible ultraviolet. For most of history, purple dye required 12,000 shellfish per gram, making it literally worth more than gold. That history of scarcity is still embedded in our perception: purple reads as rare, elevated, and unusual.',
+    psychology: 'Violet sits at the extreme edge of human color perception — just before the spectrum crosses into invisible ultraviolet. For most of history, purple dye required 12,000 shellfish per gram, making it literally worth more than gold. That history of scarcity is still embedded in our perception: purple reads as rare, elevated, and unusual.',
     inDesign: "Purple covers a wide creative range depending on shade. Bright violet signals innovation and creativity — tech tools, AI products, game platforms. Deep purple signals luxury and heritage. Lavender is calming and increasingly used in wellness branding. The consistent quality: purple signals that something isn't mainstream.",
     cultural: [
       { place: 'Western', note: 'Royalty, ambition, spiritual authority, creativity' },
@@ -212,17 +212,17 @@ const colors = [
     hex: '#EC4899',
     hue: '330°',
     gradient: 'from-pink-400 to-rose-600',
-    accent: 'text-pink-400',
-    border: 'border-pink-500/20',
-    bg: 'bg-pink-500/[0.07]',
+    accent: 'text-ink',
+    border: 'border-line',
+    bg: 'bg-surface-2',
     shades: ['#FBCFE8', '#F9A8D4', '#EC4899', '#DB2777', '#BE185D', '#831843'],
     shadeNames: ['Blush', 'Light', 'Pink', 'Hot', 'Fuchsia', 'Deep'],
     complementary: { name: 'Green', hex: '#22C55E' },
     emotions: ['Romance', 'Tenderness', 'Playfulness', 'Warmth', 'Care'],
     psychology: "Pink is physiologically calming — one specific shade has been shown to reduce aggressive behaviour in correctional facilities. But pink's cultural meaning is almost entirely constructed: in the 1920s, pink was recommended for boys and blue for girls. The reversal happened gradually after World War II and solidified in the 1980s.",
-    inDesign: "Hot pink is bold enough to hold its own against any other colour — it commands attention without the aggression of red. Soft pink is calming and increasingly used in non-gendered wellness and skincare contexts. The sweet spot: mid-saturation pink — distinctive, warm, and approachable.",
+    inDesign: "Hot pink is bold enough to hold its own against any other color — it commands attention without the aggression of red. Soft pink is calming and increasingly used in non-gendered wellness and skincare contexts. The sweet spot: mid-saturation pink — distinctive, warm, and approachable.",
     cultural: [
-      { place: 'Japan', note: 'Cherry blossoms, transience, youth — one of the most loved colours' },
+      { place: 'Japan', note: 'Cherry blossoms, transience, youth — one of the most loved colors' },
       { place: 'Western', note: 'Femininity and romance — entirely a 20th-century construction' },
       { place: 'Korea', note: 'Trust and reliability in some business contexts' },
       { place: 'Global', note: 'Increasingly adopted across genders by younger generations' },
@@ -242,13 +242,13 @@ const colors = [
     shadeNames: ['Tan', 'Caramel', 'Amber', 'Brown', 'Chocolate', 'Espresso'],
     complementary: { name: 'Sky Blue', hex: '#7DD3FC' },
     emotions: ['Stability', 'Authenticity', 'Warmth', 'Earthiness', 'Reliability'],
-    psychology: "Brown is the colour of shelter — wood, earth, stone, animal hide. Every home before industrialisation was built of it. That deep familiarity makes brown feel fundamentally safe and genuine. It's rarely anyone's declared favourite colour, yet it's universally recognised as trustworthy.",
+    psychology: "Brown is the color of shelter — wood, earth, stone, animal hide. Every home before industrialisation was built of it. That deep familiarity makes brown feel fundamentally safe and genuine. It's rarely anyone's declared favourite color, yet it's universally recognised as trustworthy.",
     inDesign: "Brown is underused in digital design, which makes it distinctive. Rich chocolate browns signal premium quality. Lighter tans feel organic and unpretentious — craft brands, farmers markets, sustainable goods. The challenge: brown can feel dated or dirty if not handled carefully.",
     cultural: [
       { place: 'Western', note: 'Earth, reliability, autumn, natural materials, traditional craft' },
       { place: 'India', note: 'Associated with mourning in certain funeral contexts' },
-      { place: 'Universal', note: 'Wood, earth, soil — the colour of the ground itself' },
-      { place: 'Colombia', note: 'Traditionally a colour of discouragement or disapproval' },
+      { place: 'Universal', note: 'Wood, earth, soil — the color of the ground itself' },
+      { place: 'Colombia', note: 'Traditionally a color of discouragement or disapproval' },
     ],
     brands: ['UPS', "Hershey's", 'Nespresso', 'Louis Vuitton', 'Timberland'],
     fact: "Brown doesn't exist on the visible light spectrum. It's what the brain perceives as dark, low-saturation orange. Change its brightness context and it becomes 'orange.'",
@@ -258,15 +258,15 @@ const colors = [
     hex: '#111827',
     hue: '—',
     gradient: 'from-gray-700 to-gray-950',
-    accent: 'text-gray-300',
-    border: 'border-white/10',
-    bg: 'bg-white/[0.04]',
+    accent: 'text-ink-2',
+    border: 'border-line',
+    bg: 'bg-surface-2',
     shades: ['#6B7280', '#374151', '#1F2937', '#111827', '#030712'],
     shadeNames: ['Gray', 'Charcoal', 'Graphite', 'Jet', 'Black'],
     complementary: { name: 'White', hex: '#FFFFFF' },
     emotions: ['Power', 'Elegance', 'Authority', 'Mystery', 'Finality'],
-    psychology: "Black is the absence of reflected light. It conveys absolute authority and finality. It makes adjacent colours appear more saturated — which is why luxury brands use so much of it. 'Black-tie,' 'black card,' 'black label' — the association with exclusivity is remarkably consistent across languages and cultures.",
-    inDesign: "Black is one of the most useful tools in a designer's kit precisely because it's neutral — it never competes. Against black, every other colour becomes more vivid. Typography on black is high-impact. The danger is heaviness: too much black and designs feel oppressive rather than sophisticated.",
+    psychology: "Black is the absence of reflected light. It conveys absolute authority and finality. It makes adjacent colors appear more saturated — which is why luxury brands use so much of it. 'Black-tie,' 'black card,' 'black label' — the association with exclusivity is remarkably consistent across languages and cultures.",
+    inDesign: "Black is one of the most useful tools in a designer's kit precisely because it's neutral — it never competes. Against black, every other color becomes more vivid. Typography on black is high-impact. The danger is heaviness: too much black and designs feel oppressive rather than sophisticated.",
     cultural: [
       { place: 'Western', note: 'Mourning, formality, luxury — the little black dress, black tie events' },
       { place: 'Ancient Egypt', note: 'Rebirth and fertility — the black Nile soil that sustained civilisation' },
@@ -281,30 +281,30 @@ const colors = [
     hex: '#F8FAFC',
     hue: '—',
     gradient: 'from-gray-100 to-slate-200',
-    accent: 'text-gray-200',
-    border: 'border-white/15',
-    bg: 'bg-white/[0.04]',
+    accent: 'text-ink',
+    border: 'border-line',
+    bg: 'bg-surface-2',
     shades: ['#FFFFFF', '#F9FAFB', '#F3F4F6', '#E5E7EB', '#D1D5DB'],
     shadeNames: ['White', 'Snow', 'Pearl', 'Silver', 'Platinum'],
     complementary: { name: 'Black', hex: '#111827' },
     emotions: ['Purity', 'Clarity', 'Space', 'Simplicity', 'New beginnings'],
-    psychology: "White reflects all visible wavelengths simultaneously. It creates psychological space: white rooms feel larger and less constrained. In design, white (or negative space) functions as an active element, not empty filler. The absence of colour gives the eye nowhere to land — and that pause registers as breath, clarity, or calm depending on context.",
+    psychology: "White reflects all visible wavelengths simultaneously. It creates psychological space: white rooms feel larger and less constrained. In design, white (or negative space) functions as an active element, not empty filler. The absence of color gives the eye nowhere to land — and that pause registers as breath, clarity, or calm depending on context.",
     inDesign: "White is the foundation of minimalist design because it amplifies everything placed against it. A single bold red element on white hits harder than the same red on a patterned background. The practical trap: pure white (#FFFFFF) on screens is harsh. Most design systems use near-whites (94–97% lightness) to reduce eye strain.",
     cultural: [
-      { place: 'Western', note: 'Purity, marriage, cleanliness — the default wedding colour' },
+      { place: 'Western', note: 'Purity, marriage, cleanliness — the default wedding color' },
       { place: 'East Asia', note: 'Mourning and death — worn at funerals in China, Japan, and Korea' },
       { place: 'Islam', note: 'Purity and spiritual cleanliness; pilgrims wear white ihram' },
       { place: 'India', note: 'Both peace and mourning — white is worn by widows' },
     ],
     brands: ['Apple', 'Tesla', 'Audi', 'Dove', 'Muji'],
-    fact: "White light contains all colours simultaneously. Newton demonstrated this in 1666 by passing sunlight through a prism and revealing the full spectrum.",
+    fact: "White light contains all colors simultaneously. Newton demonstrated this in 1666 by passing sunlight through a prism and revealing the full spectrum.",
   },
   {
     name: 'Gray',
     hex: '#6B7280',
     hue: '—',
     gradient: 'from-gray-400 to-gray-700',
-    accent: 'text-gray-400',
+    accent: 'text-ink-2',
     border: 'border-gray-500/20',
     bg: 'bg-gray-500/[0.07]',
     shades: ['#F3F4F6', '#D1D5DB', '#9CA3AF', '#6B7280', '#374151', '#111827'],
@@ -316,11 +316,11 @@ const colors = [
     cultural: [
       { place: 'Western', note: 'Professionalism, age, compromise — "gray area"' },
       { place: 'Scandinavia', note: 'Central to the design aesthetic — warm, functional, elegant' },
-      { place: 'Tech industry', note: 'Precision, modernity, functionality — the default interface colour' },
+      { place: 'Tech industry', note: 'Precision, modernity, functionality — the default interface color' },
       { place: 'Fashion', note: 'The sophisticated alternative to black — "greige" became a design movement' },
     ],
     brands: ['Apple', 'Mercedes-Benz', 'Porsche', 'Wikipedia', 'LinkedIn'],
-    fact: 'Gray is the only colour with two correct spellings in English — "gray" (American) and "grey" (British). They refer to exactly the same colour.',
+    fact: 'Gray is the only color with two correct spellings in English — "gray" (American) and "grey" (British). They refer to exactly the same color.',
   },
 ];
 
@@ -328,8 +328,8 @@ export default function ColorTheoryPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: 'Colour Theory — The Complete Guide',
-    description: 'The psychology, cultural meanings, and design applications of every major colour.',
+    headline: 'Color Theory — The Complete Guide',
+    description: 'The psychology, cultural meanings, and design applications of every major color.',
     author: { '@type': 'Organization', name: 'Spectrum' },
     publisher: { '@type': 'Organization', name: 'Spectrum' },
     url: 'https://spectrumcolor.app/color-theory',
@@ -345,42 +345,36 @@ export default function ColorTheoryPage() {
           {/* Hero */}
           <header className="mb-16 sm:mb-24">
             <AnimateIn direction="up" delay={0}>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-medium mb-6">
-                <Palette className="h-3.5 w-3.5" />
-                Colour Theory
-              </div>
+              <p className="label-caps mb-6 text-ink-3">Color Theory</p>
             </AnimateIn>
             <AnimateIn direction="up" delay={80}>
-              <h1 className="text-4xl sm:text-6xl font-bold text-white mb-5 leading-none tracking-tight">
-                The Science<br />
-                <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">
-                  of Colour
-                </span>
+              <h1 className="font-display text-5xl sm:text-7xl font-bold text-ink mb-5 leading-[0.95] tracking-tight">
+                The Science<br />of Color
               </h1>
             </AnimateIn>
             <AnimateIn direction="up" delay={160}>
-              <p className="text-base sm:text-lg text-gray-400 max-w-xl leading-relaxed">
-                Every colour has physics, psychology, and history behind it. Here&apos;s what actually matters — and how to use it.
+              <p className="text-base sm:text-lg text-ink-2 max-w-xl leading-relaxed">
+                Every color has physics, psychology, and history behind it. Here&apos;s what actually matters — and how to use it.
               </p>
             </AnimateIn>
           </header>
 
           {/* Quick-nav */}
           <AnimateIn direction="up" delay={0} className="mb-20 sm:mb-28">
-            <p className="text-[10px] font-semibold text-gray-600 uppercase tracking-widest mb-3">Jump to</p>
+            <p className="text-[10px] font-semibold text-ink-3 uppercase tracking-widest mb-3">Jump to</p>
             <div className="flex flex-wrap gap-2">
               {colors.map((c, i) => (
                 <a
                   key={c.name}
                   href={`#${c.name.toLowerCase()}`}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.07] hover:bg-white/[0.09] hover:border-white/[0.14] transition-all duration-200 group shimmer-hover"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-2 border border-line hover:bg-surface-2 hover:border-line-strong transition-all duration-200 group "
                   style={{ animationDelay: `${i * 30}ms` }}
                 >
                   <div
-                    className="w-2.5 h-2.5 rounded-full flex-shrink-0 ring-1 ring-white/20 transition-transform duration-200 group-hover:scale-125"
+                    className="w-2.5 h-2.5 rounded-full flex-shrink-0 ring-1 ring-line transition-transform duration-200 group-hover:scale-125"
                     style={{ backgroundColor: c.hex }}
                   />
-                  <span className="text-xs text-gray-400 group-hover:text-gray-100 transition-colors duration-200 font-medium">{c.name}</span>
+                  <span className="text-xs text-ink-2 group-hover:text-ink transition-colors duration-200 font-medium">{c.name}</span>
                 </a>
               ))}
             </div>
@@ -388,14 +382,14 @@ export default function ColorTheoryPage() {
 
           {/* Principles */}
           <AnimateIn direction="up" className="mb-20 sm:mb-28">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">How colours work together</h2>
-            <p className="text-gray-400 mb-8 text-sm sm:text-base max-w-lg">
-              Colour harmony is the geometry of the colour wheel. These six relationships cover the vast majority of palette decisions you&apos;ll ever make.
+            <h2 className="text-2xl sm:text-3xl font-bold text-ink mb-2">How colors work together</h2>
+            <p className="text-ink-2 mb-8 text-sm sm:text-base max-w-lg">
+              Color harmony is the geometry of the color wheel. These six relationships cover the vast majority of palette decisions you&apos;ll ever make.
             </p>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {principles.map((p, i) => (
                 <AnimateIn key={p.title} direction="up" delay={i * 60}>
-                  <div className="rounded-2xl bg-white/[0.025] border border-white/[0.07] overflow-hidden hover:bg-white/[0.045] transition-all duration-300 card-lift shimmer-hover group h-full">
+                  <div className="rounded-2xl bg-surface-2 border border-line overflow-hidden hover:bg-surface-2 transition-all duration-300 card-lift  group h-full">
                     <div className="flex h-10">
                       {p.pair.map((hex, j) => (
                         <div key={j} className="flex-1 transition-all duration-300 group-hover:opacity-90" style={{ backgroundColor: hex }} />
@@ -404,12 +398,12 @@ export default function ColorTheoryPage() {
                     <div className="p-4">
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2">
-                          <p.Icon className="h-3.5 w-3.5 text-gray-500" />
-                          <h3 className="text-sm font-semibold text-white">{p.title}</h3>
+                          <p.Icon className="h-3.5 w-3.5 text-ink-3" />
+                          <h3 className="text-sm font-semibold text-ink">{p.title}</h3>
                         </div>
-                        <code className="text-[10px] font-mono text-gray-600 bg-white/5 px-1.5 py-0.5 rounded">{p.angle}</code>
+                        <code className="text-[10px] font-mono text-ink-3 bg-surface-2 px-1.5 py-0.5 rounded">{p.angle}</code>
                       </div>
-                      <p className="text-xs text-gray-400 leading-relaxed">{p.desc}</p>
+                      <p className="text-xs text-ink-2 leading-relaxed">{p.desc}</p>
                     </div>
                   </div>
                 </AnimateIn>
@@ -420,14 +414,14 @@ export default function ColorTheoryPage() {
           {/* Divider */}
           <div className="relative mb-16 sm:mb-24">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white/[0.07]" />
+              <div className="w-full border-t border-line" />
             </div>
             <div className="relative flex justify-center">
-              <span className="px-4 bg-gray-950 text-gray-600 text-[10px] font-semibold uppercase tracking-widest">Every colour, explained</span>
+              <span className="px-4 bg-paper text-ink-3 text-[10px] font-semibold uppercase tracking-widest">Every color, explained</span>
             </div>
           </div>
 
-          {/* Individual colours */}
+          {/* Individual colors */}
           <div className="space-y-24 sm:space-y-32">
             {colors.map((c, idx) => (
               <AnimateIn key={c.name} direction="up" threshold={0.06}>
@@ -435,9 +429,9 @@ export default function ColorTheoryPage() {
 
                   {/* Header */}
                   <div className="flex items-end gap-5 mb-6">
-                    <div className={`w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br ${c.gradient} flex-shrink-0 shadow-2xl ring-1 ring-white/10 transition-transform duration-300 hover:scale-105`} />
+                    <div className={`w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br ${c.gradient} flex-shrink-0 shadow-2xl ring-1 ring-line transition-transform duration-300 hover:scale-105`} />
                     <div>
-                      <div className="text-[10px] font-semibold text-gray-600 uppercase tracking-widest mb-1.5">
+                      <div className="text-[10px] font-semibold text-ink-3 uppercase tracking-widest mb-1.5">
                         {String(idx + 1).padStart(2, '0')} / {String(colors.length).padStart(2, '0')}
                       </div>
                       <h2 className={`text-4xl sm:text-6xl font-bold bg-gradient-to-r ${c.gradient} bg-clip-text text-transparent leading-none`}>
@@ -447,7 +441,7 @@ export default function ColorTheoryPage() {
                   </div>
 
                   {/* Shade strip */}
-                  <div className="flex rounded-xl overflow-hidden mb-2 h-10 sm:h-12 ring-1 ring-white/[0.06] group">
+                  <div className="flex rounded-xl overflow-hidden mb-2 h-10 sm:h-12 ring-1 ring-line group">
                     {c.shades.map((hex, i) => (
                       <div
                         key={i}
@@ -456,7 +450,7 @@ export default function ColorTheoryPage() {
                         title={`${c.shadeNames[i]}: ${hex}`}
                       >
                         <div className="absolute inset-x-0 bottom-0 pb-1 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                          <span className="text-[8px] font-mono text-white/80 drop-shadow-sm">{hex}</span>
+                          <span className="text-[8px] font-mono text-ink/80 drop-shadow-sm">{hex}</span>
                         </div>
                       </div>
                     ))}
@@ -464,7 +458,7 @@ export default function ColorTheoryPage() {
                   <div className="flex mb-8">
                     {c.shades.map((_, i) => (
                       <div key={i} className="flex-1 text-center">
-                        <span className="text-[9px] text-gray-600">{c.shadeNames[i]}</span>
+                        <span className="text-[9px] text-ink-3">{c.shadeNames[i]}</span>
                       </div>
                     ))}
                   </div>
@@ -475,7 +469,7 @@ export default function ColorTheoryPage() {
                     {/* Psychology */}
                     <div className={`lg:col-span-2 rounded-2xl ${c.bg} border ${c.border} p-5 sm:p-6 transition-all duration-300 hover:border-opacity-40`}>
                       <h3 className={`text-[10px] font-semibold uppercase tracking-widest ${c.accent} mb-3`}>Psychology</h3>
-                      <p className="text-sm sm:text-base text-gray-200 leading-relaxed">{c.psychology}</p>
+                      <p className="text-sm sm:text-base text-ink leading-relaxed">{c.psychology}</p>
                       <div className="mt-4 flex flex-wrap gap-1.5">
                         {c.emotions.map(e => (
                           <span key={e} className={`px-2.5 py-1 rounded-full text-xs font-medium ${c.bg} ${c.accent} border ${c.border} transition-all duration-200 hover:scale-105`}>{e}</span>
@@ -484,57 +478,57 @@ export default function ColorTheoryPage() {
                     </div>
 
                     {/* Complementary */}
-                    <div className="rounded-2xl bg-white/[0.025] border border-white/[0.07] p-5 flex flex-col justify-between hover:bg-white/[0.04] transition-colors duration-200">
+                    <div className="rounded-2xl bg-surface-2 border border-line p-5 flex flex-col justify-between hover:bg-surface-2 transition-colors duration-200">
                       <div>
-                        <h3 className="text-[10px] font-semibold uppercase tracking-widest text-gray-500 mb-3">Complementary</h3>
+                        <h3 className="text-[10px] font-semibold uppercase tracking-widest text-ink-3 mb-3">Complementary</h3>
                         <div className="flex gap-2 mb-3 items-center">
-                          <div className="flex-1 h-10 rounded-lg ring-1 ring-white/10 transition-transform duration-200 hover:scale-105" style={{ backgroundColor: c.hex }} />
-                          <ArrowLeftRight className="h-3.5 w-3.5 text-gray-600 flex-shrink-0" />
-                          <div className="flex-1 h-10 rounded-lg ring-1 ring-white/10 transition-transform duration-200 hover:scale-105" style={{ backgroundColor: c.complementary.hex }} />
+                          <div className="flex-1 h-10 rounded-lg ring-1 ring-line transition-transform duration-200 hover:scale-105" style={{ backgroundColor: c.hex }} />
+                          <ArrowLeftRight className="h-3.5 w-3.5 text-ink-3 flex-shrink-0" />
+                          <div className="flex-1 h-10 rounded-lg ring-1 ring-line transition-transform duration-200 hover:scale-105" style={{ backgroundColor: c.complementary.hex }} />
                         </div>
-                        <p className="text-sm font-medium text-gray-200">{c.complementary.name}</p>
-                        <code className="text-xs font-mono text-gray-500">{c.complementary.hex}</code>
+                        <p className="text-sm font-medium text-ink">{c.complementary.name}</p>
+                        <code className="text-xs font-mono text-ink-3">{c.complementary.hex}</code>
                       </div>
                       {c.hue !== '—' && (
-                        <div className="mt-4 pt-4 border-t border-white/[0.06]">
-                          <span className="text-[10px] text-gray-600 font-semibold uppercase tracking-widest">Hue angle</span>
-                          <div className="text-2xl font-bold text-white mt-0.5">{c.hue}</div>
+                        <div className="mt-4 pt-4 border-t border-line">
+                          <span className="text-[10px] text-ink-3 font-semibold uppercase tracking-widest">Hue angle</span>
+                          <div className="text-2xl font-bold text-ink mt-0.5">{c.hue}</div>
                         </div>
                       )}
                     </div>
 
                     {/* In design */}
-                    <div className="rounded-2xl bg-white/[0.025] border border-white/[0.07] p-5 hover:bg-white/[0.04] transition-colors duration-200">
-                      <h3 className="text-[10px] font-semibold uppercase tracking-widest text-gray-500 mb-3">In design</h3>
-                      <p className="text-xs text-gray-300 leading-relaxed">{c.inDesign}</p>
+                    <div className="rounded-2xl bg-surface-2 border border-line p-5 hover:bg-surface-2 transition-colors duration-200">
+                      <h3 className="text-[10px] font-semibold uppercase tracking-widest text-ink-3 mb-3">In design</h3>
+                      <p className="text-xs text-ink-2 leading-relaxed">{c.inDesign}</p>
                     </div>
 
                     {/* Cultural */}
-                    <div className="rounded-2xl bg-white/[0.025] border border-white/[0.07] p-5 hover:bg-white/[0.04] transition-colors duration-200">
-                      <h3 className="text-[10px] font-semibold uppercase tracking-widest text-gray-500 mb-3">Cultural meanings</h3>
+                    <div className="rounded-2xl bg-surface-2 border border-line p-5 hover:bg-surface-2 transition-colors duration-200">
+                      <h3 className="text-[10px] font-semibold uppercase tracking-widest text-ink-3 mb-3">Cultural meanings</h3>
                       <div className="space-y-2.5">
                         {c.cultural.map(item => (
                           <div key={item.place} className="flex gap-2.5">
-                            <span className="text-[10px] font-semibold text-gray-600 w-20 flex-shrink-0 pt-0.5 uppercase tracking-wide">{item.place}</span>
-                            <span className="text-xs text-gray-300 leading-relaxed">{item.note}</span>
+                            <span className="text-[10px] font-semibold text-ink-3 w-20 flex-shrink-0 pt-0.5 uppercase tracking-wide">{item.place}</span>
+                            <span className="text-xs text-ink-2 leading-relaxed">{item.note}</span>
                           </div>
                         ))}
                       </div>
                     </div>
 
                     {/* Brands + fact */}
-                    <div className="rounded-2xl bg-white/[0.025] border border-white/[0.07] p-5 flex flex-col gap-4 hover:bg-white/[0.04] transition-colors duration-200">
+                    <div className="rounded-2xl bg-surface-2 border border-line p-5 flex flex-col gap-4 hover:bg-surface-2 transition-colors duration-200">
                       <div>
-                        <h3 className="text-[10px] font-semibold uppercase tracking-widest text-gray-500 mb-2.5">Brands</h3>
+                        <h3 className="text-[10px] font-semibold uppercase tracking-widest text-ink-3 mb-2.5">Brands</h3>
                         <div className="flex flex-wrap gap-1.5">
                           {c.brands.map(b => (
-                            <span key={b} className="px-2 py-0.5 rounded-md text-xs text-gray-400 bg-white/5 border border-white/[0.07] hover:bg-white/10 hover:text-gray-200 transition-all duration-150 cursor-default">{b}</span>
+                            <span key={b} className="px-2 py-0.5 rounded-md text-xs text-ink-2 bg-surface-2 border border-line hover:bg-surface-2 hover:text-ink transition-all duration-150 cursor-default">{b}</span>
                           ))}
                         </div>
                       </div>
-                      <div className="pt-3 border-t border-white/[0.06]">
-                        <h3 className="text-[10px] font-semibold uppercase tracking-widest text-gray-500 mb-2">Worth knowing</h3>
-                        <p className="text-xs text-gray-400 leading-relaxed">{c.fact}</p>
+                      <div className="pt-3 border-t border-line">
+                        <h3 className="text-[10px] font-semibold uppercase tracking-widest text-ink-3 mb-2">Worth knowing</h3>
+                        <p className="text-xs text-ink-2 leading-relaxed">{c.fact}</p>
                       </div>
                     </div>
 
@@ -546,7 +540,7 @@ export default function ColorTheoryPage() {
                       href={`/color-generator?color=${c.hex.replace('#', '')}`}
                       className={`inline-flex items-center gap-1.5 text-xs font-medium ${c.accent} hover:opacity-70 transition-opacity duration-150 group`}
                     >
-                      Analyse this colour in the generator
+                      Analyse this color in the generator
                       <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
                     </Link>
                   </div>
@@ -557,9 +551,9 @@ export default function ColorTheoryPage() {
 
           {/* Bottom CTA */}
           <AnimateIn direction="up" className="mt-24 sm:mt-32">
-            <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-violet-500/10 to-purple-500/5 border border-violet-500/20 text-center hover:border-violet-500/30 transition-colors duration-300">
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">Put it to work</h2>
-              <p className="text-gray-400 mb-7 max-w-md mx-auto text-sm sm:text-base">
+            <div className="p-8 sm:p-12 rounded-3xl bg-surface border border-line text-center">
+              <h2 className="text-2xl sm:text-3xl font-bold text-ink mb-3">Put it to work</h2>
+              <p className="text-ink-2 mb-7 max-w-md mx-auto text-sm sm:text-base">
                 Theory only matters if you can test it. Spectrum&apos;s tools let you verify every instinct in real time.
               </p>
               <div className="flex flex-wrap gap-2.5 justify-center">
@@ -572,7 +566,7 @@ export default function ColorTheoryPage() {
                   <a
                     key={link.href}
                     href={link.href}
-                    className="group inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.07] border border-white/[0.1] text-white text-sm font-medium hover:bg-white/[0.12] hover:border-violet-500/30 transition-all duration-200 shimmer-hover"
+                    className="group inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-surface-2 border border-line text-ink text-sm font-medium hover:bg-surface-2 hover:border-line transition-all duration-200 "
                   >
                     {link.label}
                     <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />

@@ -49,13 +49,13 @@ function getBrightnessLevel(l: number): string {
 export function ColorDisplay({ color, className }: ColorDisplayProps) {
   if (!color) {
     return (
-      <div className={cn('rounded-2xl border border-white/[0.08] bg-black/20 backdrop-blur p-8', className)}>
+      <div className={cn('rounded-2xl border border-line bg-surface p-8', className)}>
         <div className="text-center">
-          <div className="mx-auto w-16 h-16 rounded-2xl bg-white/[0.06] flex items-center justify-center mb-4">
-            <Droplets className="h-8 w-8 text-gray-500" />
+          <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-xl border border-line bg-paper">
+            <Droplets className="h-6 w-6 text-ink-3" strokeWidth={1.75} />
           </div>
-          <p className="text-gray-300 font-medium">No color selected</p>
-          <p className="text-sm text-gray-500 mt-1">Click anywhere on the image</p>
+          <p className="font-medium text-ink">No color sampled yet</p>
+          <p className="mt-1 text-sm text-ink-2">Click anywhere on the image</p>
         </div>
       </div>
     );
@@ -80,10 +80,10 @@ export function ColorDisplay({ color, className }: ColorDisplayProps) {
   ];
 
   return (
-    <div className={cn('rounded-2xl border border-white/[0.08] bg-black/20 backdrop-blur overflow-hidden', className)}>
-      {/* Color preview */}
+    <div className={cn('overflow-hidden rounded-2xl border border-line bg-surface', className)}>
+      {/* Color preview — the one saturated thing */}
       <div
-        className="h-36 w-full relative group"
+        className="relative h-40 w-full group"
         style={{ backgroundColor: color.hex }}
       >
         <div className={cn(
@@ -112,28 +112,28 @@ export function ColorDisplay({ color, className }: ColorDisplayProps) {
       </div>
 
       {/* Properties */}
-      <div className="px-5 py-4 border-b border-white/[0.06] bg-white/[0.02]">
+      <div className="border-b border-line px-5 py-4">
         <div className="flex items-center justify-between">
           {colorProperties.map((prop) => (
-            <div key={prop.label} className="text-center flex-1">
-              <prop.icon className="h-4 w-4 mx-auto text-gray-500 mb-1" />
-              <p className="text-xs text-gray-500">{prop.label}</p>
-              <p className="text-sm font-medium text-gray-100">{prop.value}</p>
+            <div key={prop.label} className="flex-1 text-center">
+              <prop.icon className="mx-auto mb-1.5 h-4 w-4 text-ink-3" strokeWidth={1.75} />
+              <p className="label-caps text-ink-3">{prop.label}</p>
+              <p className="mt-1 text-sm font-medium text-ink">{prop.value}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* Formats */}
-      <div className="divide-y divide-white/[0.06]">
+      <div className="divide-y divide-line">
         {formats.map((format) => (
           <div
             key={format.label}
-            className="flex items-center justify-between px-5 py-3 hover:bg-white/[0.03] transition-colors"
+            className="flex items-center justify-between px-5 py-3 transition-colors hover:bg-surface-2"
           >
             <div className="flex items-center gap-3">
-              <span className="w-10 text-xs font-semibold uppercase text-gray-500">{format.label}</span>
-              <span className="font-mono text-sm text-gray-100">{format.value}</span>
+              <span className="label-caps w-10 text-ink-3">{format.label}</span>
+              <span className="font-mono text-sm text-ink">{format.value}</span>
             </div>
             <CopyButton text={format.value} showLabel={false} />
           </div>
@@ -141,21 +141,21 @@ export function ColorDisplay({ color, className }: ColorDisplayProps) {
       </div>
 
       {/* Explore CTA */}
-      <div className="px-5 py-4 bg-white/[0.02]">
+      <div className="border-t border-line p-4">
         <Link
           href={`/color-generator?color=${encodeURIComponent(color.hex.slice(1))}`}
-          className="flex items-center justify-between w-full p-3 rounded-xl bg-violet-500/10 hover:bg-violet-500/20 border border-violet-500/15 transition-all group"
+          className="group flex w-full items-center justify-between rounded-xl border border-line bg-paper p-3 transition-colors hover:bg-surface-2"
         >
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center">
-              <Palette className="h-4 w-4 text-violet-400" />
-            </div>
+            <span className="grid h-8 w-8 place-items-center rounded-lg border border-line bg-surface">
+              <Palette className="h-4 w-4 text-ink" strokeWidth={1.75} />
+            </span>
             <div>
-              <p className="text-sm font-medium text-violet-300">Explore this color</p>
-              <p className="text-xs text-violet-400/60">Harmonies, shades &amp; more</p>
+              <p className="text-sm font-medium text-ink">Explore this color</p>
+              <p className="text-xs text-ink-2">Harmonies, shades &amp; more</p>
             </div>
           </div>
-          <ArrowRight className="h-4 w-4 text-violet-400 group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className="h-4 w-4 text-ink-3 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
     </div>

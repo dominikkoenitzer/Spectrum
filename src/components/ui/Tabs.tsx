@@ -27,7 +27,7 @@ export function TabsList({ children, className }: TabsListProps) {
   return (
     <div
       className={cn(
-        'inline-flex items-center gap-1 rounded-lg bg-gray-100 p-1 dark:bg-gray-800',
+        'inline-flex items-center gap-1 rounded-lg border border-line bg-surface-2 p-1',
         className
       )}
     >
@@ -50,8 +50,8 @@ export function TabsTrigger({ value, children, className, active, onClick }: Tab
       className={cn(
         'inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
         active
-          ? 'bg-white text-gray-900 shadow-sm dark:bg-gray-700 dark:text-gray-100'
-          : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100',
+          ? 'bg-surface text-ink shadow-sm'
+          : 'text-ink-2 hover:text-ink',
         className
       )}
       onClick={onClick}

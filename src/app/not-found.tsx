@@ -6,16 +6,16 @@ export default function NotFound() {
   return (
     <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center px-4">
       <div className="text-center max-w-md">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-violet-500/10 border border-violet-500/20 mb-6">
-          <FileQuestion className="w-8 h-8 text-violet-400" />
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface-2 border border-line mb-6">
+          <FileQuestion className="w-8 h-8 text-ink" />
         </div>
-        <h1 className="text-6xl font-bold text-white mb-2">404</h1>
-        <h2 className="text-xl font-semibold text-white mb-2">Page Not Found</h2>
-        <p className="text-gray-400 mb-6">
+        <h1 className="text-6xl font-bold text-ink mb-2">404</h1>
+        <h2 className="text-xl font-semibold text-ink mb-2">Page Not Found</h2>
+        <p className="text-ink-2 mb-6">
           The page you're looking for doesn't exist or has been moved.
         </p>
         <Link href="/">
-          <Button className="bg-violet-600 hover:bg-violet-700 text-white">
+          <Button className="bg-ink hover:bg-ink/90 text-paper">
             Go Home
           </Button>
         </Link>
