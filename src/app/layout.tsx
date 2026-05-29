@@ -44,10 +44,6 @@ export const metadata: Metadata = {
   applicationName: "Spectrum",
   generator: "Next.js",
   referrer: "origin-when-cross-origin",
-  icons: {
-    icon: [],
-    apple: [],
-  },
   openGraph: {
     type: "website",
     locale: "en_US",
