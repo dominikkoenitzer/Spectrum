@@ -238,7 +238,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="overflow-x-hidden">
+    <html lang="en" className="overflow-x-hidden" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -263,6 +263,7 @@ export default function RootLayout({
       </head>
       <body
         className={`${hanken.variable} ${jetbrainsMono.variable} font-sans antialiased min-h-screen flex flex-col overflow-x-hidden bg-paper text-ink`}
+        suppressHydrationWarning
       >
         <Header />
         <main className="flex-1 relative">
