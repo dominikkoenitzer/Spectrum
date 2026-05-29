@@ -162,15 +162,8 @@ export default function ColorPickerPage() {
           <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
             {/* Hero */}
             <div>
-              <AnimateIn direction="up" delay={0}>
-                <p className="label-caps flex items-center gap-2 text-ink-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#4CA85E]" />
-                  In-browser color tools · No account
-                </p>
-              </AnimateIn>
-
               <AnimateIn direction="up" delay={60}>
-                <h1 className="mt-6 font-display text-5xl font-bold leading-[0.98] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+                <h1 className="font-display text-5xl font-bold leading-[0.98] tracking-tight text-ink sm:text-6xl lg:text-7xl">
                   Pull every<br />color out of<br />any image.
                 </h1>
               </AnimateIn>
