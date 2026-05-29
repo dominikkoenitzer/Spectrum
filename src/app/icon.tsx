@@ -17,7 +17,7 @@ export default function Icon() {
           height: '100%',
           borderRadius: '8px',
           background:
-            'linear-gradient(135deg, #e5484d, #f0a93b, #e8c84b, #4ca85e, #3b82c4, #7c5cdb)',
+            'linear-gradient(135deg, #ff5d5d, #ffb24d, #ffe24d, #57d97f, #4db6ff, #9b6bff, #ff5db4)',
         }}
       />
     ),

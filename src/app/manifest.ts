@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Extract colors from images, check contrast, simulate color blindness, and create beautiful gradients.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#fafaf8',
-    theme_color: '#fafaf8',
+    background_color: '#e8e6e2',
+    theme_color: '#e8e6e2',
   };
 }

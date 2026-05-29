@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import {
   Pipette,
-  Search,
   Contrast,
   Eye,
   Palette,
@@ -37,7 +36,6 @@ const groups: { label: string; items: NavItem[] }[] = [
   {
     label: 'Inspect',
     items: [
-      { name: 'Lookup', href: '/color-lookup', icon: Search, description: 'Convert HEX, RGB, HSL & more' },
       { name: 'Contrast', href: '/contrast-checker', icon: Contrast, description: 'Check WCAG readability' },
       { name: 'Vision', href: '/color-blindness', icon: Eye, description: 'Simulate color blindness' },
     ],
@@ -102,10 +100,10 @@ export function Header() {
             </Link>
 
             {/* Desktop Navigation — flat, grouped by hairline dividers */}
-            <nav className="hidden lg:flex lg:items-center">
+            <nav className="hidden lg:flex lg:items-center lg:gap-1.5">
               {groups.map((group, gi) => (
-                <div key={group.label} className="flex items-center">
-                  {gi > 0 && <span aria-hidden className="mx-3 h-4 w-px bg-line" />}
+                <div key={group.label} className="flex items-center gap-1.5">
+                  {gi > 0 && <span aria-hidden className="mx-2 h-3.5 w-px bg-line-strong" />}
                   {group.items.map((item) => {
                     const isActive = pathname === item.href;
                     return (
@@ -113,11 +111,12 @@ export function Header() {
                         key={item.name}
                         href={item.href}
                         className={cn(
-                          'rounded-lg px-3 py-1.5 text-sm font-medium transition-colors',
-                          isActive ? 'bg-surface-2 text-ink' : 'text-ink-2 hover:text-ink',
+                          'relative px-2 py-1.5 text-sm transition-colors',
+                          isActive ? 'font-semibold text-ink' : 'font-medium text-ink-2 hover:text-ink',
                         )}
                       >
                         {item.name}
+                        {isActive && <span className="absolute inset-x-2 -bottom-0.5 h-0.5 rounded-full bg-ink" />}
                       </Link>
                     );
                   })}
