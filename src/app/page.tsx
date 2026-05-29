@@ -32,6 +32,7 @@ const tools = [
   { name: 'Gradients', description: 'Design CSS gradients visually', href: '/gradient-maker', icon: Palette },
   { name: 'Contrast', description: 'Check if text is readable (WCAG)', href: '/contrast-checker', icon: Contrast },
   { name: 'Color Vision', description: 'See colors as others do', href: '/color-blindness', icon: Eye },
+  { name: 'Color Theory', description: 'The meaning behind every color', href: '/color-theory', icon: BookOpen },
 ];
 
 // Static sample used to illustrate the picker on the landing screen,
