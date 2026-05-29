@@ -80,17 +80,17 @@ export function ImageCanvas({ imageSource, onColorPick, onError, className }: Im
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         className={cn(
-          'max-h-[600px] max-w-full rounded-lg border border-gray-200 shadow-sm dark:border-gray-700',
+          'max-h-[600px] max-w-full rounded-xl border border-line',
           isLoaded && 'canvas-crosshair'
         )}
         style={{ display: isLoaded ? 'block' : 'none' }}
       />
-      
+
       {!isLoaded && imageSource && (
-        <div className="flex h-64 items-center justify-center rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900">
-          <div className="flex flex-col items-center gap-2">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-violet-200 border-t-violet-600"></div>
-            <p className="text-sm text-gray-500">Loading image...</p>
+        <div className="flex h-64 items-center justify-center rounded-xl border border-line bg-surface">
+          <div className="flex flex-col items-center gap-3">
+            <div className="h-7 w-7 animate-spin rounded-full border-2 border-line border-t-ink"></div>
+            <p className="label-caps text-ink-3">Loading image…</p>
           </div>
         </div>
       )}
@@ -98,19 +98,19 @@ export function ImageCanvas({ imageSource, onColorPick, onError, className }: Im
       {/* Color preview tooltip */}
       {hoveredColor && cursorPos && (
         <div
-          className="pointer-events-none fixed z-50 flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-2 shadow-lg dark:border-gray-700 dark:bg-gray-800"
+          className="pointer-events-none fixed z-50 flex items-center gap-2 rounded-lg border border-line bg-surface p-2 shadow-lg"
           style={{
             left: cursorPos.x + 20,
             top: cursorPos.y + 20,
           }}
         >
           <div
-            className="h-8 w-8 rounded border border-gray-300 dark:border-gray-600"
+            className="h-8 w-8 rounded border border-line"
             style={{
               backgroundColor: `rgb(${hoveredColor.r}, ${hoveredColor.g}, ${hoveredColor.b})`,
             }}
           />
-          <span className="font-mono text-xs text-gray-600 dark:text-gray-300">
+          <span className="font-mono text-xs text-ink-2">
             {hoveredColor.r}, {hoveredColor.g}, {hoveredColor.b}
           </span>
         </div>

@@ -14,17 +14,17 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          'inline-flex items-center justify-center rounded-xl font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]',
+          'inline-flex items-center justify-center rounded-lg font-medium transition-all duration-150 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]',
           {
-            'bg-violet-600 text-white hover:bg-violet-700 focus-visible:ring-violet-500 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40':
+            'bg-ink text-paper hover:bg-ink/90':
               variant === 'primary',
-            'bg-gray-100 text-gray-900 hover:bg-gray-200 focus-visible:ring-gray-500 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700':
+            'bg-surface-2 text-ink hover:bg-line':
               variant === 'secondary',
-            'border border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 focus-visible:ring-gray-500 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-800 dark:hover:border-gray-600':
+            'border border-line bg-surface text-ink hover:bg-surface-2 hover:border-line-strong':
               variant === 'outline',
-            'bg-transparent hover:bg-gray-100 focus-visible:ring-gray-500 dark:hover:bg-gray-800':
+            'bg-transparent text-ink-2 hover:bg-surface-2 hover:text-ink':
               variant === 'ghost',
-            'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500 shadow-lg shadow-red-500/25':
+            'bg-negative text-paper hover:bg-negative/90':
               variant === 'danger',
           },
           {

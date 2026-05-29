@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Plus, Trash2, RotateCcw, Copy, Check, Palette, Download, Code, Sparkles, Shuffle, Zap, ArrowUp, ArrowUpRight, ArrowRight, ArrowDownRight, ArrowDown, ArrowDownLeft, ArrowLeft, ArrowUpLeft } from 'lucide-react';
+import { Plus, Trash2, RotateCcw, Copy, Check, Download, Code, Sparkles, Shuffle, Zap, ArrowUp, ArrowUpRight, ArrowRight, ArrowDownRight, ArrowDown, ArrowDownLeft, ArrowLeft, ArrowUpLeft } from 'lucide-react';
 import {
   GradientConfig,
   GradientType,
@@ -161,40 +161,37 @@ backgroundImage: {
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-6 sm:py-10">
       {/* Header */}
-      <div className="text-center mb-6 sm:mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-medium mb-3">
-          <Palette className="h-3.5 w-3.5" />
-          CSS Generator
-        </div>
-        <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2">
+      <div className="mb-8 sm:mb-12">
+        <p className="label-caps text-ink-3 mb-4">CSS Generator</p>
+        <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-ink mb-3 leading-[0.98]">
           Gradient Maker
         </h1>
-        <p className="text-sm text-gray-400 max-w-md mx-auto">
-          Create beautiful gradients with live preview
+        <p className="text-base text-ink-2 max-w-md">
+          Design CSS gradients with a live preview.
         </p>
       </div>
 
       {/* Live Preview - Full width */}
       <div className="mb-6">
         <div 
-          className="w-full h-40 sm:h-56 rounded-2xl shadow-2xl ring-1 ring-white/10"
+          className="w-full h-40 sm:h-56 rounded-2xl shadow-2xl ring-1 ring-line"
           style={{ background: cssCode }}
         />
       </div>
 
       {/* Quick Actions Bar */}
-      <div className="flex items-center justify-between gap-2 mb-6 p-3 bg-gray-900/50 backdrop-blur border border-white/10 rounded-xl">
+      <div className="flex items-center justify-between gap-2 mb-6 p-3 bg-surface  border border-line rounded-xl">
         <div className="flex items-center gap-2">
           <button
             onClick={handleRandomize}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-xs font-medium active:scale-95 transition-transform"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-ink text-paper text-xs font-medium active:scale-95 transition-transform"
           >
             <Shuffle className="h-3.5 w-3.5" />
             <span className="hidden sm:inline">Random</span>
           </button>
           <button
             onClick={handleReset}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-gray-300 text-xs font-medium active:scale-95 transition-transform"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-2 border border-line text-ink-2 text-xs font-medium active:scale-95 transition-transform"
           >
             <RotateCcw className="h-3.5 w-3.5" />
             <span className="hidden sm:inline">Reset</span>
@@ -207,7 +204,7 @@ backgroundImage: {
             "flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium active:scale-95 transition-all",
             copied
               ? "bg-green-500/20 text-green-400 border border-green-500/30"
-              : "bg-white/10 text-white border border-white/10"
+              : "bg-surface-2 text-ink border border-line"
           )}
         >
           {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
@@ -220,8 +217,8 @@ backgroundImage: {
         {/* Left: Type & Colors */}
         <div className="space-y-4">
           {/* Gradient Type */}
-          <div className="bg-gray-900/50 backdrop-blur border border-white/10 rounded-xl p-4">
-            <h3 className="text-sm font-medium text-white mb-3">Type</h3>
+          <div className="bg-surface  border border-line rounded-xl p-4">
+            <h3 className="text-sm font-medium text-ink mb-3">Type</h3>
             <div className="grid grid-cols-3 gap-2">
               {(['linear', 'radial', 'conic'] as GradientType[]).map((type) => (
                 <button
@@ -230,15 +227,15 @@ backgroundImage: {
                   className={cn(
                     "flex flex-col items-center gap-2 p-3 rounded-xl text-xs font-medium capitalize transition-all active:scale-95",
                     gradient.type === type
-                      ? "bg-violet-500/20 border-2 border-violet-500/50 text-white"
-                      : "bg-white/5 border border-white/10 text-gray-400"
+                      ? "bg-surface-2 border-2 border-line text-ink"
+                      : "bg-surface-2 border border-line text-ink-2"
                   )}
                 >
                   <div className={cn(
                     "w-8 h-8 rounded-lg",
-                    type === 'linear' && "bg-gradient-to-r from-violet-400 to-fuchsia-400",
-                    type === 'radial' && "bg-[radial-gradient(circle,_#a78bfa,_#e879f9)]",
-                    type === 'conic' && "bg-[conic-gradient(from_0deg,_#a78bfa,_#e879f9,_#a78bfa)]"
+                    type === 'linear' && "bg-gradient-to-r from-ink to-line-strong",
+                    type === 'radial' && "bg-[radial-gradient(circle,_#18181a,_#d4d4cd)]",
+                    type === 'conic' && "bg-[conic-gradient(from_0deg,_#18181a,_#d4d4cd,_#18181a)]"
                   )} />
                   {type}
                 </button>
@@ -247,10 +244,10 @@ backgroundImage: {
             
             {/* Angle Control - Only for linear/conic */}
             {(gradient.type === 'linear' || gradient.type === 'conic') && (
-              <div className="mt-4 pt-4 border-t border-white/5">
+              <div className="mt-4 pt-4 border-t border-line">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs text-gray-400">Direction</span>
-                  <span className="text-xs font-mono text-white bg-white/10 px-2 py-0.5 rounded">
+                  <span className="text-xs text-ink-2">Direction</span>
+                  <span className="text-xs font-mono text-ink bg-surface-2 px-2 py-0.5 rounded">
                     {gradient.angle}°
                   </span>
                 </div>
@@ -262,8 +259,8 @@ backgroundImage: {
                       className={cn(
                         "aspect-square flex items-center justify-center rounded-lg transition-all active:scale-90",
                         gradient.angle === preset.angle
-                          ? "bg-violet-500/30 text-white border border-violet-500/50"
-                          : "bg-white/5 text-gray-500 border border-white/5 hover:text-white"
+                          ? "bg-surface-2 text-ink border border-line"
+                          : "bg-surface-2 text-ink-3 border border-line hover:text-ink"
                       )}
                     >
                       <preset.Icon className="h-4 w-4" />
@@ -276,19 +273,19 @@ backgroundImage: {
                   onChange={(e) => handleAngleChange(Number(e.target.value))}
                   min={0}
                   max={360}
-                  className="w-full mt-3 h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-violet-500"
+                  className="w-full mt-3 h-2 bg-surface-2 rounded-lg appearance-none cursor-pointer accent-ink"
                 />
               </div>
             )}
           </div>
 
           {/* Color Stops */}
-          <div className="bg-gray-900/50 backdrop-blur border border-white/10 rounded-xl p-4">
+          <div className="bg-surface  border border-line rounded-xl p-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-medium text-white">Colors</h3>
+              <h3 className="text-sm font-medium text-ink">Colors</h3>
               <button
                 onClick={handleAddStop}
-                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-violet-500/20 border border-violet-500/30 text-violet-300 text-xs font-medium active:scale-95 transition-transform"
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-surface-2 border border-line text-ink text-xs font-medium active:scale-95 transition-transform"
               >
                 <Plus className="h-3.5 w-3.5" />
                 Add
@@ -296,12 +293,12 @@ backgroundImage: {
             </div>
             
             {/* Gradient Bar with Stops */}
-            <div className="relative h-10 mb-4 rounded-xl overflow-hidden ring-1 ring-white/10">
+            <div className="relative h-10 mb-4 rounded-xl overflow-hidden ring-1 ring-line">
               <div className="absolute inset-0" style={{ background: cssCode }} />
               {sortedStops.map((stop) => (
                 <div
                   key={stop.id}
-                  className="absolute top-0 bottom-0 w-0.5 bg-white/60"
+                  className="absolute top-0 bottom-0 w-0.5 bg-surface-2"
                   style={{ left: `${stop.position}%` }}
                 >
                   <div 
@@ -317,7 +314,7 @@ backgroundImage: {
               {sortedStops.map((stop) => (
                 <div 
                   key={stop.id} 
-                  className="flex items-center gap-3 p-2 rounded-xl bg-black/30 border border-white/5"
+                  className="flex items-center gap-3 p-2 rounded-xl bg-surface border border-line"
                 >
                   <input
                     type="color"
@@ -331,13 +328,13 @@ backgroundImage: {
                     onChange={(e) => handleStopPositionChange(stop.id, Number(e.target.value))}
                     min={0}
                     max={100}
-                    className="flex-1 h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-violet-500"
+                    className="flex-1 h-2 bg-surface-2 rounded-lg appearance-none cursor-pointer accent-ink"
                   />
-                  <span className="text-xs font-mono text-gray-400 w-8 text-right">{stop.position}%</span>
+                  <span className="text-xs font-mono text-ink-2 w-8 text-right">{stop.position}%</span>
                   <button
                     onClick={() => handleRemoveStop(stop.id)}
                     disabled={gradient.stops.length <= 2}
-                    className="p-2 rounded-lg text-gray-500 hover:bg-red-500/20 hover:text-red-400 disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex-shrink-0"
+                    className="p-2 rounded-lg text-ink-3 hover:bg-red-500/20 hover:text-red-400 disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex-shrink-0"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
@@ -350,13 +347,13 @@ backgroundImage: {
         {/* Right: Presets & Export */}
         <div className="space-y-4">
           {/* Presets */}
-          <div className="bg-gray-900/50 backdrop-blur border border-white/10 rounded-xl p-4">
+          <div className="bg-surface  border border-line rounded-xl p-4">
             <div className="flex items-center justify-between mb-3 gap-2 flex-wrap">
               <div className="flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-fuchsia-400" />
-                <h3 className="text-sm font-medium text-white">Presets</h3>
+                <Sparkles className="h-4 w-4 text-ink" />
+                <h3 className="text-sm font-medium text-ink">Presets</h3>
               </div>
-              <div className="flex gap-1 p-0.5 bg-black/30 rounded-lg">
+              <div className="flex gap-1 p-0.5 bg-surface rounded-lg">
                 {presetCategories.map((cat) => (
                   <button
                     key={cat.name}
@@ -364,8 +361,8 @@ backgroundImage: {
                     className={cn(
                       "px-2 py-1 text-[10px] font-medium rounded transition-all",
                       activePresetCategory === cat.name
-                        ? "bg-white/10 text-white"
-                        : "text-gray-500"
+                        ? "bg-surface-2 text-ink"
+                        : "text-ink-3"
                     )}
                   >
                     {cat.name}
@@ -380,7 +377,7 @@ backgroundImage: {
                   <button
                     key={index}
                     onClick={() => handlePresetSelect(preset)}
-                    className="aspect-square rounded-xl transition-transform hover:scale-105 active:scale-95 ring-1 ring-white/10 hover:ring-2 hover:ring-violet-500"
+                    className="aspect-square rounded-xl transition-transform hover:scale-105 active:scale-95 ring-1 ring-line hover:ring-2 hover:ring-ink"
                     style={{ background: generateGradientCSS(preset) }}
                   />
                 ))}
@@ -388,14 +385,14 @@ backgroundImage: {
           </div>
 
           {/* Export */}
-          <div className="bg-gray-900/50 backdrop-blur border border-white/10 rounded-xl p-4">
+          <div className="bg-surface  border border-line rounded-xl p-4">
             <div className="flex items-center justify-between mb-3 gap-2 flex-wrap">
               <div className="flex items-center gap-2">
                 <Code className="h-4 w-4 text-cyan-400" />
-                <h3 className="text-sm font-medium text-white">Export</h3>
+                <h3 className="text-sm font-medium text-ink">Export</h3>
               </div>
               <div className="flex items-center gap-2">
-                <div className="flex gap-1 p-0.5 bg-black/30 rounded-lg">
+                <div className="flex gap-1 p-0.5 bg-surface rounded-lg">
                   {exportFormats.map((format) => (
                     <button
                       key={format.format}
@@ -403,8 +400,8 @@ backgroundImage: {
                       className={cn(
                         "px-2 py-1 text-[10px] font-medium rounded transition-all",
                         exportFormat === format.format
-                          ? "bg-white/10 text-white"
-                          : "text-gray-500"
+                          ? "bg-surface-2 text-ink"
+                          : "text-ink-3"
                       )}
                     >
                       {format.name}
@@ -413,28 +410,28 @@ backgroundImage: {
                 </div>
                 <button
                   onClick={handleDownloadCSS}
-                  className="p-1.5 rounded-lg bg-white/5 border border-white/10 text-gray-400 hover:text-white active:scale-95 transition-all"
+                  className="p-1.5 rounded-lg bg-surface-2 border border-line text-ink-2 hover:text-ink active:scale-95 transition-all"
                 >
                   <Download className="h-4 w-4" />
                 </button>
               </div>
             </div>
-            <div className="rounded-xl bg-black/40 border border-white/5 p-3">
-              <pre className="text-xs text-gray-300 font-mono whitespace-pre-wrap break-all">
+            <div className="rounded-xl bg-surface border border-line p-3">
+              <pre className="text-xs text-ink-2 font-mono whitespace-pre-wrap break-all">
                 {exportCode}
               </pre>
             </div>
           </div>
 
           {/* Tips */}
-          <div className="bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10 border border-violet-500/20 rounded-xl p-4">
+          <div className="bg-surface-2 border border-line rounded-xl p-4">
             <div className="flex gap-3">
-              <div className="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center flex-shrink-0">
-                <Zap className="h-4 w-4 text-violet-400" />
+              <div className="w-8 h-8 rounded-lg bg-surface-2 flex items-center justify-center flex-shrink-0">
+                <Zap className="h-4 w-4 text-ink" />
               </div>
               <div>
-                <h4 className="text-sm font-medium text-white mb-1">Quick Tips</h4>
-                <ul className="text-xs text-gray-400 space-y-1">
+                <h4 className="text-sm font-medium text-ink mb-1">Quick Tips</h4>
+                <ul className="text-xs text-ink-2 space-y-1">
                   <li>• Tap presets to instantly apply</li>
                   <li>• Click color swatches to edit</li>
                   <li>• Use % inputs for precise positioning</li>

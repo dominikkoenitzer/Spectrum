@@ -28,10 +28,10 @@ export function Slider({
       {(label || showValue) && (
         <div className="mb-2 flex items-center justify-between">
           {label && (
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</label>
+            <label className="text-sm font-medium text-ink">{label}</label>
           )}
           {showValue && (
-            <span className="text-sm text-gray-500 dark:text-gray-400">{value}</span>
+            <span className="font-mono text-sm text-ink-2">{value}</span>
           )}
         </div>
       )}
@@ -42,7 +42,7 @@ export function Slider({
         min={min}
         max={max}
         step={step}
-        className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-violet-600 dark:bg-gray-700"
+        className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-line accent-ink"
       />
     </div>
   );
