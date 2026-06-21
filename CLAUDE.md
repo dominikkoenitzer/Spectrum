@@ -4,16 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-Package manager is **pnpm** (`pnpm-lock.yaml`); the npm scripts work with either.
+Package manager is **Bun** (`bun.lock`; the version is pinned in `.bun-version`).
 
-- `pnpm dev` — start the dev server (Next.js + Turbopack)
-- `pnpm build` — production build. **Use this to verify changes**: it runs `tsc` and statically prerenders every route, so it catches type errors and SSR/prerender failures that the dev server won't.
-- `pnpm lint` / `pnpm lint:fix` — ESLint (`eslint-config-next` core-web-vitals + typescript)
-- `pnpm type-check` — `tsc --noEmit`
+- `bun run dev` — start the dev server (Next.js + Turbopack)
+- `bun run build` — production build. **Use this to verify changes**: it runs `tsc` and statically prerenders every route, so it catches type errors and SSR/prerender failures that the dev server won't.
+- `bun run lint` / `bun run lint:fix` — ESLint (`eslint-config-next` core-web-vitals + typescript)
+- `bun run type-check` — `tsc --noEmit`
 
 There is **no test framework** configured (no test runner, no test files). Don't invent test commands.
 
-Note: `pnpm lint` currently reports a handful of **pre-existing** errors (a hook-ordering issue in `color-blindness/page.tsx`, `setState`-in-effect, one unescaped entity). These predate recent work and do **not** fail `pnpm build`. Don't treat them as regressions from your change unless your diff is what introduced them.
+Note: `bun run lint` currently reports a handful of **pre-existing** errors (a hook-ordering issue in `color-blindness/page.tsx`, `setState`-in-effect, one unescaped entity). These predate recent work and do **not** fail `bun run build`. Don't treat them as regressions from your change unless your diff is what introduced them.
 
 ## Stack
 
