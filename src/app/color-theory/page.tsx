@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ColorTheoryExperience } from './ColorTheoryExperience';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Color Theory — The Complete Guide',
@@ -25,8 +26,8 @@ const jsonLd = {
   description: 'The psychology, cultural meanings, and design applications of every major color.',
   author: { '@type': 'Organization', name: 'Spectrum' },
   publisher: { '@type': 'Organization', name: 'Spectrum' },
-  url: 'https://spectrumcolor.app/color-theory',
-  mainEntityOfPage: 'https://spectrumcolor.app/color-theory',
+  url: `${SITE_URL}/color-theory`,
+  mainEntityOfPage: `${SITE_URL}/color-theory`,
 };
 
 export default function ColorTheoryPage() {

@@ -3,6 +3,7 @@ import { Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SITE_URL } from "@/lib/site";
 
 const hanken = Hanken_Grotesk({
   variable: "--font-hanken",
@@ -17,7 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const BASE_URL = 'https://spectrumcolor.app';
+const BASE_URL = SITE_URL;
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -56,7 +57,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Spectrum — Free Color Tools for Designers & Developers",
     description: "Pick colors from images, check WCAG contrast, simulate color blindness, generate palettes, and learn color theory. Free, no account needed.",
-    creator: "@spectrum",
   },
   robots: {
     index: true,
@@ -124,7 +124,7 @@ const howToJsonLd = {
       '@type': 'HowToStep',
       position: 1,
       name: 'Open the color picker',
-      text: 'Go to spectrumcolor.app. The color picker loads instantly — no account or install needed.',
+      text: 'Go to spectrum.punds.ch. The color picker loads instantly — no account or install needed.',
     },
     {
       '@type': 'HowToStep',

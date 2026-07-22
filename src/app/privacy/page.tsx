@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Privacy Policy',
   description:
     'Spectrum is privacy-first: no accounts, no tracking, no uploads. Images and colors are processed entirely in your browser and never sent to a server.',
-  alternates: { canonical: 'https://spectrumcolor.app/privacy' },
+  alternates: { canonical: '/privacy' },
 };
 
 export default function PrivacyPage() {
