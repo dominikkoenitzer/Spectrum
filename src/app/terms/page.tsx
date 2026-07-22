@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Terms of Service',
   description:
     'The terms for using Spectrum — a free, privacy-first suite of color tools provided as-is, with no account required.',
-  alternates: { canonical: 'https://spectrumcolor.app/terms' },
+  alternates: { canonical: '/terms' },
 };
 
 export default function TermsPage() {

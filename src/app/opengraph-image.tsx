@@ -53,7 +53,7 @@ export default function OpengraphImage() {
         </div>
 
         <div style={{ fontSize: '24px', color: '#8b8881' }}>
-          spectrumcolor.app · No account · No uploads
+          spectrum.punds.ch · No account · No uploads
         </div>
       </div>
     ),
