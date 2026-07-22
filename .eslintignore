@@ -1,9 +1,0 @@
-module.exports = {
-  eslintIgnore: [
-    '.next',
-    'node_modules',
-    'out',
-    'build',
-    'dist',
-  ],
-};
