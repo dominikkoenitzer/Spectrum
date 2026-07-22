@@ -1,13 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useSyncExternalStore } from 'react';
 import { X, Trash2, History, Download, Palette } from 'lucide-react';
 import { ColorFormats } from '@/lib/colorUtils';
+import { colorHistoryStore, MAX_COLOR_HISTORY } from '@/lib/colorHistory';
 import { CopyButton } from '@/components/ui/CopyButton';
 import { cn } from '@/lib/utils';
-
-const STORAGE_KEY = 'spectrum-color-history';
-const MAX_HISTORY = 24;
 
 interface ColorHistoryProps {
   currentColor: ColorFormats | null;
@@ -24,41 +22,19 @@ function isLightColor(hex: string): boolean {
 }
 
 export function ColorHistory({ currentColor, onColorSelect, className }: ColorHistoryProps) {
-  const [history, setHistory] = useState<ColorFormats[]>([]);
+  const history = useSyncExternalStore(
+    colorHistoryStore.subscribe,
+    colorHistoryStore.getSnapshot,
+    colorHistoryStore.getServerSnapshot,
+  );
   const [showPaletteExport, setShowPaletteExport] = useState(false);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) setHistory(JSON.parse(saved));
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!currentColor) return;
-    setHistory((prev) => {
-      const exists = prev.some((c) => c.hex === currentColor.hex);
-      if (exists) return prev;
-      const newHistory = [currentColor, ...prev].slice(0, MAX_HISTORY);
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(newHistory)); } catch { /* ignore */ }
-      return newHistory;
-    });
+    if (currentColor) colorHistoryStore.add(currentColor);
   }, [currentColor]);
 
-  const removeColor = (hex: string) => {
-    setHistory((prev) => {
-      const next = prev.filter((c) => c.hex !== hex);
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch { /* ignore */ }
-      return next;
-    });
-  };
-
-  const clearHistory = () => {
-    setHistory([]);
-    try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignore */ }
-  };
+  const removeColor = (hex: string) => colorHistoryStore.remove(hex);
+  const clearHistory = () => colorHistoryStore.clear();
 
   const exportAsCSS = () => {
     const cssVars = history.map((c, i) => `  --color-${i + 1}: ${c.hex};`).join('\n');
@@ -98,6 +74,8 @@ export function ColorHistory({ currentColor, onColorSelect, className }: ColorHi
             onClick={() => setShowPaletteExport(!showPaletteExport)}
             className="rounded-lg p-1.5 text-ink-3 transition-colors hover:bg-surface-2 hover:text-ink"
             title="Export palette"
+            aria-label="Export palette"
+            aria-expanded={showPaletteExport}
           >
             <Download className="h-3.5 w-3.5" />
           </button>
@@ -105,6 +83,7 @@ export function ColorHistory({ currentColor, onColorSelect, className }: ColorHi
             onClick={clearHistory}
             className="rounded-lg p-1.5 text-ink-3 transition-colors hover:bg-surface-2 hover:text-negative"
             title="Clear history"
+            aria-label="Clear history"
           >
             <Trash2 className="h-3.5 w-3.5" />
           </button>
@@ -134,6 +113,7 @@ export function ColorHistory({ currentColor, onColorSelect, className }: ColorHi
                   className="relative h-10 w-full rounded-lg ring-1 ring-inset ring-black/10 transition-transform duration-200 hover:z-10 hover:scale-110"
                   style={{ backgroundColor: color.hex }}
                   title={color.name || color.hex}
+                  aria-label={`Select ${color.name || color.hex}`}
                 >
                   <span className={cn(
                     'absolute inset-0 flex items-center justify-center font-mono text-[8px] font-bold opacity-0 transition-opacity group-hover:opacity-100',
@@ -145,6 +125,7 @@ export function ColorHistory({ currentColor, onColorSelect, className }: ColorHi
                 <button
                   onClick={(e) => { e.stopPropagation(); removeColor(color.hex); }}
                   className="absolute -right-1 -top-1 hidden h-4 w-4 items-center justify-center rounded-full border border-line bg-surface text-ink shadow-sm group-hover:flex"
+                  aria-label={`Remove ${color.name || color.hex} from history`}
                 >
                   <X className="h-2.5 w-2.5" />
                 </button>
@@ -161,7 +142,7 @@ export function ColorHistory({ currentColor, onColorSelect, className }: ColorHi
             <Palette className="h-3 w-3" />
             {history.length} saved
           </span>
-          <span className="label-caps text-ink-3">Max {MAX_HISTORY}</span>
+          <span className="label-caps text-ink-3">Max {MAX_COLOR_HISTORY}</span>
         </div>
       </div>
     </div>

@@ -54,10 +54,14 @@ const allItems = groups.flatMap((g) => g.items);
 export function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [prevPathname, setPrevPathname] = useState(pathname);
 
-  useEffect(() => {
+  // Close the menu on navigation — adjusted during render instead of in an
+  // effect so the closed state paints in the same pass as the new route.
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
     setMobileMenuOpen(false);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -140,6 +144,8 @@ export function Header() {
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-surface text-ink transition-colors hover:bg-surface-2 lg:hidden active:scale-95"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -149,6 +155,7 @@ export function Header() {
 
       {/* Mobile Navigation Overlay */}
       <div
+        id="mobile-menu"
         className={cn(
           'fixed inset-0 z-40 lg:hidden transition-opacity duration-200',
           mobileMenuOpen ? 'opacity-100' : 'pointer-events-none opacity-0',

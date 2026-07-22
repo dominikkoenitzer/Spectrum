@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import {
   RefreshCw, ChevronDown, ChevronRight, Eye, Lightbulb, Thermometer, Sparkles,
-  Heart, Palette, Sun, Moon, Zap, Copy, Check,
+  Heart, Palette, Sun, Moon, Zap, Check,
 } from 'lucide-react';
 import { CopyButton } from '@/components/ui/CopyButton';
+import { EyeDropperButton } from '@/components/ui/EyeDropperButton';
 import { AnimateIn } from '@/components/ui/AnimateIn';
 import { isValidColor } from '@/lib/colorUtils';
 import { checkContrast } from '@/lib/contrastUtils';
@@ -63,38 +63,59 @@ function getHarmonyExplanation(name: string): string {
 
 type Section = 'theory' | 'conversion' | 'variations' | 'harmonies' | 'contrast' | 'technical' | 'analysis' | 'blindness' | 'creative';
 
-export default function ColorGeneratorPage() {
-  const searchParams = useSearchParams();
-  const urlColor = searchParams.get('color');
-  const initialColor = urlColor && isValidColor(`#${urlColor}`) ? `#${urlColor}` : '#2596be';
+const DEFAULT_COLOR = '#2596be';
 
-  const [color, setColor] = useState(initialColor);
-  const [inputValue, setInputValue] = useState(initialColor);
-  const [formats, setFormats] = useState<ExtendedColorFormats | null>(null);
-  const [shades, setShades] = useState<ColorVariation[]>([]);
-  const [tints, setTints] = useState<ColorVariation[]>([]);
-  const [harmonies, setHarmonies] = useState<ColorHarmony[]>([]);
-  const [technicalFormats, setTechnicalFormats] = useState<TechnicalFormats | null>(null);
-  const [analysis, setAnalysis] = useState<ColorAnalysis | null>(null);
-  const [creative, setCreative] = useState<CreativeAspects | null>(null);
+export default function ColorGeneratorPage() {
+  const [color, setColor] = useState(DEFAULT_COLOR);
+  const [inputValue, setInputValue] = useState(DEFAULT_COLOR);
   const [contrastBg, setContrastBg] = useState('#ffffff');
   const [expandedSections, setExpandedSections] = useState<Set<Section>>(
     new Set(['theory', 'harmonies', 'variations', 'creative'])
   );
 
+  // `color` is the single source of truth — everything else is derived.
+  const formats: ExtendedColorFormats = useMemo(() => getExtendedFormats(color), [color]);
+  const shades: ColorVariation[] = useMemo(() => generateShades(color), [color]);
+  const tints: ColorVariation[] = useMemo(() => generateTints(color), [color]);
+  const harmonies: ColorHarmony[] = useMemo(() => getAllHarmonies(color), [color]);
+  const technicalFormats: TechnicalFormats = useMemo(() => getTechnicalFormats(color), [color]);
+  const analysis: ColorAnalysis = useMemo(() => analyzeColor(color), [color]);
+  const creative: CreativeAspects = useMemo(() => getCreativeAspects(color), [color]);
+
   const updateColor = useCallback((newColor: string) => {
     if (!isValidColor(newColor)) return;
     setColor(newColor);
-    setFormats(getExtendedFormats(newColor));
-    setShades(generateShades(newColor));
-    setTints(generateTints(newColor));
-    setHarmonies(getAllHarmonies(newColor));
-    setTechnicalFormats(getTechnicalFormats(newColor));
-    setAnalysis(analyzeColor(newColor));
-    setCreative(getCreativeAspects(newColor));
   }, []);
 
-  useEffect(() => { updateColor(initialColor); }, [initialColor]);
+  const applyColor = useCallback((newColor: string) => {
+    setInputValue(newColor);
+    if (isValidColor(newColor)) setColor(newColor);
+  }, []);
+
+  // Hydrate from a shared ?color= link once mounted (kept out of initial
+  // render so the statically prerendered HTML always matches).
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      const param = new URLSearchParams(window.location.search).get('color');
+      if (param && isValidColor(`#${param}`)) applyColor(`#${param}`);
+    }, 0);
+    return () => window.clearTimeout(id);
+  }, [applyColor]);
+
+  // Keep the URL shareable as the color changes.
+  const urlTimeout = useRef<number | null>(null);
+  useEffect(() => {
+    if (urlTimeout.current) window.clearTimeout(urlTimeout.current);
+    urlTimeout.current = window.setTimeout(() => {
+      const url = new URL(window.location.href);
+      if (color === DEFAULT_COLOR) url.searchParams.delete('color');
+      else url.searchParams.set('color', formats.hex.replace('#', '').toLowerCase());
+      window.history.replaceState(null, '', url);
+    }, 300);
+    return () => {
+      if (urlTimeout.current) window.clearTimeout(urlTimeout.current);
+    };
+  }, [color, formats.hex]);
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
@@ -104,7 +125,11 @@ export default function ColorGeneratorPage() {
   const toggleSection = (section: Section) => {
     setExpandedSections(prev => {
       const next = new Set(prev);
-      next.has(section) ? next.delete(section) : next.add(section);
+      if (next.has(section)) {
+        next.delete(section);
+      } else {
+        next.add(section);
+      }
       return next;
     });
   };
@@ -114,7 +139,7 @@ export default function ColorGeneratorPage() {
   const tempInfo = getTemperatureLabel(hueAngle);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
 
       {/* Header */}
       <AnimateIn direction="up" delay={0}>
@@ -143,16 +168,19 @@ export default function ColorGeneratorPage() {
               <div className="flex gap-2">
                 <input
                   type="color"
-                  value={color}
-                  onChange={e => { setInputValue(e.target.value); updateColor(e.target.value); }}
+                  value={formats.hex}
+                  onChange={e => applyColor(e.target.value)}
+                  aria-label="Pick a color"
                   className="h-11 w-12 cursor-pointer rounded-lg border border-line bg-transparent flex-shrink-0"
                 />
+                <EyeDropperButton onPick={applyColor} className="h-11 w-12 rounded-lg" />
                 <div className="relative flex-1">
                   <input
                     type="text"
                     value={inputValue}
                     onChange={e => handleInputChange(e.target.value)}
                     placeholder="#2596be"
+                    aria-label="Color value"
                     className="h-11 w-full rounded-lg border border-line bg-paper px-4 font-mono text-sm text-ink placeholder-ink-3 focus:border-ink transition-all outline-none"
                   />
                   {formats?.name && (
@@ -244,7 +272,7 @@ export default function ColorGeneratorPage() {
                   style={{ background: 'linear-gradient(to right, #ef4444, #f97316, #eab308, #22c55e, #06b6d4, #3b82f6, #8b5cf6, #ec4899, #ef4444)' }}
                 >
                   <div
-                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full ring-2 ring-white shadow-lg"
+                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full ring-2 ring-surface shadow-lg"
                     style={{ left: `calc(${(hueAngle / 360) * 100}% - 8px)`, backgroundColor: color }}
                   />
                 </div>
@@ -274,7 +302,7 @@ export default function ColorGeneratorPage() {
                   </div>
                   <div className="rounded-xl bg-surface border border-line p-5">
                     <div className="flex items-center gap-2 mb-2">
-                      <Thermometer className="h-3.5 w-3.5 text-orange-400" />
+                      <Thermometer className="h-3.5 w-3.5 text-ink-3" />
                       <span className="text-xs font-semibold text-ink-2 uppercase tracking-widest">Visual weight &amp; depth</span>
                     </div>
                     <p className="text-sm text-ink leading-relaxed">
@@ -497,12 +525,12 @@ export default function ColorGeneratorPage() {
                   <div className="space-y-3">
                     <div className={cn(
                       'rounded-xl p-5 text-center border',
-                      isGood ? 'bg-green-500/5 border-green-500/20' : 'bg-red-500/5 border-red-500/20'
+                      isGood ? 'bg-positive/5 border-positive/20' : 'bg-negative/5 border-negative/20'
                     )}>
                       <div className={cn('text-5xl font-bold mb-1', isGood ? 'text-ink' : 'text-ink-2')}>
                         {result.ratioString}
                       </div>
-                      <div className={cn('text-xs font-semibold uppercase tracking-widest', isGood ? 'text-green-400' : 'text-red-400')}>
+                      <div className={cn('text-xs font-semibold uppercase tracking-widest', isGood ? 'text-positive' : 'text-negative')}>
                         contrast ratio
                       </div>
                     </div>
@@ -516,12 +544,12 @@ export default function ColorGeneratorPage() {
                         <div key={item.label} className={cn(
                           'rounded-lg p-3 border',
                           item.pass
-                            ? 'bg-green-500/5 border-green-500/15'
-                            : 'bg-red-500/5 border-red-500/15'
+                            ? 'bg-positive/5 border-positive/15'
+                            : 'bg-negative/5 border-negative/15'
                         )}>
                           <div className="flex items-center justify-between mb-0.5">
                             <span className="text-xs font-medium text-ink-2">{item.label}</span>
-                            <span className={cn('text-sm font-bold', item.pass ? 'text-green-400' : 'text-red-400')}>
+                            <span className={cn('text-sm font-bold', item.pass ? 'text-positive' : 'text-negative')}>
                               {item.pass ? '✓' : '✗'}
                             </span>
                           </div>
@@ -665,9 +693,10 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-surface border border-line rounded-2xl overflow-hidden">
+    <div id={id} className="bg-surface border border-line rounded-2xl overflow-hidden">
       <button
         onClick={onToggle}
+        aria-expanded={expanded}
         className="flex w-full items-center justify-between p-4 sm:p-5 text-left hover:bg-surface-2 transition-colors"
       >
         <div className="flex items-center gap-3 min-w-0">
@@ -722,7 +751,7 @@ function VariationSwatch({ variation }: { variation: ColorVariation }) {
         style={{ backgroundColor: variation.hex }}
       />
       <span className="mt-1 text-[10px] text-ink-3">{variation.percentage}%</span>
-      <span className="font-mono text-[10px] text-ink-3 flex items-center justify-center">{copied ? <Check className="h-3 w-3 text-green-400" /> : variation.hex.slice(0, 7)}</span>
+      <span className="font-mono text-[10px] text-ink-3 flex items-center justify-center">{copied ? <Check className="h-3 w-3 text-positive" /> : variation.hex.slice(0, 7)}</span>
     </button>
   );
 }
@@ -741,7 +770,7 @@ function HarmonyChip({ color }: { color: string }) {
     >
       <div className="w-4 h-4 rounded flex-shrink-0 ring-1 ring-line" style={{ backgroundColor: color }} />
       <span className="font-mono text-[10px] text-ink-2 group-hover:text-ink transition-colors flex items-center">
-        {copied ? <Check className="h-3 w-3 text-green-400" /> : color}
+        {copied ? <Check className="h-3 w-3 text-positive" /> : color}
       </span>
     </button>
   );

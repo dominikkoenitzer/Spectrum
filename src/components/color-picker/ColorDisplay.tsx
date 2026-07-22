@@ -88,13 +88,13 @@ export function ColorDisplay({ color, className }: ColorDisplayProps) {
       >
         <div className={cn(
           'absolute inset-0 flex items-center justify-center',
-          isLight ? 'text-gray-900' : 'text-white'
+          isLight ? 'text-black/90' : 'text-white'
         )}>
           <div className="text-center">
             {color.name && (
               <p className="text-xl font-bold capitalize mb-1">{color.name}</p>
             )}
-            <p className={cn('text-sm font-mono', isLight ? 'text-gray-700' : 'text-white/80')}>
+            <p className={cn('text-sm font-mono', isLight ? 'text-black/70' : 'text-white/80')}>
               {color.hex.toUpperCase()}
             </p>
           </div>
@@ -105,7 +105,7 @@ export function ColorDisplay({ color, className }: ColorDisplayProps) {
             showLabel={false}
             className={cn(
               'rounded-lg',
-              isLight ? 'bg-black/10 text-gray-900 hover:bg-black/20' : 'bg-white/10 text-white hover:bg-white/20'
+              isLight ? 'bg-black/10 text-black/90 hover:bg-black/20' : 'bg-white/10 text-white hover:bg-white/20'
             )}
           />
         </div>

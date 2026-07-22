@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { Plus, Trash2, RotateCcw, Copy, Check, Download, Code, Sparkles, Shuffle, Zap, ArrowUp, ArrowUpRight, ArrowRight, ArrowDownRight, ArrowDown, ArrowDownLeft, ArrowLeft, ArrowUpLeft } from 'lucide-react';
 import {
   GradientConfig,
@@ -15,6 +15,7 @@ import {
   generateId,
 } from '@/lib/gradientUtils';
 import { cn } from '@/lib/utils';
+import { EyeDropperButton } from '@/components/ui/EyeDropperButton';
 
 // Preset categories
 const presetCategories = [
@@ -42,6 +43,37 @@ const anglePresets = [
   { angle: 270, Icon: ArrowLeft },
   { angle: 315, Icon: ArrowUpLeft },
 ];
+
+// URL state: ?type=linear&angle=90&stops=667eea.0,764ba2.100
+const parseGradientFromSearch = (search: string): GradientConfig | null => {
+  const params = new URLSearchParams(search);
+  const type = params.get('type');
+  const angleRaw = params.get('angle');
+  const stopsRaw = params.get('stops');
+  if (type === null && angleRaw === null && stopsRaw === null) return null;
+  if (type !== 'linear' && type !== 'radial' && type !== 'conic') return null;
+  if (angleRaw === null || stopsRaw === null) return null;
+  const angle = Number(angleRaw);
+  if (!Number.isInteger(angle) || angle < 0 || angle > 360) return null;
+  const stops: GradientStop[] = [];
+  for (const part of stopsRaw.split(',')) {
+    const match = /^([0-9a-fA-F]{6})\.(\d{1,3})$/.exec(part);
+    if (!match) return null;
+    const position = Number(match[2]);
+    if (position > 100) return null;
+    stops.push({ id: generateId(), color: `#${match[1].toLowerCase()}`, position });
+  }
+  if (stops.length < 2) return null;
+  return { type, angle, stops };
+};
+
+const serializeGradientParams = (config: GradientConfig): string => {
+  const stops = [...config.stops]
+    .sort((a, b) => a.position - b.position)
+    .map((s) => `${s.color.replace('#', '')}.${Math.round(s.position)}`)
+    .join(',');
+  return `type=${config.type}&angle=${Math.round(config.angle)}&stops=${stops}`;
+};
 
 export default function GradientMakerPage() {
   const [gradient, setGradient] = useState<GradientConfig>(createDefaultGradient());
@@ -156,10 +188,33 @@ backgroundImage: {
     URL.revokeObjectURL(url);
   };
 
+  const applyGradient = useCallback((config: GradientConfig) => {
+    setGradient(config);
+  }, []);
+
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      const fromUrl = parseGradientFromSearch(window.location.search);
+      if (fromUrl) applyGradient(fromUrl);
+    }, 0);
+    return () => window.clearTimeout(id);
+  }, [applyGradient]);
+
+  const urlTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    urlTimeoutRef.current = setTimeout(() => {
+      window.history.replaceState(null, '', `${window.location.pathname}?${serializeGradientParams(gradient)}`);
+    }, 300);
+    return () => {
+      if (urlTimeoutRef.current) clearTimeout(urlTimeoutRef.current);
+    };
+  }, [gradient]);
+
   const sortedStops = [...gradient.stops].sort((a, b) => a.position - b.position);
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-6 sm:py-10">
+    <div className="w-full max-w-6xl mx-auto px-4 py-8 sm:py-12">
       {/* Header */}
       <div className="mb-8 sm:mb-12">
         <p className="label-caps text-ink-3 mb-4">CSS Generator</p>
@@ -184,6 +239,7 @@ backgroundImage: {
         <div className="flex items-center gap-2">
           <button
             onClick={handleRandomize}
+            aria-label="Randomize gradient"
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-ink text-paper text-xs font-medium active:scale-95 transition-transform"
           >
             <Shuffle className="h-3.5 w-3.5" />
@@ -191,6 +247,7 @@ backgroundImage: {
           </button>
           <button
             onClick={handleReset}
+            aria-label="Reset gradient"
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-2 border border-line text-ink-2 text-xs font-medium active:scale-95 transition-transform"
           >
             <RotateCcw className="h-3.5 w-3.5" />
@@ -203,7 +260,7 @@ backgroundImage: {
           className={cn(
             "flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium active:scale-95 transition-all",
             copied
-              ? "bg-green-500/20 text-green-400 border border-green-500/30"
+              ? "bg-positive/15 text-positive border border-positive/30"
               : "bg-surface-2 text-ink border border-line"
           )}
         >
@@ -256,6 +313,7 @@ backgroundImage: {
                     <button
                       key={preset.angle}
                       onClick={() => handleAngleChange(preset.angle)}
+                      aria-label={`Set angle ${preset.angle}°`}
                       className={cn(
                         "aspect-square flex items-center justify-center rounded-lg transition-all active:scale-90",
                         gradient.angle === preset.angle
@@ -273,6 +331,7 @@ backgroundImage: {
                   onChange={(e) => handleAngleChange(Number(e.target.value))}
                   min={0}
                   max={360}
+                  aria-label="Gradient angle"
                   className="w-full mt-3 h-2 bg-surface-2 rounded-lg appearance-none cursor-pointer accent-ink"
                 />
               </div>
@@ -302,7 +361,7 @@ backgroundImage: {
                   style={{ left: `${stop.position}%` }}
                 >
                   <div 
-                    className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full ring-2 ring-white shadow-lg"
+                    className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full ring-2 ring-surface shadow-lg"
                     style={{ backgroundColor: stop.color }}
                   />
                 </div>
@@ -320,7 +379,12 @@ backgroundImage: {
                     type="color"
                     value={stop.color}
                     onChange={(e) => handleStopColorChange(stop.id, e.target.value)}
+                    aria-label="Stop color"
                     className="w-10 h-10 rounded-lg cursor-pointer border-0 p-0.5 bg-transparent flex-shrink-0"
+                  />
+                  <EyeDropperButton
+                    size="sm"
+                    onPick={(hex) => handleStopColorChange(stop.id, hex)}
                   />
                   <input
                     type="range"
@@ -328,13 +392,15 @@ backgroundImage: {
                     onChange={(e) => handleStopPositionChange(stop.id, Number(e.target.value))}
                     min={0}
                     max={100}
+                    aria-label="Stop position"
                     className="flex-1 h-2 bg-surface-2 rounded-lg appearance-none cursor-pointer accent-ink"
                   />
                   <span className="text-xs font-mono text-ink-2 w-8 text-right">{stop.position}%</span>
                   <button
                     onClick={() => handleRemoveStop(stop.id)}
                     disabled={gradient.stops.length <= 2}
-                    className="p-2 rounded-lg text-ink-3 hover:bg-red-500/20 hover:text-red-400 disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex-shrink-0"
+                    aria-label="Remove color stop"
+                    className="p-2 rounded-lg text-ink-3 hover:bg-negative/10 hover:text-negative disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex-shrink-0"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
@@ -377,6 +443,7 @@ backgroundImage: {
                   <button
                     key={index}
                     onClick={() => handlePresetSelect(preset)}
+                    aria-label={`Apply preset gradient ${index + 1}`}
                     className="aspect-square rounded-xl transition-transform hover:scale-105 active:scale-95 ring-1 ring-line hover:ring-2 hover:ring-ink"
                     style={{ background: generateGradientCSS(preset) }}
                   />
@@ -388,7 +455,7 @@ backgroundImage: {
           <div className="bg-surface  border border-line rounded-xl p-4">
             <div className="flex items-center justify-between mb-3 gap-2 flex-wrap">
               <div className="flex items-center gap-2">
-                <Code className="h-4 w-4 text-cyan-400" />
+                <Code className="h-4 w-4 text-ink-3" />
                 <h3 className="text-sm font-medium text-ink">Export</h3>
               </div>
               <div className="flex items-center gap-2">
@@ -410,6 +477,7 @@ backgroundImage: {
                 </div>
                 <button
                   onClick={handleDownloadCSS}
+                  aria-label="Download code"
                   className="p-1.5 rounded-lg bg-surface-2 border border-line text-ink-2 hover:text-ink active:scale-95 transition-all"
                 >
                   <Download className="h-4 w-4" />

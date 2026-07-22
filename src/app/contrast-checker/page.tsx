@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { Check, X, AlertTriangle, RefreshCw, Lightbulb, Type, Eye, ArrowRight, Info } from 'lucide-react';
 import { CopyButton } from '@/components/ui/CopyButton';
+import { EyeDropperButton } from '@/components/ui/EyeDropperButton';
 import { checkContrast, ContrastResult, suggestAccessibleColors } from '@/lib/contrastUtils';
 import { isValidColor } from '@/lib/colorUtils';
 import { cn } from '@/lib/utils';
@@ -27,11 +28,58 @@ const fontSizes = [
   { name: '24px (Heading)', size: 24, weight: 'bold' },
 ];
 
+// 6-digit hex without '#', as used in ?fg= / ?bg= query params
+const hexParam = /^[0-9a-f]{6}$/i;
+
 export default function ContrastCheckerPage() {
   const [foreground, setForeground] = useState('#000000');
   const [background, setBackground] = useState('#ffffff');
   const [result, setResult] = useState<ContrastResult | null>(() => checkContrast('#000000', '#ffffff'));
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  const urlSyncTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const skipUrlSync = useRef(true);
+
+  const applyPair = useCallback((fg: string, bg: string) => {
+    setForeground(fg);
+    setBackground(bg);
+    if (isValidColor(fg) && isValidColor(bg)) {
+      setResult(checkContrast(fg, bg));
+    }
+  }, []);
+
+  // Hydrate the pair from ?fg / ?bg once on mount
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      const params = new URLSearchParams(window.location.search);
+      const fg = params.get('fg');
+      const bg = params.get('bg');
+      if (fg && bg && hexParam.test(fg) && hexParam.test(bg)) {
+        applyPair(`#${fg.toLowerCase()}`, `#${bg.toLowerCase()}`);
+      }
+    }, 0);
+    return () => window.clearTimeout(id);
+  }, [applyPair]);
+
+  // Keep the URL shareable as the pair changes (debounced)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (skipUrlSync.current) {
+      skipUrlSync.current = false;
+      return;
+    }
+    if (urlSyncTimeout.current) clearTimeout(urlSyncTimeout.current);
+    urlSyncTimeout.current = setTimeout(() => {
+      const fg = foreground.replace('#', '').toLowerCase();
+      const bg = background.replace('#', '').toLowerCase();
+      if (!hexParam.test(fg) || !hexParam.test(bg)) return;
+      const params = new URLSearchParams(window.location.search);
+      params.set('fg', fg);
+      params.set('bg', bg);
+      window.history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
+    }, 300);
+    return () => {
+      if (urlSyncTimeout.current) clearTimeout(urlSyncTimeout.current);
+    };
+  }, [foreground, background]);
 
   const handleForegroundChange = (value: string) => {
     setForeground(value);
@@ -48,18 +96,11 @@ export default function ContrastCheckerPage() {
   };
 
   const swapColors = () => {
-    const temp = foreground;
-    setForeground(background);
-    setBackground(temp);
-    if (isValidColor(foreground) && isValidColor(background)) {
-      setResult(checkContrast(background, foreground));
-    }
+    applyPair(background, foreground);
   };
 
   const applyPreset = (preset: typeof colorPresets[0]) => {
-    setForeground(preset.fg);
-    setBackground(preset.bg);
-    setResult(checkContrast(preset.fg, preset.bg));
+    applyPair(preset.fg, preset.bg);
   };
 
   // Generate color suggestions
@@ -79,31 +120,29 @@ export default function ContrastCheckerPage() {
   const getScoreColor = (score: string) => {
     switch (score) {
       case 'AAA':
-        return 'text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900/50';
       case 'AA':
-        return 'text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900/50';
+        return 'text-positive bg-positive/10 border-positive/25';
       case 'AA Large':
-        return 'text-yellow-600 bg-yellow-100 dark:text-yellow-400 dark:bg-yellow-900/50';
+        return 'text-ink-2 bg-surface-2 border-line';
       default:
-        return 'text-red-600 bg-red-100 dark:text-red-400 dark:bg-red-900/50';
+        return 'text-negative bg-negative/10 border-negative/25';
     }
   };
 
   const getScoreEmoji = (score: string) => {
     switch (score) {
       case 'AAA':
-        return <Check className="h-5 w-5 text-green-500" />;
       case 'AA':
-        return <Check className="h-5 w-5 text-green-500" />;
+        return <Check className="h-5 w-5 text-positive" />;
       case 'AA Large':
-        return <AlertTriangle className="h-5 w-5 text-yellow-500" />;
+        return <AlertTriangle className="h-5 w-5 text-ink-2" />;
       default:
-        return <X className="h-5 w-5 text-red-500" />;
+        return <X className="h-5 w-5 text-negative" />;
     }
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
       {/* Hero section - Compact on mobile */}
       <div className="mb-8 sm:mb-12">
         <p className="label-caps text-ink-3 mb-4">Accessibility Tool</p>
@@ -117,7 +156,7 @@ export default function ContrastCheckerPage() {
 
       {/* Quick Presets - Scrollable on mobile */}
       <div className="mb-6 sm:mb-8">
-        <p className="text-xs font-medium text-ink-3 mb-2 sm:mb-3">Quick Presets:</p>
+        <p className="label-caps text-ink-3 mb-2 sm:mb-3">Quick Presets:</p>
         <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap scrollbar-hide">
           {colorPresets.map((preset) => (
             <button
@@ -126,12 +165,12 @@ export default function ContrastCheckerPage() {
               className="flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-2 border border-line hover:border-line transition-all active:scale-[0.98]"
             >
               <div className="flex -space-x-1">
-                <span 
-                  className="w-4 h-4 rounded-full ring-2 ring-gray-950"
+                <span
+                  className="w-4 h-4 rounded-full ring-2 ring-ink"
                   style={{ backgroundColor: preset.fg }}
                 />
-                <span 
-                  className="w-4 h-4 rounded-full ring-2 ring-gray-950"
+                <span
+                  className="w-4 h-4 rounded-full ring-2 ring-ink"
                   style={{ backgroundColor: preset.bg }}
                 />
               </div>
@@ -146,27 +185,30 @@ export default function ContrastCheckerPage() {
         <div className="bg-surface  border border-line rounded-2xl p-4 sm:p-5 lg:col-span-1">
           <h3 className="text-sm font-semibold text-ink mb-1">Colors</h3>
           <p className="text-xs text-ink-3 mb-4">Enter foreground and background</p>
-          
+
           <div className="space-y-3 sm:space-y-4">
             {/* Foreground */}
             <div>
               <label className="mb-1.5 block text-xs font-medium text-ink-2">
                 Foreground (Text)
               </label>
-              <div className="flex gap-2">
+              <div className="flex items-center gap-2">
                 <input
                   type="color"
                   value={foreground}
                   onChange={(e) => handleForegroundChange(e.target.value)}
+                  aria-label="Foreground color"
                   className="h-10 w-10 cursor-pointer rounded-lg border border-line bg-transparent p-0.5"
                 />
                 <input
                   type="text"
                   value={foreground}
                   onChange={(e) => handleForegroundChange(e.target.value)}
+                  aria-label="Foreground hex value"
                   className="h-10 flex-1 rounded-lg border border-line bg-surface px-3 font-mono text-sm text-ink focus:border-line-strong focus:outline-none"
                   placeholder="#000000"
                 />
+                <EyeDropperButton size="sm" onPick={handleForegroundChange} />
               </div>
             </div>
 
@@ -186,20 +228,23 @@ export default function ContrastCheckerPage() {
               <label className="mb-1.5 block text-xs font-medium text-ink-2">
                 Background
               </label>
-              <div className="flex gap-2">
+              <div className="flex items-center gap-2">
                 <input
                   type="color"
                   value={background}
                   onChange={(e) => handleBackgroundChange(e.target.value)}
+                  aria-label="Background color"
                   className="h-10 w-10 cursor-pointer rounded-lg border border-line bg-transparent p-0.5"
                 />
                 <input
                   type="text"
                   value={background}
                   onChange={(e) => handleBackgroundChange(e.target.value)}
+                  aria-label="Background hex value"
                   className="h-10 flex-1 rounded-lg border border-line bg-surface px-3 font-mono text-sm text-ink focus:border-line-strong focus:outline-none"
                   placeholder="#ffffff"
                 />
+                <EyeDropperButton size="sm" onPick={handleBackgroundChange} />
               </div>
             </div>
 
@@ -220,7 +265,7 @@ export default function ContrastCheckerPage() {
         <div className="bg-surface  border border-line rounded-2xl p-4 sm:p-5 lg:col-span-2">
           <h3 className="text-sm font-semibold text-ink mb-1">Contrast Analysis</h3>
           <p className="text-xs text-ink-3 mb-4">WCAG 2.1 compliance</p>
-          
+
           {result && (
             <div className="space-y-4 sm:space-y-6">
               {/* Main score - Stack on mobile */}
@@ -236,14 +281,14 @@ export default function ContrastCheckerPage() {
                     {getScoreEmoji(result.score)}
                     <span
                       className={cn(
-                        'inline-block rounded-full px-4 py-1 text-sm font-bold',
+                        'inline-block rounded-full border px-4 py-1 text-sm font-bold',
                         getScoreColor(result.score)
                       )}
                     >
                       {result.score}
                     </span>
                   </div>
-                  <p className="text-sm text-ink-3 dark:text-ink-2">
+                  <p className="text-sm text-ink-3">
                     {result.score === 'AAA' && 'Excellent contrast'}
                     {result.score === 'AA' && 'Good contrast'}
                     {result.score === 'AA Large' && 'OK for large text only'}
@@ -256,10 +301,10 @@ export default function ContrastCheckerPage() {
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <Eye className="h-4 w-4 text-ink-2" />
-                  <span className="text-sm font-medium text-ink-2 dark:text-ink-2">Live Preview</span>
+                  <span className="text-sm font-medium text-ink-2">Live Preview</span>
                 </div>
                 <div
-                  className="rounded-xl p-6 border border-line dark:border-line"
+                  className="rounded-xl p-6 border border-line"
                   style={{ backgroundColor: background }}
                 >
                   <h3
@@ -295,30 +340,30 @@ export default function ContrastCheckerPage() {
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <Type className="h-4 w-4 text-ink-2" />
-                  <span className="text-sm font-medium text-ink-2 dark:text-ink-2">Size Comparison</span>
+                  <span className="text-sm font-medium text-ink-2">Size Comparison</span>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                   {fontSizes.map((font) => {
                     const isLarge = font.size >= 18 || (font.size >= 14 && font.weight === 'bold');
                     const passes = isLarge ? result.aa.largeText : result.aa.normalText;
-                    
+
                     return (
                       <div
                         key={font.name}
-                        className="p-3 rounded-lg border border-line dark:border-line"
+                        className="p-3 rounded-lg border border-line"
                         style={{ backgroundColor: background }}
                       >
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-xs text-ink-3">{font.name}</span>
                           {passes ? (
-                            <Check className="h-3 w-3 text-green-500" />
+                            <Check className="h-3 w-3 text-positive" />
                           ) : (
-                            <X className="h-3 w-3 text-red-500" />
+                            <X className="h-3 w-3 text-negative" />
                           )}
                         </div>
                         <p
-                          style={{ 
-                            color: foreground, 
+                          style={{
+                            color: foreground,
                             fontSize: font.size,
                             fontWeight: font.weight as 'normal' | 'bold'
                           }}
@@ -335,9 +380,9 @@ export default function ContrastCheckerPage() {
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <Check className="h-4 w-4 text-ink-2" />
-                  <span className="text-sm font-medium text-ink-2 dark:text-ink-2">WCAG Compliance</span>
+                  <span className="text-sm font-medium text-ink-2">WCAG Compliance</span>
                 </div>
-                
+
                 <div className="grid gap-2 sm:grid-cols-2">
                   {[
                     { label: 'AA Normal Text', pass: result.aa.normalText, requirement: '≥ 4.5:1', desc: 'Standard body text' },
@@ -350,23 +395,23 @@ export default function ContrastCheckerPage() {
                       key={item.label}
                       className={cn(
                         "flex items-center justify-between rounded-xl border px-4 py-3 transition-colors",
-                        item.pass 
-                          ? "border-green-200 bg-green-50 dark:border-green-900 dark:bg-green-900/20" 
-                          : "border-line dark:border-line"
+                        item.pass
+                          ? "border-positive/25 bg-positive/10"
+                          : "border-line"
                       )}
                     >
                       <div className="flex items-center gap-3">
                         {item.pass ? (
-                          <div className="w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/50 flex items-center justify-center">
-                            <Check className="h-4 w-4 text-green-600 dark:text-green-400" />
+                          <div className="w-6 h-6 rounded-full bg-positive/10 flex items-center justify-center">
+                            <Check className="h-4 w-4 text-positive" />
                           </div>
                         ) : (
-                          <div className="w-6 h-6 rounded-full bg-red-100 dark:bg-red-900/50 flex items-center justify-center">
-                            <X className="h-4 w-4 text-red-600 dark:text-red-400" />
+                          <div className="w-6 h-6 rounded-full bg-negative/10 flex items-center justify-center">
+                            <X className="h-4 w-4 text-negative" />
                           </div>
                         )}
                         <div>
-                          <span className="text-sm font-medium text-gray-900 dark:text-ink">
+                          <span className="text-sm font-medium text-ink">
                             {item.label}
                           </span>
                           <p className="text-xs text-ink-3">{item.desc}</p>
@@ -386,11 +431,11 @@ export default function ContrastCheckerPage() {
       {result && result.score !== 'AAA' && suggestions && (
         <div className="mt-6 sm:mt-8 bg-surface  border border-line rounded-2xl p-4 sm:p-6">
           <div className="flex items-center gap-2 mb-1">
-            <Lightbulb className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500" />
+            <Lightbulb className="h-4 w-4 sm:h-5 sm:w-5 text-ink-3" />
             <h3 className="text-sm sm:text-base font-semibold text-ink">Suggested Improvements</h3>
           </div>
           <p className="text-xs text-ink-3 mb-4">Alternative colors that meet AA or AAA standards</p>
-          
+
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {suggestions.foreground.length > 0 && (
               <div className="space-y-3">
@@ -404,7 +449,7 @@ export default function ContrastCheckerPage() {
                         onClick={() => handleForegroundChange(color)}
                         className="flex items-center gap-3 w-full p-3 rounded-lg bg-surface border border-line hover:border-line transition-all active:scale-[0.98] group"
                       >
-                        <span 
+                        <span
                           className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg ring-1 ring-line"
                           style={{ backgroundColor: color }}
                         />
@@ -419,7 +464,7 @@ export default function ContrastCheckerPage() {
                 </div>
               </div>
             )}
-            
+
             {suggestions.background.length > 0 && (
               <div className="space-y-3">
                 <p className="text-xs sm:text-sm font-medium text-ink-2">Adjust Background</p>
@@ -432,7 +477,7 @@ export default function ContrastCheckerPage() {
                         onClick={() => handleBackgroundChange(color)}
                         className="flex items-center gap-3 w-full p-3 rounded-lg bg-surface border border-line hover:border-line transition-all active:scale-[0.98] group"
                       >
-                        <span 
+                        <span
                           className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg ring-1 ring-line"
                           style={{ backgroundColor: color }}
                         />
@@ -454,8 +499,8 @@ export default function ContrastCheckerPage() {
       {/* Info section */}
       <div className="mt-6 sm:mt-8 bg-surface  border border-line rounded-2xl p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-500/20 flex items-center justify-center flex-shrink-0">
-            <Info className="h-4 w-4 sm:h-5 sm:w-5 text-amber-400" />
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-2 flex items-center justify-center flex-shrink-0">
+            <Info className="h-4 w-4 sm:h-5 sm:w-5 text-ink-2" />
           </div>
           <div className="flex-1">
             <h4 className="font-semibold text-ink text-sm sm:text-base mb-2">Understanding WCAG Contrast</h4>

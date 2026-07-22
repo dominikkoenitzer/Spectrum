@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useCallback } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import { Upload, Image as ImageIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -11,52 +11,45 @@ interface ImageUploaderProps {
 
 export function ImageUploader({ onImageLoad, className }: ImageUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const acceptFile = useCallback(
+    (file: File) => {
+      if (!file.type.startsWith('image/')) {
+        setError("That file isn't an image — try a PNG, JPG, GIF, or WEBP.");
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        setError('That image is over 10MB — try a smaller file.');
+        return;
+      }
+      setError(null);
+      onImageLoad(file);
+    },
+    [onImageLoad]
+  );
 
   const handleFileChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
-      if (file) {
-        // Validate file type
-        if (!file.type.startsWith('image/')) {
-          console.error('Invalid file type');
-          return;
-        }
-        // Validate file size (10MB max)
-        if (file.size > 10 * 1024 * 1024) {
-          console.error('File too large (max 10MB)');
-          return;
-        }
-        onImageLoad(file);
-      }
+      if (file) acceptFile(file);
       // Reset input so same file can be selected again
       if (inputRef.current) {
         inputRef.current.value = '';
       }
     },
-    [onImageLoad]
+    [acceptFile]
   );
 
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      
+
       const file = e.dataTransfer.files[0];
-      if (file) {
-        // Validate file type
-        if (!file.type.startsWith('image/')) {
-          console.error('Invalid file type');
-          return;
-        }
-        // Validate file size (10MB max)
-        if (file.size > 10 * 1024 * 1024) {
-          console.error('File too large (max 10MB)');
-          return;
-        }
-        onImageLoad(file);
-      }
+      if (file) acceptFile(file);
     },
-    [onImageLoad]
+    [acceptFile]
   );
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -86,6 +79,11 @@ export function ImageUploader({ onImageLoad, className }: ImageUploaderProps) {
       <div className="min-w-0 flex-1">
         <p className="font-display text-base font-medium text-ink">Drop an image, or browse</p>
         <p className="mt-1 font-mono text-xs text-ink-2">PNG · JPG · GIF · WEBP — up to 10MB</p>
+        {error && (
+          <p role="alert" className="mt-1.5 text-xs font-medium text-negative">
+            {error}
+          </p>
+        )}
       </div>
       <span className="hidden flex-shrink-0 rounded-lg bg-ink px-4 py-2.5 text-sm font-medium text-paper transition-colors group-hover:bg-ink/90 sm:inline-block">
         Choose file
@@ -108,6 +106,7 @@ interface ImageUrlInputProps {
 
 export function ImageUrlInput({ onImageLoad, className }: ImageUrlInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -118,12 +117,13 @@ export function ImageUrlInput({ onImageLoad, className }: ImageUrlInputProps) {
         try {
           const urlObj = new URL(url);
           if (!['http:', 'https:'].includes(urlObj.protocol)) {
-            console.error('Invalid protocol');
+            setError('Only http(s) image links are supported.');
             return;
           }
+          setError(null);
           onImageLoad(url);
         } catch {
-          console.error('Invalid URL');
+          setError("That doesn't look like a valid URL.");
         }
       }
     },
@@ -146,6 +146,8 @@ export function ImageUrlInput({ onImageLoad, className }: ImageUrlInputProps) {
           ref={inputRef}
           type="url"
           placeholder="https://example.com/image.jpg"
+          aria-label="Image URL"
+          onChange={() => setError(null)}
           className="h-11 flex-1 rounded-lg border border-line bg-paper px-3.5 text-sm text-ink placeholder:text-ink-3 focus:border-ink focus:outline-none"
         />
         <button
@@ -155,6 +157,11 @@ export function ImageUrlInput({ onImageLoad, className }: ImageUrlInputProps) {
           Load
         </button>
       </div>
+      {error && (
+        <p role="alert" className="mt-2 text-xs font-medium text-negative">
+          {error}
+        </p>
+      )}
     </form>
   );
 }
