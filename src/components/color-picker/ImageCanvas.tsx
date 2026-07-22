@@ -68,6 +68,70 @@ export function ImageCanvas({ imageSource, onColorPick, onError, className }: Im
     setCursorPos(null);
   }, []);
 
+  // Keyboard sampling: arrows move a sampling point across the canvas
+  // (Shift = 10px steps), Enter/Space picks the color under it.
+  const [kbSample, setKbSample] = useState<{
+    x: number;
+    y: number;
+    left: number;
+    top: number;
+    color: { r: number; g: number; b: number; a: number };
+  } | null>(null);
+
+  const moveKbSample = useCallback(
+    (dx: number, dy: number) => {
+      const canvas = canvasRef.current;
+      if (!canvas || !isLoaded) return;
+      setKbSample((prev) => {
+        const x = Math.min(canvas.width - 1, Math.max(0, (prev?.x ?? Math.floor(canvas.width / 2)) + dx));
+        const y = Math.min(canvas.height - 1, Math.max(0, (prev?.y ?? Math.floor(canvas.height / 2)) + dy));
+        const color = getPixelColor(canvas, x, y);
+        if (!color) return prev;
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x,
+          y,
+          left: (x / canvas.width) * rect.width,
+          top: (y / canvas.height) * rect.height,
+          color,
+        };
+      });
+    },
+    [isLoaded]
+  );
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLCanvasElement>) => {
+      if (!isLoaded) return;
+      const step = e.shiftKey ? 10 : 1;
+      switch (e.key) {
+        case 'ArrowLeft':
+          e.preventDefault();
+          moveKbSample(-step, 0);
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          moveKbSample(step, 0);
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          moveKbSample(0, -step);
+          break;
+        case 'ArrowDown':
+          e.preventDefault();
+          moveKbSample(0, step);
+          break;
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          if (kbSample) onColorPick(kbSample.color);
+          else moveKbSample(0, 0);
+          break;
+      }
+    },
+    [isLoaded, kbSample, moveKbSample, onColorPick]
+  );
+
   if (!imageSource) {
     return null;
   }
@@ -76,15 +140,37 @@ export function ImageCanvas({ imageSource, onColorPick, onError, className }: Im
     <div ref={containerRef} className={cn('relative', className)}>
       <canvas
         ref={canvasRef}
+        tabIndex={0}
+        role="application"
+        aria-label="Image color sampler. Use the arrow keys to move the sampling point (hold Shift for bigger steps) and press Enter to pick the color."
         onClick={handleClick}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onKeyDown={handleKeyDown}
+        onBlur={() => setKbSample(null)}
         className={cn(
           'max-h-[600px] max-w-full rounded-xl border border-line',
           isLoaded && 'canvas-crosshair'
         )}
         style={{ display: isLoaded ? 'block' : 'none' }}
       />
+
+      {kbSample && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute z-10 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-paper shadow-[0_0_0_1.5px_var(--ink)]"
+          style={{
+            left: kbSample.left,
+            top: kbSample.top,
+            backgroundColor: `rgb(${kbSample.color.r}, ${kbSample.color.g}, ${kbSample.color.b})`,
+          }}
+        />
+      )}
+      <span role="status" className="sr-only">
+        {kbSample
+          ? `Sampling point at ${kbSample.x}, ${kbSample.y}. Color RGB ${kbSample.color.r}, ${kbSample.color.g}, ${kbSample.color.b}. Press Enter to pick.`
+          : ''}
+      </span>
 
       {!isLoaded && imageSource && (
         <div className="flex h-64 items-center justify-center rounded-xl border border-line bg-surface">

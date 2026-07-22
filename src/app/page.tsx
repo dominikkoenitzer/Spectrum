@@ -16,6 +16,7 @@ import {
   Contrast,
   Eye,
   BookOpen,
+  Pipette,
 } from 'lucide-react';
 import Link from 'next/link';
 import { AnimateIn } from '@/components/ui/AnimateIn';
@@ -25,6 +26,7 @@ import { ColorDisplay } from '@/components/color-picker/ColorDisplay';
 import { ColorHistory } from '@/components/color-picker/ColorHistory';
 import { ClipboardPaste } from '@/components/color-picker/ClipboardPaste';
 import { rgbToFormats, ColorFormats } from '@/lib/colorUtils';
+import { useEyeDropperSupported, openEyeDropper } from '@/components/ui/EyeDropperButton';
 
 const tools = [
   { name: 'Browse Colors', description: '16,700+ named colors to explore', href: '/browse', icon: Grid3X3 },
@@ -153,6 +155,17 @@ export default function ColorPickerPage() {
     setPickedColor(color);
   }, []);
 
+  const eyeDropperSupported = useEyeDropperSupported();
+
+  const handleScreenPick = useCallback(async () => {
+    const hex = await openEyeDropper();
+    if (!hex) return;
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    setPickedColor(rgbToFormats(r, g, b, 255));
+  }, []);
+
   return (
     <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
       {!imageSource ? (
@@ -201,13 +214,37 @@ export default function ColorPickerPage() {
                     {uploadMethod === 'url' && <ImageUrlInput onImageLoad={handleImageLoad} />}
                     {uploadMethod === 'paste' && <ClipboardPaste onImagePaste={handleImageLoad} />}
                   </div>
+
+                  {eyeDropperSupported && (
+                    <button
+                      onClick={handleScreenPick}
+                      className="group mt-4 flex w-full items-center gap-4 rounded-2xl border border-line bg-surface p-4 text-left transition-colors hover:border-line-strong active:scale-[0.997]"
+                    >
+                      <span className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-lg border border-line bg-paper transition-transform group-hover:-translate-y-0.5">
+                        <Pipette className="h-5 w-5 text-ink" strokeWidth={1.75} />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-sm font-medium text-ink">Pick from your screen</span>
+                        <span className="mt-0.5 block font-mono text-xs text-ink-2">
+                          No image needed — sample any pixel on any window
+                        </span>
+                      </span>
+                    </button>
+                  )}
                 </div>
               </AnimateIn>
             </div>
 
-            {/* Result preview */}
+            {/* Result preview — swaps to the live picked color once one exists */}
             <AnimateIn direction="up" delay={140} className="lg:pt-1">
-              <ExtractedSample />
+              {pickedColor ? (
+                <div className="space-y-4">
+                  <ColorDisplay color={pickedColor} />
+                  <ColorHistory currentColor={pickedColor} onColorSelect={handleHistoryColorSelect} />
+                </div>
+              ) : (
+                <ExtractedSample />
+              )}
             </AnimateIn>
           </div>
 

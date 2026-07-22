@@ -82,13 +82,14 @@ function ColorCard({ color, copied, onCopy }: { color: NamedColor; copied: boole
     <button
       onClick={() => onCopy(color.hex)}
       title={`Copy ${color.hex}`}
+      aria-label={`Copy ${color.name} ${color.hex}`}
       style={{ backgroundColor: color.hex, color: fg }}
       className={cn(
         'group relative block aspect-[5/4] w-full overflow-hidden rounded-[14px] text-left',
         'shadow-[0_1px_2px_rgba(0,0,0,0.06)] transition-[transform,box-shadow] duration-200',
         'hover:-translate-y-1 hover:z-[2] hover:shadow-[0_12px_28px_rgba(0,0,0,0.16)]',
-        veryLight && 'ring-1 ring-inset ring-[rgba(27,27,29,0.14)]',
-        light && !veryLight && 'ring-1 ring-inset ring-[rgba(27,27,29,0.08)]',
+        veryLight && 'ring-1 ring-inset ring-line-strong',
+        light && !veryLight && 'ring-1 ring-inset ring-line',
       )}
     >
       {!light && (
@@ -130,9 +131,10 @@ function ColorRow({ color, copied, onCopy }: { color: NamedColor; copied: boolea
   return (
     <button
       onClick={() => onCopy(color.hex)}
-      className="grid h-[60px] w-full items-center gap-4 border-b border-line px-[18px] text-left transition-colors last:border-b-0 hover:bg-[rgba(27,27,29,0.04)] [grid-template-columns:44px_1.4fr_1fr_72px] md:[grid-template-columns:56px_1.6fr_1fr_1.3fr_1.3fr_80px]"
+      aria-label={`Copy ${color.name} ${color.hex}`}
+      className="grid h-[60px] w-full items-center gap-4 border-b border-line px-[18px] text-left transition-colors last:border-b-0 hover:bg-surface-2 [grid-template-columns:44px_1.4fr_1fr_72px] md:[grid-template-columns:56px_1.6fr_1fr_1.3fr_1.3fr_80px]"
     >
-      <span className="h-[38px] w-[38px] rounded-[9px] ring-1 ring-inset ring-[rgba(27,27,29,0.12)]" style={{ background: color.hex }} />
+      <span className="h-[38px] w-[38px] rounded-[9px] ring-1 ring-inset ring-line" style={{ background: color.hex }} />
       <span className="truncate text-[15px] font-semibold tracking-[-0.01em] text-ink">{color.name}</span>
       <span className="font-mono text-[13px] uppercase text-ink-2">{color.hex}</span>
       <span className="hidden font-mono text-[13px] uppercase text-ink-2 md:block">{rgbStr(color.hex)}</span>
@@ -163,12 +165,12 @@ function PaletteCard({ palette, expanded, onToggle }: { palette: ColorPalette; e
               {palette.colors.slice(0, 5).map((color, i) => (
                 <div
                   key={i}
-                  className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-gray-900 shadow-sm"
+                  className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-ink shadow-sm"
                   style={{ backgroundColor: color.hex }}
                 />
               ))}
               {palette.colors.length > 5 && (
-                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-gray-900 bg-surface-2 flex items-center justify-center">
+                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-ink bg-surface-2 flex items-center justify-center">
                   <span className="text-[10px] sm:text-xs text-ink-2">+{palette.colors.length - 5}</span>
                 </div>
               )}
@@ -197,8 +199,10 @@ function PaletteCard({ palette, expanded, onToggle }: { palette: ColorPalette; e
                       </span>
                     )}
                     <div className="absolute top-0.5 right-0.5 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-                      <CopyButton 
-                        text={color.hex} 
+                      <CopyButton
+                        text={color.hex}
+                        label={`${color.name} ${color.hex.toUpperCase()}`}
+                        showLabel={false}
                         className={`!p-0.5 sm:!p-1 ${isLight ? 'text-black/80 hover:bg-black/10' : 'text-white hover:bg-white/20'}`}
                       />
                     </div>
@@ -234,8 +238,10 @@ function TrendingColorCard({ color }: { color: typeof trendingColors[0] }) {
           </span>
         )}
         <div className="absolute top-2 right-2 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-          <CopyButton 
-            text={color.hex} 
+          <CopyButton
+            text={color.hex}
+            label={`${color.name} ${color.hex.toUpperCase()}`}
+            showLabel={false}
             className={`!p-1.5 ${isLight ? 'text-black/80 hover:bg-black/10' : 'text-white hover:bg-white/20'}`}
           />
         </div>
@@ -281,8 +287,10 @@ function BrandColorCard({ brand }: { brand: typeof brandColors[0] }) {
                     {color.name}
                   </span>
                   <div className="absolute top-0.5 right-0.5 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-                    <CopyButton 
-                      text={color.hex} 
+                    <CopyButton
+                      text={color.hex}
+                      label={`${color.name} ${color.hex.toUpperCase()}`}
+                      showLabel={false}
                       className={`!p-0.5 sm:!p-1 ${isLight ? 'text-black/80 hover:bg-black/10' : 'text-white hover:bg-white/20'}`}
                     />
                   </div>
@@ -375,7 +383,7 @@ export default function BrowseColorsPage() {
 
       {/* Tabs — segmented control */}
       <div className="-mx-4 mb-7 overflow-x-auto px-4 sm:mx-0 sm:px-0 scrollbar-hide">
-        <div className="inline-flex gap-[3px] rounded-[13px] border border-line bg-[rgba(27,27,29,0.05)] p-1">
+        <div className="inline-flex gap-[3px] rounded-[13px] border border-line bg-surface-2 p-1">
           {tabs.map(tab => {
             const active = activeTab === tab.id;
             return (
@@ -384,14 +392,14 @@ export default function BrowseColorsPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
                   'inline-flex items-center gap-2 whitespace-nowrap rounded-[9px] px-3.5 sm:px-4 py-2.5 text-sm font-semibold tracking-[-0.01em] transition',
-                  active ? 'bg-ink text-paper shadow-sm' : 'text-ink-2 hover:bg-[rgba(27,27,29,0.05)] hover:text-ink',
+                  active ? 'bg-ink text-paper shadow-sm' : 'text-ink-2 hover:bg-line hover:text-ink',
                 )}
               >
                 <span>{tab.label}</span>
                 {tab.id !== 'named' && (
                   <span className={cn(
                     'rounded-full px-[7px] py-px font-mono text-[11.5px] font-medium',
-                    active ? 'bg-white/20 text-white/90' : 'bg-surface-2 text-ink-2',
+                    active ? 'bg-paper/20 text-paper/90' : 'bg-surface-2 text-ink-2',
                   )}>
                     {tab.count}
                   </span>
@@ -414,13 +422,13 @@ export default function BrowseColorsPage() {
                 placeholder="Search colors or hex…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-[11px] border border-line-strong bg-surface py-[13px] pl-11 pr-10 text-[15.5px] text-ink outline-none transition placeholder:text-ink-3 focus:border-ink focus:shadow-[0_0_0_3px_rgba(27,27,29,0.08)]"
+                className="w-full rounded-[11px] border border-line-strong bg-surface py-[13px] pl-11 pr-10 text-[15.5px] text-ink outline-none transition placeholder:text-ink-3 focus:border-ink focus:shadow-[0_0_0_3px_var(--line)]"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
                   aria-label="Clear search"
-                  className="absolute right-3 grid h-[22px] w-[22px] place-items-center rounded-full bg-[rgba(27,27,29,0.1)] text-base leading-none text-ink-2 transition-colors hover:bg-[rgba(27,27,29,0.18)]"
+                  className="absolute right-3 grid h-[22px] w-[22px] place-items-center rounded-full bg-line text-base leading-none text-ink-2 transition-colors hover:bg-line-strong"
                 >
                   ×
                 </button>
@@ -430,6 +438,7 @@ export default function BrowseColorsPage() {
               <button
                 onClick={() => setViewMode('grid')}
                 aria-label="Grid view"
+                aria-pressed={viewMode === 'grid'}
                 className={cn('grid h-[38px] w-[38px] place-items-center rounded-lg transition', viewMode === 'grid' ? 'bg-ink text-paper' : 'text-ink-3 hover:text-ink-2')}
               >
                 <Grid3X3 className="h-[17px] w-[17px]" />
@@ -437,6 +446,7 @@ export default function BrowseColorsPage() {
               <button
                 onClick={() => setViewMode('list')}
                 aria-label="List view"
+                aria-pressed={viewMode === 'list'}
                 className={cn('grid h-[38px] w-[38px] place-items-center rounded-lg transition', viewMode === 'list' ? 'bg-ink text-paper' : 'text-ink-3 hover:text-ink-2')}
               >
                 <List className="h-[17px] w-[17px]" />
@@ -573,7 +583,7 @@ export default function BrowseColorsPage() {
           copiedHex ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-5 opacity-0',
         )}
       >
-        <span className="h-[22px] w-[22px] rounded-md ring-1 ring-inset ring-white/25" style={{ background: copiedHex || 'transparent' }} />
+        <span className="h-[22px] w-[22px] rounded-md ring-1 ring-inset ring-paper/25" style={{ background: copiedHex || 'transparent' }} />
         <span className="text-[14.5px] font-medium">
           Copied <strong className="font-mono font-semibold uppercase">{copiedHex}</strong> to clipboard
         </span>

@@ -74,9 +74,9 @@ export interface ColorVariation {
 export function generateShades(color: string, steps: number = 11): ColorVariation[] {
   const c = colord(color);
   const shades: ColorVariation[] = [];
-  
-  for (let i = 0; i <= 10; i++) {
-    const percentage = i * 10;
+
+  for (let i = 0; i < steps; i++) {
+    const percentage = Math.round((i / (steps - 1)) * 100);
     const shade = c.darken(percentage / 100);
     shades.push({
       percentage,
@@ -90,9 +90,9 @@ export function generateShades(color: string, steps: number = 11): ColorVariatio
 export function generateTints(color: string, steps: number = 11): ColorVariation[] {
   const c = colord(color);
   const tints: ColorVariation[] = [];
-  
-  for (let i = 0; i <= 10; i++) {
-    const percentage = i * 10;
+
+  for (let i = 0; i < steps; i++) {
+    const percentage = Math.round((i / (steps - 1)) * 100);
     const tint = c.lighten(percentage / 100);
     tints.push({
       percentage,
@@ -459,8 +459,7 @@ export function getCreativeAspects(color: string): CreativeAspects {
   const hsl = c.toHsl();
   const hue = hsl.h;
   const sat = hsl.s;
-  const light = hsl.l;
-  
+
   // Determine base color category
   let category: 'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'purple' | 'pink' | 'neutral';
   

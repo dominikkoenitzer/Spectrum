@@ -54,43 +54,48 @@ export default function ColorBlindnessPage() {
   const [imageSource, setImageSource] = useState<File | null>(null);
   const [selectedType, setSelectedType] = useState<ColorBlindnessType>('deuteranopia');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [customColor, setCustomColor] = useState('#7c3aed');
-  
+
   const originalCanvasRef = useRef<HTMLCanvasElement>(null);
   const simulatedCanvasRef = useRef<HTMLCanvasElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const applySimulation = useCallback(() => {
+    if (!originalCanvasRef.current || !simulatedCanvasRef.current) return;
+    applyColorBlindnessToCanvas(originalCanvasRef.current, simulatedCanvasRef.current, selectedType);
+  }, [selectedType]);
 
   // Load image and apply simulation
   useEffect(() => {
     if (!imageSource || !originalCanvasRef.current) return;
 
-    setIsLoaded(false);
     loadImageToCanvas(imageSource, originalCanvasRef.current)
       .then(() => {
         setIsLoaded(true);
         applySimulation();
       })
-      .catch((error) => {
-        console.error('Failed to load image:', error);
+      .catch(() => {
+        setImageSource(null);
+        setLoadError('Couldn\'t load that image — try a different file.');
       });
-  }, [imageSource]);
+  }, [imageSource, applySimulation]);
 
   // Apply simulation when type changes
   useEffect(() => {
     if (isLoaded) {
       applySimulation();
     }
-  }, [selectedType, isLoaded]);
-
-  const applySimulation = () => {
-    if (!originalCanvasRef.current || !simulatedCanvasRef.current) return;
-    applyColorBlindnessToCanvas(originalCanvasRef.current, simulatedCanvasRef.current, selectedType);
-  };
+  }, [isLoaded, applySimulation]);
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && file.type.startsWith('image/')) {
+      setLoadError(null);
+      setIsLoaded(false);
       setImageSource(file);
+    } else if (file) {
+      setLoadError('That file isn\'t an image — try a PNG, JPG, or GIF.');
     }
   }, []);
 
@@ -98,7 +103,11 @@ export default function ColorBlindnessPage() {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
     if (file && file.type.startsWith('image/')) {
+      setLoadError(null);
+      setIsLoaded(false);
       setImageSource(file);
+    } else if (file) {
+      setLoadError('That file isn\'t an image — try a PNG, JPG, or GIF.');
     }
   }, []);
 
@@ -108,11 +117,11 @@ export default function ColorBlindnessPage() {
 
   // Sample colors for demonstration
   const sampleColors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFA500', '#800080'];
-  
+
   const selectedTypeInfo = colorBlindnessTypes.find(t => t.type === selectedType);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-4 sm:py-6 lg:py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
       {/* Hero section - Compact on mobile */}
       <div className="mb-8 sm:mb-12">
         <p className="label-caps text-ink-3 mb-4">Vision Simulator</p>
@@ -133,17 +142,26 @@ export default function ColorBlindnessPage() {
             <CardDescription className="text-xs sm:text-sm">Upload an image to see the simulation</CardDescription>
           </CardHeader>
           <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
+            {loadError && (
+              <div className="mb-3 sm:mb-4 rounded-lg border border-negative/25 bg-negative/10 px-3 py-2.5 text-negative text-sm">
+                {loadError}
+              </div>
+            )}
             {!imageSource ? (
               <div
-                className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-line-strong bg-surface p-4 sm:p-8 transition-all hover:border-line-strong hover:bg-surface-2 dark:border-line dark:bg-surface-2 dark:hover:border-line-strong active:scale-[0.99]"
+                role="button"
+                tabIndex={0}
+                aria-label="Upload an image to simulate color vision deficiency"
+                className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-line-strong bg-surface p-4 sm:p-8 transition-all hover:border-line-strong hover:bg-surface-2 active:scale-[0.99]"
                 onClick={() => inputRef.current?.click()}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); inputRef.current?.click(); } }}
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
               >
-                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-surface-2 dark:bg-gray-700 flex items-center justify-center mb-2 sm:mb-4">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-surface-2 flex items-center justify-center mb-2 sm:mb-4">
                   <Upload className="h-6 w-6 sm:h-8 sm:w-8 text-ink-2" />
                 </div>
-                <p className="text-xs sm:text-sm font-medium text-ink-2 dark:text-ink-2 text-center">
+                <p className="text-xs sm:text-sm font-medium text-ink-2 text-center">
                   Drop an image or tap to upload
                 </p>
                 <p className="text-[10px] sm:text-xs text-ink-3 mt-1">PNG, JPG, GIF up to 10MB</p>
@@ -159,7 +177,7 @@ export default function ColorBlindnessPage() {
               <div className="space-y-3 sm:space-y-4">
                 <canvas
                   ref={originalCanvasRef}
-                  className="max-h-[250px] sm:max-h-[400px] max-w-full rounded-lg border border-line dark:border-line"
+                  className="max-h-[250px] sm:max-h-[400px] max-w-full rounded-lg border border-line"
                   style={{ display: isLoaded ? 'block' : 'none' }}
                 />
                 {!isLoaded && (
@@ -171,6 +189,7 @@ export default function ColorBlindnessPage() {
                   onClick={() => {
                     setImageSource(null);
                     setIsLoaded(false);
+                    setLoadError(null);
                   }}
                   className="text-xs sm:text-sm font-medium text-ink hover:text-ink flex items-center gap-1"
                 >
@@ -192,13 +211,13 @@ export default function ColorBlindnessPage() {
           </CardHeader>
           <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
             {!imageSource ? (
-              <div className="flex h-32 sm:h-40 items-center justify-center rounded-xl border-2 border-dashed border-line dark:border-line">
+              <div className="flex h-32 sm:h-40 items-center justify-center rounded-xl border-2 border-dashed border-line">
                 <p className="text-xs sm:text-sm text-ink-3 text-center px-4">Upload an image to see simulation</p>
               </div>
             ) : (
               <canvas
                 ref={simulatedCanvasRef}
-                className="max-h-[250px] sm:max-h-[400px] max-w-full rounded-lg border border-line dark:border-line"
+                className="max-h-[250px] sm:max-h-[400px] max-w-full rounded-lg border border-line"
                 style={{ display: isLoaded ? 'block' : 'none' }}
               />
             )}
@@ -222,17 +241,17 @@ export default function ColorBlindnessPage() {
                   'rounded-xl border p-2.5 sm:p-4 text-left transition-all active:scale-[0.98]',
                   selectedType === type.type
                     ? 'border-ink bg-surface-2 shadow-sm '
-                    : 'border-line hover:border-line-strong dark:border-line dark:hover:border-line'
+                    : 'border-line hover:border-line-strong'
                 )}
               >
                 <div className="flex items-start justify-between mb-1 sm:mb-2">
-                  <h4 className="font-semibold text-xs sm:text-base text-gray-900 dark:text-ink">{type.name}</h4>
+                  <h4 className="font-semibold text-xs sm:text-base text-ink">{type.name}</h4>
                   {selectedType === type.type && (
                     <Check className="h-3 w-3 sm:h-4 sm:w-4 text-ink" />
                   )}
                 </div>
-                <p className="text-[10px] sm:text-xs text-ink-3 dark:text-ink-2 mb-1 sm:mb-2 line-clamp-2">{type.description}</p>
-                <span className="inline-flex items-center gap-0.5 sm:gap-1 text-[10px] sm:text-xs font-medium text-ink dark:text-ink bg-surface-2 px-1.5 sm:px-2 py-0.5 rounded-full">
+                <p className="text-[10px] sm:text-xs text-ink-3 mb-1 sm:mb-2 line-clamp-2">{type.description}</p>
+                <span className="inline-flex items-center gap-0.5 sm:gap-1 text-[10px] sm:text-xs font-medium text-ink bg-surface-2 px-1.5 sm:px-2 py-0.5 rounded-full">
                   <Users className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                   {type.prevalence}
                 </span>
@@ -251,7 +270,7 @@ export default function ColorBlindnessPage() {
         <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0 space-y-4 sm:space-y-6">
           <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
             <div>
-              <p className="mb-2 sm:mb-3 text-xs sm:text-sm font-medium text-ink-2 dark:text-ink-2">Original Colors</p>
+              <p className="mb-2 sm:mb-3 text-xs sm:text-sm font-medium text-ink-2">Original Colors</p>
               <div className="grid grid-cols-4 gap-1.5 sm:gap-3">
                 {sampleColors.map((color) => (
                   <div
@@ -268,7 +287,7 @@ export default function ColorBlindnessPage() {
               </div>
             </div>
             <div>
-              <p className="mb-2 sm:mb-3 text-xs sm:text-sm font-medium text-ink-2 dark:text-ink-2">Simulated ({selectedTypeInfo?.name})</p>
+              <p className="mb-2 sm:mb-3 text-xs sm:text-sm font-medium text-ink-2">Simulated ({selectedTypeInfo?.name})</p>
               <div className="grid grid-cols-4 gap-1.5 sm:gap-3">
                 {sampleColors.map((color) => (
                   <div
@@ -287,33 +306,35 @@ export default function ColorBlindnessPage() {
               </div>
             </div>
           </div>
-          
+
           {/* Custom color tester */}
-          <div className="pt-4 sm:pt-6 border-t border-gray-100 dark:border-line">
-            <p className="mb-2 sm:mb-3 text-xs sm:text-sm font-medium text-ink-2 dark:text-ink-2">Test Your Own Color</p>
+          <div className="pt-4 sm:pt-6 border-t border-line">
+            <p className="mb-2 sm:mb-3 text-xs sm:text-sm font-medium text-ink-2">Test Your Own Color</p>
             <div className="flex flex-wrap items-center gap-2 sm:gap-4">
               <div className="flex items-center gap-2 sm:gap-3">
                 <input
                   type="color"
                   value={customColor}
                   onChange={(e) => setCustomColor(e.target.value)}
-                  className="h-10 w-10 sm:h-12 sm:w-12 cursor-pointer rounded-lg border border-line-strong dark:border-line p-1"
+                  aria-label="Custom color"
+                  className="h-10 w-10 sm:h-12 sm:w-12 cursor-pointer rounded-lg border border-line-strong p-1"
                 />
                 <input
                   type="text"
                   value={customColor}
                   onChange={(e) => setCustomColor(e.target.value)}
-                  className="h-8 sm:h-10 w-24 sm:w-28 rounded-lg border border-line-strong bg-white px-2 sm:px-3 font-mono text-xs sm:text-sm dark:border-line dark:bg-surface dark:text-ink"
+                  aria-label="Custom color hex value"
+                  className="h-8 sm:h-10 w-24 sm:w-28 rounded-lg border border-line-strong bg-surface px-2 sm:px-3 font-mono text-xs sm:text-sm text-ink"
                 />
               </div>
               <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 text-ink-2" />
               <div className="flex items-center gap-2 sm:gap-3">
-                <div 
+                <div
                   className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg ring-1 ring-black/10"
                   style={{ backgroundColor: simulateColorBlindnessHex(customColor, selectedType) }}
                 />
                 <div>
-                  <p className="font-mono text-xs sm:text-sm text-gray-900 dark:text-ink">
+                  <p className="font-mono text-xs sm:text-sm text-ink">
                     {simulateColorBlindnessHex(customColor, selectedType).toUpperCase()}
                   </p>
                   <p className="text-[10px] sm:text-xs text-ink-3">As seen with {selectedTypeInfo?.name}</p>
@@ -328,7 +349,7 @@ export default function ColorBlindnessPage() {
       <Card className="mb-4 sm:mb-8">
         <CardHeader className="p-3 sm:p-6">
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <Palette className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
+            <Palette className="h-4 w-4 sm:h-5 sm:w-5 text-ink-3" />
             <CardTitle className="text-base sm:text-xl">Colorblind-Safe Palettes</CardTitle>
           </div>
           <CardDescription className="text-xs sm:text-sm">These color combinations work well for most types of color vision</CardDescription>
@@ -336,12 +357,12 @@ export default function ColorBlindnessPage() {
         <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
             {safeColorPairs.map((pair) => (
-              <div key={pair.name} className="p-2.5 sm:p-4 rounded-xl border border-line dark:border-line hover:border-line-strong dark:hover:border-line-strong transition-colors">
-                <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-ink mb-2 sm:mb-3">{pair.name}</p>
+              <div key={pair.name} className="p-2.5 sm:p-4 rounded-xl border border-line hover:border-line-strong transition-colors">
+                <p className="text-xs sm:text-sm font-medium text-ink mb-2 sm:mb-3">{pair.name}</p>
                 <div className="flex gap-1.5 sm:gap-2 mb-2 sm:mb-3">
                   {pair.colors.map((color, i) => (
                     <div key={i} className="flex-1">
-                      <div 
+                      <div
                         className="h-8 sm:h-10 rounded-lg ring-1 ring-black/10"
                         style={{ backgroundColor: color }}
                       />
@@ -353,7 +374,7 @@ export default function ColorBlindnessPage() {
                   <span className="truncate">Simulated:</span>
                   <div className="flex gap-0.5 sm:gap-1">
                     {pair.colors.map((color, i) => (
-                      <div 
+                      <div
                         key={i}
                         className="h-4 w-4 sm:h-5 sm:w-5 rounded ring-1 ring-black/10"
                         style={{ backgroundColor: simulateColorBlindnessHex(color, selectedType) }}
@@ -371,7 +392,7 @@ export default function ColorBlindnessPage() {
       <Card className="mb-4 sm:mb-8">
         <CardHeader className="p-3 sm:p-6">
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <Lightbulb className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500" />
+            <Lightbulb className="h-4 w-4 sm:h-5 sm:w-5 text-ink-3" />
             <CardTitle className="text-base sm:text-xl">Design Tips for Accessibility</CardTitle>
           </div>
           <CardDescription className="text-xs sm:text-sm">Best practices for creating colorblind-friendly designs</CardDescription>
@@ -379,13 +400,13 @@ export default function ColorBlindnessPage() {
         <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
             {designTips.map((tip, i) => (
-              <div key={i} className="flex gap-2.5 sm:gap-4 p-2.5 sm:p-4 rounded-xl bg-surface dark:bg-surface-2">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white dark:bg-gray-700 flex items-center justify-center flex-shrink-0 shadow-sm">
+              <div key={i} className="flex gap-2.5 sm:gap-4 p-2.5 sm:p-4 rounded-xl bg-surface">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-surface-2 flex items-center justify-center flex-shrink-0 shadow-sm">
                   <tip.icon className="h-4 w-4 sm:h-5 sm:w-5 text-ink" />
                 </div>
                 <div className="min-w-0">
-                  <h4 className="font-medium text-xs sm:text-base text-gray-900 dark:text-ink">{tip.title}</h4>
-                  <p className="text-[10px] sm:text-sm text-ink-3 dark:text-ink-2 mt-0.5 sm:mt-1">{tip.description}</p>
+                  <h4 className="font-medium text-xs sm:text-base text-ink">{tip.title}</h4>
+                  <p className="text-[10px] sm:text-sm text-ink-3 mt-0.5 sm:mt-1">{tip.description}</p>
                 </div>
               </div>
             ))}
@@ -397,28 +418,28 @@ export default function ColorBlindnessPage() {
       <Card>
         <CardContent className="p-3 sm:p-6">
           <div className="flex items-start gap-2.5 sm:gap-4">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0">
-              <Info className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 dark:text-blue-400" />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-surface-2 flex items-center justify-center flex-shrink-0">
+              <Info className="h-4 w-4 sm:h-5 sm:w-5 text-ink-2" />
             </div>
             <div className="min-w-0">
-              <h4 className="font-semibold text-sm sm:text-base text-gray-900 dark:text-ink mb-1 sm:mb-2">About Color Vision Deficiency</h4>
-              <p className="text-xs sm:text-sm text-ink-3 dark:text-ink-2 mb-3 sm:mb-4">
+              <h4 className="font-semibold text-sm sm:text-base text-ink mb-1 sm:mb-2">About Color Vision Deficiency</h4>
+              <p className="text-xs sm:text-sm text-ink-3 mb-3 sm:mb-4">
                 Color vision deficiency affects approximately 8% of men and 0.5% of women worldwide — over 300 million people globally.
               </p>
               <div className="grid sm:grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm">
-                <div className="p-2 sm:p-3 rounded-lg bg-surface dark:bg-surface-2">
-                  <h5 className="font-medium text-gray-900 dark:text-ink mb-0.5 sm:mb-1">Red-Green (Most Common)</h5>
-                  <p className="text-ink-3 dark:text-ink-2 text-[10px] sm:text-sm">Protanopia, Deuteranopia affect red and green perception.</p>
+                <div className="p-2 sm:p-3 rounded-lg bg-surface">
+                  <h5 className="font-medium text-ink mb-0.5 sm:mb-1">Red-Green (Most Common)</h5>
+                  <p className="text-ink-3 text-[10px] sm:text-sm">Protanopia, Deuteranopia affect red and green perception.</p>
                 </div>
-                <div className="p-2 sm:p-3 rounded-lg bg-surface dark:bg-surface-2">
-                  <h5 className="font-medium text-gray-900 dark:text-ink mb-0.5 sm:mb-1">Blue-Yellow (Rare)</h5>
-                  <p className="text-ink-3 dark:text-ink-2 text-[10px] sm:text-sm">Tritanopia affects blue and yellow perception.</p>
+                <div className="p-2 sm:p-3 rounded-lg bg-surface">
+                  <h5 className="font-medium text-ink mb-0.5 sm:mb-1">Blue-Yellow (Rare)</h5>
+                  <p className="text-ink-3 text-[10px] sm:text-sm">Tritanopia affects blue and yellow perception.</p>
                 </div>
               </div>
-              <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100 dark:border-line">
-                <Link 
+              <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-line">
+                <Link
                   href="/contrast-checker"
-                  className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-ink dark:text-ink hover:text-ink dark:hover:text-ink active:scale-[0.98] transition-all"
+                  className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-ink active:scale-[0.98] transition-all"
                 >
                   Check contrast ratios for accessibility
                   <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
@@ -433,10 +454,10 @@ export default function ColorBlindnessPage() {
       <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 mt-6 sm:mt-10">
         <div className="flex sm:grid sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 min-w-max sm:min-w-0">
           {statistics.map((stat) => (
-            <div key={stat.label} className="text-center p-3 sm:p-4 rounded-xl bg-white dark:bg-surface-2 border border-gray-100 dark:border-line shadow-sm min-w-[120px] sm:min-w-0">
-              <p className="text-xl sm:text-3xl font-bold text-ink dark:text-ink">{stat.value}</p>
-              <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-ink">{stat.label}</p>
-              <p className="text-[10px] sm:text-xs text-ink-3 dark:text-ink-2">{stat.description}</p>
+            <div key={stat.label} className="text-center p-3 sm:p-4 rounded-xl bg-surface border border-line shadow-sm min-w-[120px] sm:min-w-0">
+              <p className="text-xl sm:text-3xl font-bold text-ink">{stat.value}</p>
+              <p className="text-xs sm:text-sm font-medium text-ink">{stat.label}</p>
+              <p className="text-[10px] sm:text-xs text-ink-3">{stat.description}</p>
             </div>
           ))}
         </div>

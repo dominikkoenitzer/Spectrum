@@ -452,7 +452,7 @@ export function ColorTheoryExperience() {
             onClick={() => goTo(i)}
             title={n.label}
             aria-label={`Go to ${n.label}`}
-            aria-current={active === i}
+            aria-current={active === i ? 'true' : undefined}
             className="group relative grid h-4 w-4 place-items-center"
           >
             <span
