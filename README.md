@@ -111,7 +111,7 @@ Spectrum is a static site deployed on **[Vercel](https://vercel.com/)** (live at
 
 GitHub Actions:
 
-- **[`ci.yml`](.github/workflows/ci.yml)** — on every push and pull request to `master`: install, **type-check**, and **build**.
+- **[`ci.yml`](.github/workflows/ci.yml)** — on every push and pull request to `main`: install, **type-check**, and **build**.
 - **[`deploy.yml`](.github/workflows/deploy.yml)** — optional production deploy via the Vercel CLI, gated on the `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID` secrets; a no-op otherwise (Vercel's Git integration handles deploys by default).
 
 [Dependabot](.github/dependabot.yml) keeps Bun and GitHub Actions dependencies current weekly.
