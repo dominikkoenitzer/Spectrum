@@ -8,6 +8,7 @@ A client-side color toolkit — sample colors from images, build gradients and p
 
 [![CI](https://github.com/dominikkoenitzer/Spectrum/actions/workflows/ci.yml/badge.svg)](https://github.com/dominikkoenitzer/Spectrum/actions/workflows/ci.yml)
 [![Live](https://img.shields.io/badge/live-spectrum.punds.ch-111111?logo=vercel&logoColor=white)](https://spectrum.punds.ch)
+[![tests](https://img.shields.io/badge/tests-23%20passing-111111)](src/lib/color.test.ts)
 ![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
@@ -89,8 +90,9 @@ No configuration or API keys — Spectrum runs entirely in the browser.
 | `bun run start` | Serve the production build |
 | `bun run type-check` | `tsc --noEmit` |
 | `bun run lint` | ESLint (`eslint-config-next`) |
+| `bun run test` | Vitest suite for the colour maths |
 
-> Verify changes with `bun run build` — it type-checks and statically prerenders every route.
+> [`src/lib/color.test.ts`](src/lib/color.test.ts) pins the numbers the tool exists to get right: WCAG contrast against the canonical reference pairs (#767676 → 4.5, #595959 → 7.0), ratio symmetry, the AA/AAA thresholds, hue-band totality, and colour-blindness simulation invariants. CI runs typecheck, lint, tests and build on every push and PR.
 
 ## Design system
 

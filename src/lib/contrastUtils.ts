@@ -131,6 +131,16 @@ export function suggestAccessibleColors(
   };
 }
 
+/**
+ * Black or white, whichever actually contrasts more with the background.
+ *
+ * This used to branch on `colord().isDark()`, which is a perceived-brightness
+ * threshold, not a contrast measurement — so mid-tone saturated colours picked
+ * the wrong one. `#1D9E75` returned white at 3.38:1 (failing AA) when black
+ * would have given 6.2:1. Comparing the two ratios directly is always at least
+ * as good and never worse.
+ */
 export function getReadableTextColor(background: string): string {
-  return colord(background).isDark() ? '#ffffff' : '#000000';
+  const bg = colord(background);
+  return bg.contrast('#000000') >= bg.contrast('#ffffff') ? '#000000' : '#ffffff';
 }
