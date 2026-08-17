@@ -16,6 +16,9 @@ A client-side color toolkit — sample colors from images, build gradients and p
 
 **[→ Try it at spectrum.punds.ch](https://spectrum.punds.ch)**
 
+
+<img src="docs/screenshot.png" alt="Spectrum — pull colors out of any image" width="880" />
+
 </div>
 
 ---
