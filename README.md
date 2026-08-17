@@ -87,7 +87,7 @@ No configuration or API keys — Spectrum runs entirely in the browser.
 | `bun run type-check` | `tsc --noEmit` |
 | `bun run lint` | ESLint (`eslint-config-next`) |
 
-> There's no test framework. Verify changes with `bun run build` (it type-checks and statically prerenders every route). Note: `bun run lint` currently surfaces a few pre-existing lint findings that don't fail the build.
+> Verify changes with `bun run build` — it type-checks and statically prerenders every route.
 
 ## Design system
 
