@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -27,6 +29,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.11",
     "tailwindcss": "^4.3.3",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
   }
 }
