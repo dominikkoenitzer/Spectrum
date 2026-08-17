@@ -344,26 +344,47 @@ export interface ColorAnalysis {
   temperatureValue: number;
 }
 
-function getWavelengthFromHue(hue: number): { wavelength: number; name: string } {
-  // Approximate wavelength based on hue (visible spectrum 380-700nm)
-  const wavelengthMap: { range: [number, number]; wavelength: number; name: string }[] = [
-    { range: [0, 15], wavelength: 700, name: 'Red' },
-    { range: [15, 45], wavelength: 620, name: 'Orange' },
-    { range: [45, 75], wavelength: 580, name: 'Yellow' },
-    { range: [75, 150], wavelength: 550, name: 'Green' },
-    { range: [150, 210], wavelength: 495, name: 'Cyan' },
-    { range: [210, 270], wavelength: 450, name: 'Blue' },
-    { range: [270, 330], wavelength: 400, name: 'Violet' },
-    { range: [330, 360], wavelength: 700, name: 'Red' },
-  ];
-  
-  for (const entry of wavelengthMap) {
-    if (hue >= entry.range[0] && hue < entry.range[1]) {
-      return { wavelength: entry.wavelength, name: entry.name };
-    }
+export type HueName =
+  | 'Red' | 'Orange' | 'Yellow' | 'Green' | 'Cyan'
+  | 'Blue' | 'Indigo' | 'Violet' | 'Pink';
+
+/**
+ * The single source of truth for "what colour is this hue angle".
+ *
+ * Every surface that names a hue — the generator's hue label, the spectral
+ * readout, the creative/emotional profile — reads these bands, so the same
+ * angle can never be called two different things in two different tools.
+ * `max` is the exclusive upper bound in degrees; anything at or above the last
+ * band wraps back to Red. Wavelengths are an approximation of the visible
+ * spectrum (380-700nm) for display purposes only.
+ */
+const HUE_BANDS: { max: number; name: HueName; wavelength: number }[] = [
+  { max: 15, name: 'Red', wavelength: 700 },
+  { max: 45, name: 'Orange', wavelength: 620 },
+  { max: 75, name: 'Yellow', wavelength: 580 },
+  { max: 150, name: 'Green', wavelength: 550 },
+  { max: 195, name: 'Cyan', wavelength: 495 },
+  { max: 255, name: 'Blue', wavelength: 460 },
+  { max: 285, name: 'Indigo', wavelength: 430 },
+  { max: 315, name: 'Violet', wavelength: 410 },
+  { max: 345, name: 'Pink', wavelength: 400 },
+];
+
+function getHueBand(hue: number): { name: HueName; wavelength: number } {
+  const h = ((hue % 360) + 360) % 360;
+  for (const band of HUE_BANDS) {
+    if (h < band.max) return { name: band.name, wavelength: band.wavelength };
   }
-  
-  return { wavelength: 550, name: 'Green' };
+  return { name: 'Red', wavelength: 700 };
+}
+
+/** Canonical display name for a hue angle. */
+export function getHueName(hue: number): HueName {
+  return getHueBand(hue).name;
+}
+
+function getWavelengthFromHue(hue: number): { wavelength: number; name: string } {
+  return getHueBand(hue);
 }
 
 export function analyzeColor(color: string): ColorAnalysis {
@@ -465,22 +486,22 @@ export function getCreativeAspects(color: string): CreativeAspects {
   
   if (sat < 10) {
     category = 'neutral';
-  } else if (hue < 15 || hue >= 345) {
-    category = 'red';
-  } else if (hue < 45) {
-    category = 'orange';
-  } else if (hue < 75) {
-    category = 'yellow';
-  } else if (hue < 150) {
-    category = 'green';
-  } else if (hue < 195) {
-    category = 'cyan';
-  } else if (hue < 270) {
-    category = 'blue';
-  } else if (hue < 315) {
-    category = 'purple';
   } else {
-    category = 'pink';
+    // Derived from the canonical HUE_BANDS so this agrees with every other
+    // surface that names a hue. Indigo and Violet collapse onto the nearest
+    // category that has a creative profile defined below.
+    const byHueName: Record<HueName, typeof category> = {
+      Red: 'red',
+      Orange: 'orange',
+      Yellow: 'yellow',
+      Green: 'green',
+      Cyan: 'cyan',
+      Blue: 'blue',
+      Indigo: 'blue',
+      Violet: 'purple',
+      Pink: 'pink',
+    };
+    category = byHueName[getHueName(hue)];
   }
   
   const aspects: Record<string, CreativeAspects> = {

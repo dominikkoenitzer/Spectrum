@@ -100,28 +100,7 @@ export function desaturate(color: string, amount: number): string {
   return colord(color).desaturate(amount).toHex();
 }
 
-export function getComplementary(color: string): string {
-  return colord(color).rotate(180).toHex();
-}
-
-export function getTriadic(color: string): [string, string, string] {
-  const c = colord(color);
-  return [c.toHex(), c.rotate(120).toHex(), c.rotate(240).toHex()];
-}
-
-export function getAnalogous(color: string): [string, string, string] {
-  const c = colord(color);
-  return [c.rotate(-30).toHex(), c.toHex(), c.rotate(30).toHex()];
-}
-
-export function getSplitComplementary(color: string): [string, string, string] {
-  const c = colord(color);
-  return [c.toHex(), c.rotate(150).toHex(), c.rotate(210).toHex()];
-}
-
-export function getTetradic(color: string): [string, string, string, string] {
-  const c = colord(color);
-  return [c.toHex(), c.rotate(90).toHex(), c.rotate(180).toHex(), c.rotate(270).toHex()];
-}
+// Colour harmonies live in advancedColorUtils.ts, which is the single source of
+// truth for them — it returns richer ColorHarmony objects and is what the UI uses.
 
 export { colord };

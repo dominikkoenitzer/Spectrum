@@ -19,6 +19,7 @@ import {
   getTechnicalFormats,
   analyzeColor,
   getCreativeAspects,
+  getHueName,
   ExtendedColorFormats,
   ColorVariation,
   ColorHarmony,
@@ -27,18 +28,6 @@ import {
   CreativeAspects,
 } from '@/lib/advancedColorUtils';
 import { cn } from '@/lib/utils';
-
-function getHueLabel(h: number): string {
-  if (h < 15 || h >= 345) return 'Red';
-  if (h < 45) return 'Orange';
-  if (h < 75) return 'Yellow';
-  if (h < 150) return 'Green';
-  if (h < 195) return 'Cyan';
-  if (h < 255) return 'Blue';
-  if (h < 285) return 'Indigo';
-  if (h < 315) return 'Violet';
-  return 'Pink';
-}
 
 function getTemperatureLabel(h: number): { label: string; detail: string } {
   if (h >= 0 && h <= 60) return { label: 'Warm', detail: 'Advances visually — energetic, inviting, urgent' };
@@ -135,7 +124,7 @@ export default function ColorGeneratorPage() {
   };
 
   const hueAngle = formats?.hsl.h ?? 0;
-  const hueLabel = getHueLabel(hueAngle);
+  const hueLabel = getHueName(hueAngle);
   const tempInfo = getTemperatureLabel(hueAngle);
 
   return (
