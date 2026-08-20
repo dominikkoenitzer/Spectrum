@@ -14,16 +14,18 @@
 
   /* Ink — neutral near-black scale (this is the one accent) */
   --ink: #1b1b1d;          /* primary text + primary actions */
-  --ink-2: #56544f;        /* secondary text */
-  --ink-3: #8b8881;        /* muted captions, placeholders */
+  --ink-2: #4a4844;        /* secondary text */
+  --ink-3: #605e59;        /* muted captions, placeholders — 4.5:1 on every surface above */
 
   /* Hairlines — translucent ink so they blend on any surface */
   --line: rgba(27, 27, 29, 0.10);   /* default 1px border */
   --line-strong: rgba(27, 27, 29, 0.16); /* emphasized border */
 
   /* Functional (used sparingly, never decoratively) */
-  --positive: #2ba84a;
-  --negative: #b91c1c;
+  /* Both are read as text on their own 5-15% tint, so they are dark enough to
+     clear 4.5:1 there rather than being picked as fills. */
+  --positive: #146127;
+  --negative: #a01818;
 
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);

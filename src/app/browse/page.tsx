@@ -76,7 +76,9 @@ function ColorCard({ color, copied, onCopy }: { color: NamedColor; copied: boole
   const light = isLight(color.hex);
   const veryLight = isVeryLight(color.hex);
   const fg = light ? '#1c1c1e' : '#ffffff';
-  const sub = light ? 'rgba(28,28,30,0.62)' : 'rgba(255,255,255,0.78)';
+  // Both scrims below lift the label off the swatch; at these alphas the muted
+  // line clears 4.5:1 on every colour in the set, which it did not at 0.62.
+  const sub = light ? 'rgba(28,28,30,0.78)' : 'rgba(255,255,255,0.78)';
 
   return (
     <button
@@ -92,13 +94,15 @@ function ColorCard({ color, copied, onCopy }: { color: NamedColor; copied: boole
         light && !veryLight && 'ring-1 ring-inset ring-line',
       )}
     >
-      {!light && (
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[48%]"
-          style={{ background: 'linear-gradient(transparent, rgba(0,0,0,0.05) 35%, rgba(0,0,0,0.5))' }}
-        />
-      )}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[48%]"
+        style={{
+          background: light
+            ? 'linear-gradient(transparent, rgba(255,255,255,0.05) 35%, rgba(255,255,255,0.5))'
+            : 'linear-gradient(transparent, rgba(0,0,0,0.05) 35%, rgba(0,0,0,0.5))',
+        }}
+      />
 
       <span
         className="absolute left-[15px] right-[15px] top-[13px] flex flex-col gap-0.5 font-mono text-[11px] font-medium opacity-0 -translate-y-1 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100"
