@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
+  // X-XSS-Protection is deliberately absent: every current browser has removed
+  // the auditor it switched on, and the filter it used to enable was itself a
+  // source of leaks. Framing and sniffing are covered below.
   async headers() {
     return [
       {
@@ -34,16 +37,16 @@ const nextConfig: NextConfig = {
             value: 'nosniff'
           },
           {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block'
-          },
-          {
             key: 'Referrer-Policy',
             value: 'strict-origin-when-cross-origin'
           },
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()'
+          },
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin'
           }
         ],
       },
