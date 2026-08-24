@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-Please report security issues **privately** — do not open a public GitHub issue for anything security-sensitive.
+Please report security issues **privately**. Don't open a public GitHub issue for anything security-sensitive.
 
 - Preferred: open a [private security advisory](https://github.com/dominikkoenitzer/Spectrum/security/advisories/new) on this repository.
 - Alternatively: email **dominikkoenitzer@users.noreply.github.com** with the details.
@@ -28,6 +28,6 @@ Reports most relevant to this project:
 - **An image that leaves the device**, or any path where a pasted URL causes a request that carries more than the image itself.
 - **Content injection** through a pasted colour value, an image filename, or a URL parameter.
 - **Anything that reads the visitor's `localStorage`** from another origin or an embedded context.
-- **Dependency vulnerabilities** with a plausible path to the browser — the image and colour maths runs entirely on the client, so a compromised parser is reachable.
+- **Dependency vulnerabilities** with a plausible path to the browser. The image and colour maths runs entirely on the client, so a compromised parser is reachable.
 
 Contrast or colour-accuracy mistakes are welcome as ordinary bug reports rather than security ones, with one exception: the contrast checker is an accessibility tool, and a ratio it reports **too high** is a correctness bug worth reporting properly.

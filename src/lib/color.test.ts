@@ -20,7 +20,7 @@ import {
 } from './gradientUtils';
 
 /*
- * These numbers are not invented — they are the reference pairs the WCAG
+ * These numbers are not invented. They are the reference pairs the WCAG
  * contrast formula is normally sanity-checked against. #767676 and #595959 on
  * white are the canonical AA (4.5) and AAA (7.0) boundary colours, so they pin
  * both the maths and the threshold logic at once.

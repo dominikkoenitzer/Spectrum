@@ -8,7 +8,7 @@ import cmykPlugin from 'colord/plugins/cmyk';
 
 extend([namesPlugin, hwbPlugin, labPlugin, lchPlugin, xyzPlugin, cmykPlugin]);
 
-// ============ Extended Color Formats ============
+// --- extended color formats ---
 
 export interface ExtendedColorFormats {
   hex: string;
@@ -64,7 +64,7 @@ export function getExtendedFormats(color: string): ExtendedColorFormats {
   };
 }
 
-// ============ Shades and Tints ============
+// --- shades and tints ---
 
 export interface ColorVariation {
   percentage: number;
@@ -103,7 +103,7 @@ export function generateTints(color: string, steps: number = 11): ColorVariation
   return tints;
 }
 
-// ============ Color Harmonies ============
+// --- color harmonies ---
 
 export interface ColorHarmony {
   name: string;
@@ -204,7 +204,7 @@ export function getAllHarmonies(color: string): ColorHarmony[] {
   ];
 }
 
-// ============ Technical Formats ============
+// --- technical formats ---
 
 export interface TechnicalFormats {
   // HSI - Hue, Saturation, Intensity
@@ -315,7 +315,7 @@ export function getTechnicalFormats(color: string): TechnicalFormats {
   };
 }
 
-// ============ Color Analysis ============
+// --- color analysis ---
 
 export interface ColorAnalysis {
   // Brightness/Luminance
@@ -351,8 +351,8 @@ export type HueName =
 /**
  * The single source of truth for "what colour is this hue angle".
  *
- * Every surface that names a hue — the generator's hue label, the spectral
- * readout, the creative/emotional profile — reads these bands, so the same
+ * Every surface that names a hue reads these bands: the generator's hue label,
+ * the spectral readout, the creative and emotional profile. That way the same
  * angle can never be called two different things in two different tools.
  * `max` is the exclusive upper bound in degrees; anything at or above the last
  * band wraps back to Red. Wavelengths are an approximation of the visible
@@ -450,7 +450,7 @@ export function analyzeColor(color: string): ColorAnalysis {
   };
 }
 
-// ============ Creative Aspects ============
+// --- creative aspects ---
 
 export interface CreativeAspects {
   // Emotional associations

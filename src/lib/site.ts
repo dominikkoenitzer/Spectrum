@@ -1,6 +1,6 @@
 /**
  * Single source of truth for the production origin.
- * Used by metadata (canonical/OG), sitemap.ts, and robots.ts — keep it the
+ * Used by metadata (canonical/OG), sitemap.ts and robots.ts. Keep it the
  * domain the site is actually served from, or search engines will refuse to
  * index (a canonical pointing at a dead domain deindexes every page).
  */

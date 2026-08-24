@@ -101,6 +101,6 @@ export function desaturate(color: string, amount: number): string {
 }
 
 // Colour harmonies live in advancedColorUtils.ts, which is the single source of
-// truth for them — it returns richer ColorHarmony objects and is what the UI uses.
+// truth for them: it returns richer ColorHarmony objects and is what the UI uses.
 
 export { colord };
