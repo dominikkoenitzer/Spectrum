@@ -62,7 +62,7 @@ export default function ColorGeneratorPage() {
     new Set(['theory', 'harmonies', 'variations', 'creative'])
   );
 
-  // `color` is the single source of truth — everything else is derived.
+  // `color` is the single source of truth; everything else is derived.
   const formats: ExtendedColorFormats = useMemo(() => getExtendedFormats(color), [color]);
   const shades: ColorVariation[] = useMemo(() => generateShades(color), [color]);
   const tints: ColorVariation[] = useMemo(() => generateTints(color), [color]);

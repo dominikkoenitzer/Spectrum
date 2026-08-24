@@ -217,7 +217,7 @@ function tint(hex: string) {
 }
 
 const SECTION = 'snap-start flex min-h-[calc(100svh-4rem)] w-full';
-// Refined, gently-eased entrance — softer than a hard snap pop.
+// Gently eased entrance, softer than a hard snap pop.
 const REVEAL = 'transition-[opacity,transform] duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[opacity,transform] motion-reduce:transition-none';
 const navItems = [{ label: 'Intro', hex: null as string | null }, { label: 'Harmony', hex: null as string | null },
   ...colors.map((c) => ({ label: c.name, hex: c.hex }))];

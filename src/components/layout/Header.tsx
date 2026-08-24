@@ -56,7 +56,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [prevPathname, setPrevPathname] = useState(pathname);
 
-  // Close the menu on navigation — adjusted during render instead of in an
+  // Close the menu on navigation, adjusted during render instead of in an
   // effect so the closed state paints in the same pass as the new route.
   if (prevPathname !== pathname) {
     setPrevPathname(pathname);

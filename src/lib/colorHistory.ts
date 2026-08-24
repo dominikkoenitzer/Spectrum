@@ -24,7 +24,7 @@ function write(next: ColorFormats[]) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
   } catch {
-    // Storage full or blocked — history simply won't persist this session.
+    // Storage full or blocked, so history just won't persist this session.
   }
   listeners.forEach((listener) => listener());
 }

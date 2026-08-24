@@ -34,13 +34,13 @@ export async function openEyeDropper(): Promise<string | null> {
     const result = await new window.EyeDropper!().open();
     return result.sRGBHex;
   } catch {
-    // User pressed Esc — not an error.
+    // User pressed Esc, which is not an error.
     return null;
   }
 }
 
 /**
- * Native EyeDropper API button — lets the user sample any pixel on their
+ * Native EyeDropper API button, letting the user sample any pixel on their
  * screen (not just inside the page). Renders nothing where the API is
  * unsupported (Safari/Firefox), so callers can place it unconditionally.
  */
