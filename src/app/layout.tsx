@@ -23,10 +23,10 @@ const BASE_URL = SITE_URL;
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: "Spectrum — Free Color Tools for Designers & Developers",
+    default: "Spectrum: Free Color Tools for Designers and Developers",
     template: "%s | Spectrum"
   },
-  description: "Free color tools that run entirely in your browser — pick colors from images, check WCAG contrast, simulate color blindness, generate palettes, build CSS gradients, and learn color theory. No account. No uploads.",
+  description: "Free color tools that run entirely in your browser. Pick colors from images, check WCAG contrast, simulate color blindness, generate palettes, build CSS gradients, and learn color theory. No account. No uploads.",
   keywords: [
     "color picker", "pick colors from image", "image color extractor", "hex color picker",
     "rgb color picker", "hsl color", "color format converter",
@@ -38,8 +38,8 @@ export const metadata: Metadata = {
     "free design tools",
     "color blind friendly palette", "color tools for designers", "color tools for developers"
   ],
-  authors: [{ name: "Spectrum", url: BASE_URL }],
-  creator: "Spectrum",
+  authors: [{ name: "dominikkoenitzer", url: "https://github.com/dominikkoenitzer" }],
+  creator: "dominikkoenitzer",
   publisher: "Spectrum",
   category: "Design Tools",
   applicationName: "Spectrum",
@@ -49,13 +49,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: BASE_URL,
-    title: "Spectrum — Free Color Tools for Designers & Developers",
+    title: "Spectrum: Free Color Tools for Designers and Developers",
     description: "Pick colors from images, check WCAG contrast, simulate color blindness, generate palettes, and learn color theory. Free, private, runs in your browser.",
     siteName: "Spectrum",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Spectrum — Free Color Tools for Designers & Developers",
+    title: "Spectrum: Free Color Tools for Designers and Developers",
     description: "Pick colors from images, check WCAG contrast, simulate color blindness, generate palettes, and learn color theory. Free, no account needed.",
   },
   robots: {
@@ -86,7 +86,7 @@ const websiteJsonLd = {
   '@type': 'WebSite',
   name: 'Spectrum',
   url: BASE_URL,
-  description: 'Free color tools for designers and developers — color picker, contrast checker, palette generator, and more.',
+  description: 'Free color tools for designers and developers: color picker, contrast checker, palette generator, and more.',
 };
 
 const webAppJsonLd = {
@@ -101,120 +101,15 @@ const webAppJsonLd = {
     price: '0',
     priceCurrency: 'USD',
   },
-  description: 'A free, privacy-first suite of color tools: image color picker, WCAG contrast checker, color blindness simulator, palette generator with format conversion, CSS gradient builder, and color theory guide. Everything runs in your browser — no files are uploaded.',
+  description: 'A free, privacy-first suite of color tools: image color picker, WCAG contrast checker, color blindness simulator, palette generator with format conversion, CSS gradient builder, and color theory guide. Everything runs in your browser, and no files are uploaded.',
   featureList: [
-    'Image Color Picker — click any pixel to extract its color',
-    'WCAG Contrast Checker — AA and AAA compliance testing',
-    'Color Blindness Simulator — 7 vision types including protanopia and deuteranopia',
-    'Color Palette Generator — harmonies, shades, tints, format conversion (HEX, RGB, HSL, HSV, CMYK, and more), and psychology',
-    'CSS Gradient Maker — linear, radial, and conic gradients with live preview',
-    'Color Library — browse 16,700+ named colors',
-    'Color Theory Guide — psychology, culture, and meaning of every major color',
-  ],
-};
-
-const howToJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  name: 'How to pick a color from an image',
-  description: 'Extract the exact color from any photo — get HEX, RGB, HSL, and more in seconds.',
-  tool: { '@type': 'HowToTool', name: 'Spectrum Color Picker' },
-  step: [
-    {
-      '@type': 'HowToStep',
-      position: 1,
-      name: 'Open the color picker',
-      text: 'Go to spectrum.punds.ch. The color picker loads instantly — no account or install needed.',
-    },
-    {
-      '@type': 'HowToStep',
-      position: 2,
-      name: 'Load your image',
-      text: 'Drop your image onto the page, paste it from your clipboard (Ctrl+V / Cmd+V), or enter an image URL.',
-    },
-    {
-      '@type': 'HowToStep',
-      position: 3,
-      name: 'Click any color',
-      text: 'Click anywhere on your image to pick that exact color. The picker reads the pixel-level color value.',
-    },
-    {
-      '@type': 'HowToStep',
-      position: 4,
-      name: 'Copy the color code',
-      text: 'Copy the color in any format — HEX, RGB, HSL, CMYK, or 5 more. One click to copy each format.',
-    },
-  ],
-};
-
-const faqJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'Is Spectrum free to use?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes, Spectrum is completely free. There are no paid plans, no trial periods, and no features locked behind a paywall. All 7 tools are free for everyone, forever.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Do I need to create an account?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'No account is needed. Open the site and start using any tool immediately. Your color history is saved to your browser locally, not to a server.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Are my images uploaded to a server?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'No. Images are processed entirely in your browser using the HTML Canvas API. Your files never leave your device and are never sent to any server.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'How do I extract colors from an image?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Upload an image (drag & drop, URL, or paste), then click anywhere on it to pick the color at that pixel. The color appears instantly in HEX, RGB, HSL, and more formats.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What is WCAG contrast ratio and why does it matter?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'WCAG contrast ratio measures how different two colors look against each other. A ratio of at least 4.5:1 is required for normal text (AA level) to be readable by people with low vision. Spectrum\'s contrast checker tests your color pairs against all WCAG 2.1 levels.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What is color blindness and how common is it?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Color blindness (color vision deficiency) is a reduced ability to distinguish certain colors. About 8% of men and 0.5% of women are color blind in some way. The most common types are red-green (protanopia, deuteranopia) and blue-yellow (tritanopia). Spectrum simulates 7 types of color vision.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What are complementary colors?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Complementary colors sit directly opposite each other on the color wheel — red and green, blue and orange, yellow and purple. Placed side by side, they create the highest possible contrast and make each color appear more vivid.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What color formats does Spectrum support?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Spectrum supports HEX, RGB, RGBA, HSL, HSLA, HSV, HWB, CMYK, LAB, LCH, XYZ, YUV, YCbCr, HSI, and several technical formats like integer, binary, and Base64. You can copy any format with a single click.',
-      },
-    },
+    'Image color picker: click any pixel to extract its color',
+    'WCAG contrast checker: AA and AAA compliance testing',
+    'Color blindness simulator: 7 vision types including protanopia and deuteranopia',
+    'Color palette generator: harmonies, shades, tints, format conversion (HEX, RGB, HSL, HSV, CMYK, and more), and psychology',
+    'CSS gradient maker: linear, radial, and conic gradients with live preview',
+    'Color library: browse 16,700+ named colors',
+    'Color theory guide: psychology, culture, and meaning of every major color',
   ],
 };
 
@@ -243,14 +138,6 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
         <script
           type="application/ld+json"

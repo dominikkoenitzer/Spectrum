@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import { LegalDoc, LegalSection, LegalList } from '@/components/layout/LegalDoc';
+import { pageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Terms of Service',
   description:
-    'The terms for using Spectrum — a free, privacy-first suite of color tools provided as-is, with no account required.',
-  alternates: { canonical: '/terms' },
-};
+    'The terms for using Spectrum, a free suite of color tools provided as is, with no account required.',
+  path: '/terms',
+});
 
 export default function TermsPage() {
   return (

@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import { LegalDoc, LegalSection, LegalList } from '@/components/layout/LegalDoc';
+import { pageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Privacy Policy',
   description:
-    'Spectrum is privacy-first: no accounts, no tracking, no uploads. Images and colors are processed entirely in your browser and never sent to a server.',
-  alternates: { canonical: '/privacy' },
-};
+    'Spectrum has no accounts, no tracking, and no uploads. Images and colors are processed entirely in your browser and never sent to a server.',
+  path: '/privacy',
+});
 
 export default function PrivacyPage() {
   return (

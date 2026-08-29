@@ -1,6 +1,13 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { FileQuestion } from 'lucide-react';
+
+// Next already marks the not-found route noindex, so only the wording is set here.
+export const metadata: Metadata = {
+  title: 'Page not found',
+  description: 'This page does not exist or has been moved.',
+};
 
 export default function NotFound() {
   return (

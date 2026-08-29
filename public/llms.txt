@@ -1,12 +1,12 @@
 # Spectrum
 
-> Spectrum is a free, privacy-first suite of in-browser color tools for designers and developers. Pick colors from any image, convert between formats, check WCAG contrast, simulate color blindness, generate palettes, build CSS gradients, and learn color theory — with no account and no uploads. Everything runs locally in the browser.
+> Spectrum is a free, privacy-first suite of in-browser color tools for designers and developers. Pick colors from any image, convert between formats, check WCAG contrast, simulate color blindness, generate palettes, build CSS gradients, and learn color theory, with no account and no uploads. Everything runs locally in the browser.
 
-Spectrum runs entirely client-side. It requires no sign-up, sets no cookies, runs no third-party tracking, and never uploads your images — they are processed with the browser's Canvas API and never leave your device. Color history is stored only in the browser's localStorage.
+Spectrum runs entirely client-side. It requires no sign-up, sets no cookies, runs no third-party tracking, and never uploads your images: they are processed with the browser's Canvas API and never leave your device. Color history is stored only in the browser's localStorage.
 
 ## Tools
 
-- [Color Picker](https://spectrum.punds.ch/): Extract the exact color of any pixel from an image you open — read it as HEX, RGB, HSL, HSV, CMYK and more.
+- [Color Picker](https://spectrum.punds.ch/): Extract the exact color of any pixel from an image you open, then read it as HEX, RGB, HSL, HSV, CMYK and more.
 - [Browse Colors](https://spectrum.punds.ch/browse): Explore named CSS colors, curated palettes, trending colors, and brand colors; click any swatch to copy its hex.
 - [Color Generator](https://spectrum.punds.ch/color-generator): Build palettes, harmonies, shades, and tints from a single color, convert between formats (HEX, RGB, HSL, HSV, CMYK, and more), and see a full color analysis.
 - [Gradient Maker](https://spectrum.punds.ch/gradient-maker): Design linear, radial, and conic CSS gradients with a live preview and copyable CSS.

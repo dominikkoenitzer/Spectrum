@@ -7,3 +7,17 @@
 export const SITE_URL = 'https://spectrum.punds.ch';
 
 export const SITE_NAME = 'Spectrum';
+
+/**
+ * The social card drawn by src/app/opengraph-image.tsx, which reads its `alt`
+ * and `size` from here. Pages that set their own `openGraph` have to name the
+ * image again: Next swaps the parent's whole object out rather than merging
+ * it, so the one the file convention attached to the root would be lost.
+ */
+export const OG_IMAGE = {
+  url: '/opengraph-image',
+  width: 1200,
+  height: 630,
+  type: 'image/png',
+  alt: 'Spectrum: free color tools for designers and developers',
+};
