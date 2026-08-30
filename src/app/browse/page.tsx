@@ -16,6 +16,7 @@ import {
   Grid3X3,
   List,
   Palette,
+  Sparkles,
   Building2,
   TrendingUp,
   ChevronDown,
@@ -143,7 +144,7 @@ function ColorRow({ color, copied, onCopy }: { color: NamedColor; copied: boolea
       <span className="hidden font-mono text-[13px] uppercase text-ink-2 md:block">{rgbStr(color.hex)}</span>
       <span className="hidden font-mono text-[13px] uppercase text-ink-2 md:block">{hexToHsl(color.hex)}</span>
       <span className={cn('justify-self-end text-[13px] font-semibold', copied ? 'text-positive' : 'text-ink-3')}>
-        {copied ? 'Copied' : 'Copy'}
+        {copied ? 'Copied ✓' : 'Copy'}
       </span>
     </button>
   );
@@ -533,7 +534,12 @@ export default function BrowseColorsPage() {
       {activeTab === 'trending' && (
         <div className="space-y-4 sm:space-y-8">
           <div className="text-center">
-            <p className="label-caps text-ink-3 mb-3 sm:mb-4">Pantone colors &amp; trends</p>
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-surface-2 border border-line rounded-full mb-3 sm:mb-4">
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-ink" />
+              <span className="text-xs sm:text-sm font-medium text-ink">
+                Pantone Colors & Trends
+              </span>
+            </div>
           </div>
           
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4">
@@ -565,7 +571,7 @@ export default function BrowseColorsPage() {
               Pick from Image
             </Link>
             <Link href="/color-generator" className="inline-flex items-center justify-center gap-2 px-4 py-2.5 sm:py-2 rounded-xl bg-ink text-paper hover:bg-ink/90 active:scale-[0.98] transition-all">
-              <Palette className="w-4 h-4" />
+              <Sparkles className="w-4 h-4" />
               Generate Custom
             </Link>
           </div>

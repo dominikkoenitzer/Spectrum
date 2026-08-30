@@ -297,7 +297,7 @@ export function ColorTheoryExperience() {
               className="group mt-10 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-ink-3 transition-colors hover:text-ink"
             >
               Scroll, or use <kbd className="rounded border border-line bg-surface px-1.5 py-0.5 not-italic">↑</kbd><kbd className="rounded border border-line bg-surface px-1.5 py-0.5">↓</kbd>
-              <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+              <ChevronDown className="h-4 w-4 animate-bounce" />
             </button>
           </div>
         </section>

@@ -2,8 +2,8 @@
 
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import {
-  RefreshCw, ChevronDown, ChevronRight, Eye, Lightbulb, Thermometer,
-  Heart, Palette, Sun, Moon, Zap, Check, X,
+  RefreshCw, ChevronDown, ChevronRight, Eye, Lightbulb, Thermometer, Sparkles,
+  Heart, Palette, Sun, Moon, Zap, Check,
 } from 'lucide-react';
 import { CopyButton } from '@/components/ui/CopyButton';
 import { EyeDropperButton } from '@/components/ui/EyeDropperButton';
@@ -314,7 +314,7 @@ export default function ColorGeneratorPage() {
               {creative && (
                 <div className="rounded-xl border border-line bg-surface-2 p-5">
                   <div className="flex items-center gap-2 mb-3">
-                    <Lightbulb className="h-3.5 w-3.5 text-ink" />
+                    <Sparkles className="h-3.5 w-3.5 text-ink" />
                     <span className="text-xs font-semibold text-ink uppercase tracking-widest">Design guidance</span>
                   </div>
                   <div className="grid sm:grid-cols-2 gap-x-8 gap-y-1.5">
@@ -538,8 +538,8 @@ export default function ColorGeneratorPage() {
                         )}>
                           <div className="flex items-center justify-between mb-0.5">
                             <span className="text-xs font-medium text-ink-2">{item.label}</span>
-                            <span className={cn(item.pass ? 'text-positive' : 'text-negative')}>
-                              {item.pass ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />}
+                            <span className={cn('text-sm font-bold', item.pass ? 'text-positive' : 'text-negative')}>
+                              {item.pass ? '✓' : '✗'}
                             </span>
                           </div>
                           <span className="text-[10px] text-ink-3">{item.sub}</span>

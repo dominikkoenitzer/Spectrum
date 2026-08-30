@@ -3,7 +3,7 @@
 import { ColorFormats } from '@/lib/colorUtils';
 import { CopyButton } from '@/components/ui/CopyButton';
 import { cn } from '@/lib/utils';
-import { Palette, Droplets, Sun, Lightbulb, ArrowRight } from 'lucide-react';
+import { Palette, Droplets, Sun, Sparkles, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 interface ColorDisplayProps {
@@ -76,7 +76,7 @@ export function ColorDisplay({ color, className }: ColorDisplayProps) {
   const colorProperties = [
     { label: 'Temperature', value: temperature, icon: Sun },
     { label: 'Saturation', value: saturation, icon: Droplets },
-    { label: 'Brightness', value: brightness, icon: Lightbulb },
+    { label: 'Brightness', value: brightness, icon: Sparkles },
   ];
 
   return (
