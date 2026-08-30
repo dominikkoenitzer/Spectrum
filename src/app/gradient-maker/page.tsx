@@ -265,7 +265,7 @@ backgroundImage: {
           )}
         >
           {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-          {copied ? 'Copied!' : 'Copy CSS'}
+          {copied ? 'Copied' : 'Copy CSS'}
         </button>
       </div>
 
@@ -500,9 +500,9 @@ backgroundImage: {
               <div>
                 <h3 className="text-sm font-medium text-ink mb-1">Quick Tips</h3>
                 <ul className="text-xs text-ink-2 space-y-1">
-                  <li>• Tap presets to instantly apply</li>
-                  <li>• Click color swatches to edit</li>
-                  <li>• Use % inputs for precise positioning</li>
+                  <li>• Tap a preset to apply it</li>
+                  <li>• Click a swatch to change its color</li>
+                  <li>• Drag a position slider to move a stop</li>
                 </ul>
               </div>
             </div>

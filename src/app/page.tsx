@@ -34,7 +34,7 @@ const tools = [
   { name: 'Gradients', description: 'Design CSS gradients visually', href: '/gradient-maker', icon: Palette },
   { name: 'Contrast', description: 'Check if text is readable (WCAG)', href: '/contrast-checker', icon: Contrast },
   { name: 'Color Vision', description: 'See colors as others do', href: '/color-blindness', icon: Eye },
-  { name: 'Color Theory', description: 'The meaning behind every color', href: '/color-theory', icon: BookOpen },
+  { name: 'Color Theory', description: 'Psychology and meaning, hue by hue', href: '/color-theory', icon: BookOpen },
 ];
 
 // Static sample used to illustrate the picker on the landing screen,
@@ -182,7 +182,7 @@ export default function ColorPickerPage() {
 
               <AnimateIn direction="up" delay={120}>
                 <p className="mt-6 max-w-md text-lg leading-relaxed text-ink-2">
-                  Drop a photo, click any pixel, and read the exact value in HEX, RGB, HSL and more. Nothing is uploaded — it all runs on your device.
+                  Drop a photo, click any pixel, and read the exact value in HEX, RGB, HSL and more. Nothing is uploaded. It all runs on your device.
                 </p>
               </AnimateIn>
 
@@ -190,7 +190,7 @@ export default function ColorPickerPage() {
                 <p className="label-caps mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-ink-3">
                   <span>· Private by default</span>
                   <span>· No sign-up</span>
-                  <span>· Free forever</span>
+                  <span>· Free</span>
                 </p>
               </AnimateIn>
 
@@ -226,7 +226,7 @@ export default function ColorPickerPage() {
                       <span className="min-w-0">
                         <span className="block text-sm font-medium text-ink">Pick from your screen</span>
                         <span className="mt-0.5 block font-mono text-xs text-ink-2">
-                          No image needed — sample any pixel on any window
+                          Sample any pixel on any window, no image needed
                         </span>
                       </span>
                     </button>
@@ -253,7 +253,7 @@ export default function ColorPickerPage() {
             <AnimateIn direction="up" delay={0}>
               <p className="label-caps text-ink-3">More tools</p>
               <h2 className="mt-3 max-w-lg font-display text-3xl font-semibold tracking-tight text-ink">
-                Everything you need to work with color.
+                Everything else Spectrum does.
               </h2>
             </AnimateIn>
 
@@ -296,7 +296,7 @@ export default function ColorPickerPage() {
                       <Link
                         key={c.name}
                         href={`/color-theory#${c.name.toLowerCase()}`}
-                        title={`${c.name} — ${c.note}`}
+                        title={`${c.name}: ${c.note}`}
                         className="h-8 w-8 rounded-md border border-line transition-transform hover:-translate-y-0.5"
                         style={{ backgroundColor: c.hex }}
                       />

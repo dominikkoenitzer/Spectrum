@@ -16,11 +16,11 @@ export function ImageUploader({ onImageLoad, className }: ImageUploaderProps) {
   const acceptFile = useCallback(
     (file: File) => {
       if (!file.type.startsWith('image/')) {
-        setError("That file isn't an image — try a PNG, JPG, GIF, or WEBP.");
+        setError("That file isn't an image. Try a PNG, JPG, GIF, or WEBP.");
         return;
       }
       if (file.size > 10 * 1024 * 1024) {
-        setError('That image is over 10MB — try a smaller file.');
+        setError('That image is over 10MB. Try a smaller file.');
         return;
       }
       setError(null);
@@ -78,7 +78,7 @@ export function ImageUploader({ onImageLoad, className }: ImageUploaderProps) {
       </span>
       <div className="min-w-0 flex-1">
         <p className="font-display text-base font-medium text-ink">Drop an image, or browse</p>
-        <p className="mt-1 font-mono text-xs text-ink-2">PNG · JPG · GIF · WEBP — up to 10MB</p>
+        <p className="mt-1 font-mono text-xs text-ink-2">PNG · JPG · GIF · WEBP · up to 10MB</p>
         {error && (
           <p role="alert" className="mt-1.5 text-xs font-medium text-negative">
             {error}

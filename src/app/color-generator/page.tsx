@@ -30,22 +30,22 @@ import {
 import { cn } from '@/lib/utils';
 
 function getTemperatureLabel(h: number): { label: string; detail: string } {
-  if (h >= 0 && h <= 60) return { label: 'Warm', detail: 'Advances visually — energetic, inviting, urgent' };
+  if (h >= 0 && h <= 60) return { label: 'Warm', detail: 'Advances visually, reading energetic and urgent' };
   if (h > 60 && h <= 90) return { label: 'Neutral-Warm', detail: 'Sits between warmth and neutrality' };
   if (h > 90 && h <= 150) return { label: 'Neutral-Cool', detail: 'Calm with a hint of organic warmth' };
-  if (h > 150 && h <= 270) return { label: 'Cool', detail: 'Recedes visually — calm, trustworthy, distant' };
-  if (h > 270 && h <= 330) return { label: 'Cool-Warm', detail: 'The bridge between cool and warm — creative tension' };
-  return { label: 'Warm', detail: 'Advances visually — energetic, inviting, urgent' };
+  if (h > 150 && h <= 270) return { label: 'Cool', detail: 'Recedes visually, reading calm and distant' };
+  if (h > 270 && h <= 330) return { label: 'Cool-Warm', detail: 'The bridge between cool and warm' };
+  return { label: 'Warm', detail: 'Advances visually, reading energetic and urgent' };
 }
 
 function getHarmonyExplanation(name: string): string {
   const map: Record<string, string> = {
-    'Complement': 'Opposite hues cancel each other out in mixing but amplify each other visually. Maximum contrast, maximum vibrancy — each color makes the other look more intense.',
-    'Split-complementary': 'Takes the tension of a complement and softens it. Instead of one stark opposite, you get two neighbours of that opposite — same contrast range, far easier to balance.',
-    'Triadic': 'Three equidistant hues at 120° each. All three pull equal visual weight, so they need careful managing — pick a dominant, a secondary, and an accent or everything fights.',
-    'Analogous': 'Adjacent hues share similar wavelengths, so they feel naturally unified. Sunsets work this way. Great for backgrounds and gradients; lacks inherent contrast without a focal accent.',
-    'Monochromatic': 'One hue across its full tonal range. The safest palette — always cohesive, never clashing. The risk is monotony; solve it with dramatic value steps.',
-    'Tetradic': 'Two complementary pairs at 90°. Rich and complex — the most colors to work with, the hardest to keep from feeling chaotic. One dominant, others supporting.',
+    'Complement': 'Opposite hues cancel each other out in mixing but amplify each other visually. It is the highest-contrast pairing there is: each color makes the other look more intense.',
+    'Split-complementary': 'Takes the tension of a complement and softens it. Instead of one stark opposite you get two neighbors of that opposite, which keeps the contrast range but is far easier to balance.',
+    'Triadic': 'Three equidistant hues at 120° each. All three pull equal visual weight, so one has to lead: pick a dominant, a secondary, and an accent, or everything fights.',
+    'Analogous': 'Adjacent hues share similar wavelengths, so they feel naturally unified. Sunsets work this way. Good for backgrounds and gradients; lacks inherent contrast without a focal accent.',
+    'Monochromatic': 'One hue across its full tonal range. It is the safest palette to build, since nothing in it can clash. The risk is monotony; solve it with dramatic value steps.',
+    'Tetradic': 'Two complementary pairs at 90°. It gives you the most colors to work with and is the hardest to keep from feeling chaotic, so let one dominate and keep the rest supporting.',
   };
   return map[name] ?? '';
 }
@@ -138,7 +138,7 @@ export default function ColorGeneratorPage() {
             Color Generator
           </h1>
           <p className="text-base text-ink-2 max-w-md">
-            Palettes, harmonies, formats, and color theory — all from a single hue.
+            Enter one color and get its palettes, harmonies, formats, and theory.
           </p>
         </div>
       </AnimateIn>
@@ -220,7 +220,7 @@ export default function ColorGeneratorPage() {
         <Section
           id="theory"
           title="Color Theory"
-          description="Where this color sits in the theory of color"
+          description="Where this color sits on the wheel"
           icon={<Lightbulb className="h-4.5 w-4.5" />}
           expanded={expandedSections.has('theory')}
           onToggle={() => toggleSection('theory')}
@@ -296,15 +296,15 @@ export default function ColorGeneratorPage() {
                     </div>
                     <p className="text-sm text-ink leading-relaxed">
                       At {hueAngle}° and {analysis.perceivedBrightness}% perceived brightness, this color{' '}
-                      {analysis.isLight ? 'appears lighter than it may measure — our eyes weight brightness non-linearly' : 'reads as heavy and grounded'}.{' '}
+                      {analysis.isLight ? 'appears lighter than it measures, because our eyes weight brightness non-linearly' : 'reads as heavy and grounded'}.{' '}
                       {analysis.isWarm
-                        ? 'Warm hues advance — they appear closer to the viewer and attract the eye first.'
+                        ? 'Warm hues advance, appearing closer to the viewer and catching the eye first.'
                         : analysis.isCool
-                        ? 'Cool hues recede — they push back spatially, making them ideal for backgrounds and supporting roles.'
-                        : 'This neutral hue neither advances nor recedes — it balances without dominating.'}
+                        ? 'Cool hues recede, pushing back spatially, which makes them useful for backgrounds and supporting roles.'
+                        : 'This neutral hue neither advances nor recedes, so it balances without dominating.'}
                     </p>
                     <div className="mt-3 text-xs text-ink-3">
-                      Dominant wavelength: <span className="text-ink-2 font-mono">{analysis.dominantWavelength}nm</span> — {analysis.wavelengthName}
+                      Dominant wavelength: <span className="text-ink-2 font-mono">{analysis.dominantWavelength}nm</span> ({analysis.wavelengthName})
                     </div>
                   </div>
                 </div>
@@ -386,7 +386,7 @@ export default function ColorGeneratorPage() {
               <div className="flex items-center gap-2 mb-3">
                 <Moon className="h-3.5 w-3.5 text-ink-2" />
                 <span className="text-xs font-semibold text-ink-2 uppercase tracking-widest">Shades</span>
-                <span className="text-xs text-ink-3">— black added in 10% steps</span>
+                <span className="text-xs text-ink-3">(black added in 10% steps)</span>
               </div>
               <div className="flex gap-1 overflow-x-auto pb-2">
                 {shades.map(s => <VariationSwatch key={s.percentage} variation={s} />)}
@@ -396,7 +396,7 @@ export default function ColorGeneratorPage() {
               <div className="flex items-center gap-2 mb-3">
                 <Sun className="h-3.5 w-3.5 text-ink-2" />
                 <span className="text-xs font-semibold text-ink-2 uppercase tracking-widest">Tints</span>
-                <span className="text-xs text-ink-3">— white added in 10% steps</span>
+                <span className="text-xs text-ink-3">(white added in 10% steps)</span>
               </div>
               <div className="flex gap-1 overflow-x-auto pb-2">
                 {tints.map(t => <VariationSwatch key={t.percentage} variation={t} />)}
@@ -502,7 +502,7 @@ export default function ColorGeneratorPage() {
               <div className="rounded-xl p-5 ring-1 ring-line" style={{ backgroundColor: contrastBg }}>
                 <p className="text-2xl font-bold mb-2" style={{ color }}>Sample Heading</p>
                 <p className="text-sm" style={{ color }}>The quick brown fox jumps over the lazy dog.</p>
-                <p className="text-xs mt-2" style={{ color }}>Small body text at 12px — the hardest to make accessible.</p>
+                <p className="text-xs mt-2" style={{ color }}>Small body text at 12px, the hardest size to make accessible.</p>
               </div>
             </div>
 
@@ -525,10 +525,10 @@ export default function ColorGeneratorPage() {
                     </div>
                     <div className="grid grid-cols-2 gap-2">
                       {[
-                        { label: 'AA — Normal text', sub: 'Requires 4.5:1', pass: result.aa.normalText },
-                        { label: 'AA — Large text', sub: 'Requires 3:1', pass: result.aa.largeText },
-                        { label: 'AAA — Normal text', sub: 'Requires 7:1', pass: result.aaa.normalText },
-                        { label: 'AAA — Large text', sub: 'Requires 4.5:1', pass: result.aaa.largeText },
+                        { label: 'AA normal text', sub: 'Requires 4.5:1', pass: result.aa.normalText },
+                        { label: 'AA large text', sub: 'Requires 3:1', pass: result.aa.largeText },
+                        { label: 'AAA normal text', sub: 'Requires 7:1', pass: result.aaa.normalText },
+                        { label: 'AAA large text', sub: 'Requires 4.5:1', pass: result.aaa.largeText },
                       ].map(item => (
                         <div key={item.label} className={cn(
                           'rounded-lg p-3 border',
@@ -559,7 +559,7 @@ export default function ColorGeneratorPage() {
         <Section
           id="conversion"
           title="Color Formats"
-          description="Every format for every workflow"
+          description="The same color, written nine ways"
           icon={<Zap className="h-4.5 w-4.5" />}
           expanded={expandedSections.has('conversion')}
           onToggle={() => toggleSection('conversion')}

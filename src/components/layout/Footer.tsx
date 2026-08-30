@@ -59,7 +59,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink-2">
-              A precise set of color tools for designers and developers. No account, no uploads — everything runs in your browser.
+              Color tools for designers and developers. No account, no uploads, and nothing leaves your browser.
             </p>
           </div>
 

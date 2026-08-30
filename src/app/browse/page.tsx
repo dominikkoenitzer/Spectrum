@@ -381,7 +381,7 @@ export default function BrowseColorsPage() {
           Browse Colors
         </h1>
         <p className="text-lg text-ink-2 max-w-xl leading-snug">
-          Explore a curated collection of named colors and palettes. Click any swatch to copy its hex.
+          Named colors, curated palettes, and brand libraries. Click any swatch to copy its hex.
         </p>
       </div>
 

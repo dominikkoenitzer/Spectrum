@@ -14,7 +14,7 @@ export default function PrivacyPage() {
     <LegalDoc
       title="Privacy Policy"
       updated="May 29, 2026"
-      intro="Spectrum is built to need as little of your data as possible. Every tool runs entirely in your browser — your images and colors never touch a server."
+      intro="Spectrum is built to need as little of your data as possible. Every tool runs entirely in your browser, so your images and colors never touch a server."
     >
       <LegalSection title="The short version">
         <p>
@@ -25,8 +25,8 @@ export default function PrivacyPage() {
 
       <LegalSection title="What we don't collect">
         <LegalList>
-          <li>No names, emails, or accounts — Spectrum has no sign-up.</li>
-          <li>No image uploads — images are read with the browser&apos;s Canvas API and stay on your device.</li>
+          <li>No names, emails, or accounts. Spectrum has no sign-up.</li>
+          <li>No image uploads. Images are read with the browser&apos;s Canvas API and stay on your device.</li>
           <li>No advertising identifiers, fingerprinting, or behavioral profiles.</li>
         </LegalList>
       </LegalSection>
@@ -51,8 +51,8 @@ export default function PrivacyPage() {
         <p>
           Like any website, our hosting provider may process standard, non-identifying request logs
           (such as IP address and user-agent) for security and reliability. Spectrum also links to
-          external sites — for example <strong>GitHub</strong> and <strong>PayPal</strong> — which have
-          their own privacy policies that govern your use of them.
+          external sites such as <strong>GitHub</strong> and <strong>PayPal</strong>, which have their
+          own privacy policies that govern your use of them.
         </p>
       </LegalSection>
 

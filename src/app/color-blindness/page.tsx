@@ -77,7 +77,7 @@ export default function ColorBlindnessPage() {
       })
       .catch(() => {
         setImageSource(null);
-        setLoadError('Couldn\'t load that image — try a different file.');
+        setLoadError('Couldn\'t load that image. Try a different file.');
       });
   }, [imageSource, applySimulation]);
 
@@ -95,7 +95,7 @@ export default function ColorBlindnessPage() {
       setIsLoaded(false);
       setImageSource(file);
     } else if (file) {
-      setLoadError('That file isn\'t an image — try a PNG, JPG, or GIF.');
+      setLoadError('That file isn\'t an image. Try a PNG, JPG, or GIF.');
     }
   }, []);
 
@@ -107,7 +107,7 @@ export default function ColorBlindnessPage() {
       setIsLoaded(false);
       setImageSource(file);
     } else if (file) {
-      setLoadError('That file isn\'t an image — try a PNG, JPG, or GIF.');
+      setLoadError('That file isn\'t an image. Try a PNG, JPG, or GIF.');
     }
   }, []);
 
@@ -424,7 +424,7 @@ export default function ColorBlindnessPage() {
             <div className="min-w-0">
               <h2 className="font-semibold text-sm sm:text-base text-ink mb-1 sm:mb-2">About Color Vision Deficiency</h2>
               <p className="text-xs sm:text-sm text-ink-3 mb-3 sm:mb-4">
-                Color vision deficiency affects approximately 8% of men and 0.5% of women worldwide — over 300 million people globally.
+                Color vision deficiency affects approximately 8% of men and 0.5% of women worldwide, which is over 300 million people.
               </p>
               <div className="grid sm:grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm">
                 <div className="p-2 sm:p-3 rounded-lg bg-surface">

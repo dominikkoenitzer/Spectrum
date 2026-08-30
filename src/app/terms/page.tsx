@@ -19,7 +19,7 @@ export default function TermsPage() {
       <LegalSection title="Using Spectrum">
         <p>
           Spectrum is provided free of charge, with no account required. You may use it for personal
-          and commercial work alike — pick colors, build palettes and gradients, check contrast, and
+          and commercial work alike: pick colors, build palettes and gradients, check contrast, and
           use the values you generate however you like.
         </p>
       </LegalSection>
