@@ -7,7 +7,6 @@ type PageMetadata = {
   description: string;
   /** Route path, starting with a slash. */
   path: string;
-  keywords?: string[];
 };
 
 /**
@@ -19,13 +18,12 @@ type PageMetadata = {
  * name it looked like it was inheriting, and kept the root's Twitter title.
  * Routing every page through this helper keeps each card complete and unique.
  */
-export function pageMetadata({ title, description, path, keywords }: PageMetadata): Metadata {
+export function pageMetadata({ title, description, path }: PageMetadata): Metadata {
   const titleWithSite = `${title} | ${SITE_NAME}`;
 
   return {
     title,
     description,
-    ...(keywords ? { keywords } : {}),
     alternates: { canonical: path },
     openGraph: {
       type: 'website',

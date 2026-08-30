@@ -6,10 +6,13 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: 'Spectrum',
     description:
       'Free color tools that run entirely in your browser. Pick colors from images, check WCAG contrast, simulate color blindness, generate palettes, and build CSS gradients.',
+    id: '/',
+    scope: '/',
     start_url: '/',
     display: 'standalone',
     background_color: '#e8e6e2',
     theme_color: '#e8e6e2',
+    categories: ['design', 'developer tools', 'utilities'],
     icons: [
       {
         src: '/icon.svg',

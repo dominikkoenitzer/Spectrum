@@ -6,7 +6,6 @@ export const metadata: Metadata = pageMetadata({
   description:
     'Check color contrast ratios against WCAG 2.1 AA and AAA. Scores for text, large text, and UI components, with accessible alternatives when a pair fails.',
   path: '/contrast-checker',
-  keywords: ['wcag contrast checker', 'color contrast ratio', 'accessibility contrast', 'wcag aa', 'wcag aaa', 'color accessibility', 'ada compliant colors', 'contrast ratio calculator'],
 });
 
 export default function ContrastLayout({ children }: { children: React.ReactNode }) {

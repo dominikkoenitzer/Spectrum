@@ -3,7 +3,10 @@ import { SITE_URL } from '@/lib/site';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = SITE_URL;
-  const currentDate = new Date();
+  // Bump by hand when page content actually changes. `new Date()` here meant
+  // every deploy rewrote lastmod on all nine URLs at once, which teaches
+  // Google the signal is unreliable.
+  const currentDate = '2026-08-30';
 
   return [
     {

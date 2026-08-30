@@ -3,10 +3,20 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { FileQuestion } from 'lucide-react';
 
-// Next already marks the not-found route noindex, so only the wording is set here.
+/**
+ * Next marks the not-found route noindex, but the root layout's metadata still
+ * cascades in: without the overrides below every 404 also carried an
+ * "index, follow" robots tag and a canonical pointing at the homepage.
+ */
 export const metadata: Metadata = {
   title: 'Page not found',
   description: 'This page does not exist or has been moved.',
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: { index: false, follow: false },
+  },
+  alternates: { canonical: null },
 };
 
 export default function NotFound() {

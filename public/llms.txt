@@ -6,12 +6,12 @@ Spectrum runs entirely client-side. It requires no sign-up, sets no cookies, run
 
 ## Tools
 
-- [Color Picker](https://spectrum.punds.ch/): Extract the exact color of any pixel from an image you open, then read it as HEX, RGB, HSL, HSV, CMYK and more.
+- [Color Picker](https://spectrum.punds.ch/): Extract the exact color of any pixel from an image you open, or pick a color from anywhere on your screen with the browser's EyeDropper, then read it as HEX, RGB, HSL, HSV, CMYK and more.
 - [Browse Colors](https://spectrum.punds.ch/browse): Explore named CSS colors, curated palettes, trending colors, and brand colors; click any swatch to copy its hex.
 - [Color Generator](https://spectrum.punds.ch/color-generator): Build palettes, harmonies, shades, and tints from a single color, convert between formats (HEX, RGB, HSL, HSV, CMYK, and more), and see a full color analysis.
 - [Gradient Maker](https://spectrum.punds.ch/gradient-maker): Design linear, radial, and conic CSS gradients with a live preview and copyable CSS.
 - [Contrast Checker](https://spectrum.punds.ch/contrast-checker): Test color pairs against WCAG 2.1 AA and AAA contrast requirements.
-- [Color Vision Simulator](https://spectrum.punds.ch/color-blindness): Preview how images and colors appear to people with different types of color vision deficiency.
+- [Color Blindness Simulator](https://spectrum.punds.ch/color-blindness): Preview how images and colors appear to people with different types of color vision deficiency.
 - [Color Theory](https://spectrum.punds.ch/color-theory): Learn the psychology, culture, and meaning behind every major hue.
 
 ## About

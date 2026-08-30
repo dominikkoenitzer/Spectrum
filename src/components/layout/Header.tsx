@@ -43,7 +43,7 @@ const groups: { label: string; items: NavItem[] }[] = [
   {
     label: 'Learn',
     items: [
-      { name: 'Browse', href: '/browse', icon: Grid3X3, description: 'Explore 16,700+ named colors' },
+      { name: 'Browse', href: '/browse', icon: Grid3X3, description: 'Explore named colors and palettes' },
       { name: 'Theory', href: '/color-theory', icon: BookOpen, description: 'Color psychology & meaning' },
     ],
   },

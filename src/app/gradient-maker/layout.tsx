@@ -6,7 +6,6 @@ export const metadata: Metadata = pageMetadata({
   description:
     'Build linear, radial, and conic CSS gradients with a live preview and as many color stops as you need, then copy the CSS when it looks right.',
   path: '/gradient-maker',
-  keywords: ['css gradient generator', 'gradient maker', 'linear gradient', 'radial gradient', 'conic gradient', 'css gradient tool', 'background gradient', 'gradient css code'],
 });
 
 export default function GradientLayout({ children }: { children: React.ReactNode }) {

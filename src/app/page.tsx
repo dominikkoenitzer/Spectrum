@@ -29,7 +29,7 @@ import { rgbToFormats, ColorFormats } from '@/lib/colorUtils';
 import { useEyeDropperSupported, openEyeDropper } from '@/components/ui/EyeDropperButton';
 
 const tools = [
-  { name: 'Browse Colors', description: '16,700+ named colors to explore', href: '/browse', icon: Grid3X3 },
+  { name: 'Browse Colors', description: 'Named colors and curated palettes', href: '/browse', icon: Grid3X3 },
   { name: 'Color Palette', description: 'Build palettes from any single color', href: '/color-generator', icon: Sparkles },
   { name: 'Gradients', description: 'Design CSS gradients visually', href: '/gradient-maker', icon: Palette },
   { name: 'Contrast', description: 'Check if text is readable (WCAG)', href: '/contrast-checker', icon: Contrast },

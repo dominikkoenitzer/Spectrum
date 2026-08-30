@@ -3,6 +3,9 @@
  * Used by metadata (canonical/OG), sitemap.ts and robots.ts. Keep it the
  * domain the site is actually served from, or search engines will refuse to
  * index (a canonical pointing at a dead domain deindexes every page).
+ *
+ * Two static files hardcode this origin and must be updated by hand if it
+ * ever changes: public/llms.txt and public/.well-known/security.txt.
  */
 export const SITE_URL = 'https://spectrum.punds.ch';
 

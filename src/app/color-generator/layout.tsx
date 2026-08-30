@@ -6,7 +6,6 @@ export const metadata: Metadata = pageMetadata({
   description:
     'Build complementary, analogous, triadic, and tetradic palettes from any starting color, with shades, tints, and live WCAG contrast checking.',
   path: '/color-generator',
-  keywords: ['color palette generator', 'complementary colors', 'analogous colors', 'triadic colors', 'color harmony', 'color scheme generator', 'design palette', 'color combinations'],
 });
 
 export default function GeneratorLayout({ children }: { children: React.ReactNode }) {

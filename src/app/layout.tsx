@@ -27,17 +27,6 @@ export const metadata: Metadata = {
     template: "%s | Spectrum"
   },
   description: "Free color tools that run entirely in your browser. Pick colors from images, check WCAG contrast, simulate color blindness, generate palettes, build CSS gradients, and learn color theory. No account. No uploads.",
-  keywords: [
-    "color picker", "pick colors from image", "image color extractor", "hex color picker",
-    "rgb color picker", "hsl color", "color format converter",
-    "wcag contrast checker", "color accessibility checker", "aa aaa contrast ratio",
-    "color blindness simulator", "protanopia", "deuteranopia", "tritanopia",
-    "color palette generator", "color harmonies", "complementary colors",
-    "css gradient maker", "linear gradient generator",
-    "color theory", "color psychology", "color wheel",
-    "free design tools",
-    "color blind friendly palette", "color tools for designers", "color tools for developers"
-  ],
   authors: [{ name: "dominikkoenitzer", url: "https://github.com/dominikkoenitzer" }],
   creator: "dominikkoenitzer",
   publisher: "Spectrum",
@@ -84,18 +73,23 @@ export const viewport: Viewport = {
 const websiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
+  '@id': `${BASE_URL}/#website`,
   name: 'Spectrum',
   url: BASE_URL,
   description: 'Free color tools for designers and developers: color picker, contrast checker, palette generator, and more.',
+  publisher: { '@id': `${BASE_URL}/#organization` },
 };
 
 const webAppJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
+  '@id': `${BASE_URL}/#app`,
   name: 'Spectrum',
   url: BASE_URL,
   applicationCategory: 'DesignApplication',
   operatingSystem: 'Any',
+  isAccessibleForFree: true,
+  isPartOf: { '@id': `${BASE_URL}/#website` },
   offers: {
     '@type': 'Offer',
     price: '0',
@@ -105,10 +99,10 @@ const webAppJsonLd = {
   featureList: [
     'Image color picker: click any pixel to extract its color',
     'WCAG contrast checker: AA and AAA compliance testing',
-    'Color blindness simulator: 7 vision types including protanopia and deuteranopia',
+    'Color blindness simulator: 8 vision types including protanopia and deuteranopia',
     'Color palette generator: harmonies, shades, tints, format conversion (HEX, RGB, HSL, HSV, CMYK, and more), and psychology',
     'CSS gradient maker: linear, radial, and conic gradients with live preview',
-    'Color library: browse 16,700+ named colors',
+    'Color library: browse hundreds of named colors and curated palettes',
     'Color theory guide: psychology, culture, and meaning of every major color',
   ],
 };
@@ -116,9 +110,10 @@ const webAppJsonLd = {
 const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': `${BASE_URL}/#organization`,
   name: 'Spectrum',
   url: BASE_URL,
-  logo: `${BASE_URL}/icon`,
+  logo: `${BASE_URL}/icon.svg`,
   description: 'Free, privacy-first color tools for designers and developers.',
   sameAs: ['https://github.com/dominikkoenitzer'],
 };
