@@ -275,7 +275,7 @@ backgroundImage: {
         <div className="space-y-4">
           {/* Gradient Type */}
           <div className="bg-surface  border border-line rounded-xl p-4">
-            <h3 className="text-sm font-medium text-ink mb-3">Type</h3>
+            <h2 className="text-sm font-medium text-ink mb-3">Type</h2>
             <div className="grid grid-cols-3 gap-2">
               {(['linear', 'radial', 'conic'] as GradientType[]).map((type) => (
                 <button
@@ -341,7 +341,7 @@ backgroundImage: {
           {/* Color Stops */}
           <div className="bg-surface  border border-line rounded-xl p-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-medium text-ink">Colors</h3>
+              <h2 className="text-sm font-medium text-ink">Colors</h2>
               <button
                 onClick={handleAddStop}
                 className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-surface-2 border border-line text-ink text-xs font-medium active:scale-95 transition-transform"
@@ -417,7 +417,7 @@ backgroundImage: {
             <div className="flex items-center justify-between mb-3 gap-2 flex-wrap">
               <div className="flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-ink" />
-                <h3 className="text-sm font-medium text-ink">Presets</h3>
+                <h2 className="text-sm font-medium text-ink">Presets</h2>
               </div>
               <div className="flex gap-1 p-0.5 bg-surface rounded-lg">
                 {presetCategories.map((cat) => (
@@ -456,7 +456,7 @@ backgroundImage: {
             <div className="flex items-center justify-between mb-3 gap-2 flex-wrap">
               <div className="flex items-center gap-2">
                 <Code className="h-4 w-4 text-ink-3" />
-                <h3 className="text-sm font-medium text-ink">Export</h3>
+                <h2 className="text-sm font-medium text-ink">Export</h2>
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex gap-1 p-0.5 bg-surface rounded-lg">
@@ -498,7 +498,7 @@ backgroundImage: {
                 <Zap className="h-4 w-4 text-ink" />
               </div>
               <div>
-                <h4 className="text-sm font-medium text-ink mb-1">Quick Tips</h4>
+                <h3 className="text-sm font-medium text-ink mb-1">Quick Tips</h3>
                 <ul className="text-xs text-ink-2 space-y-1">
                   <li>• Tap presets to instantly apply</li>
                   <li>• Click color swatches to edit</li>

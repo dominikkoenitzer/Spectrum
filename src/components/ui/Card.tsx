@@ -35,13 +35,15 @@ export function CardHeader({ children, className }: CardHeaderProps) {
 interface CardTitleProps {
   children: ReactNode;
   className?: string;
+  /** Heading level; pick it from the card's place in the page outline. */
+  as?: 'h2' | 'h3' | 'h4';
 }
 
-export function CardTitle({ children, className }: CardTitleProps) {
+export function CardTitle({ children, className, as: Tag = 'h3' }: CardTitleProps) {
   return (
-    <h3 className={cn('text-lg font-semibold text-ink', className)}>
+    <Tag className={cn('text-lg font-semibold text-ink', className)}>
       {children}
-    </h3>
+    </Tag>
   );
 }
 

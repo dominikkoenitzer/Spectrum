@@ -352,7 +352,7 @@ export default function ColorGeneratorPage() {
                 </div>
                 <div className="p-4">
                   <div className="flex items-start justify-between gap-2 mb-1.5">
-                    <h4 className="text-sm font-semibold text-ink">{harmony.name}</h4>
+                    <h3 className="text-sm font-semibold text-ink">{harmony.name}</h3>
                     <span className="text-[10px] text-ink-3 bg-surface-2 px-2 py-0.5 rounded font-mono flex-shrink-0">{harmony.colors.length} colors</span>
                   </div>
                   {/* Theory explanation */}
@@ -693,7 +693,7 @@ function Section({
             {icon}
           </div>
           <div className="min-w-0">
-            <h3 className="font-semibold text-ink text-sm sm:text-base">{title}</h3>
+            <h2 className="font-semibold text-ink text-sm sm:text-base">{title}</h2>
             <p className="text-xs text-ink-3 truncate">{description}</p>
           </div>
         </div>

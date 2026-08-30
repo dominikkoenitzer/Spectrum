@@ -159,7 +159,7 @@ function PaletteCard({ palette, expanded, onToggle }: { palette: ColorPalette; e
       >
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0 flex-grow">
-            <h3 className="text-base sm:text-lg font-semibold text-ink truncate">{palette.name}</h3>
+            <h2 className="text-base sm:text-lg font-semibold text-ink truncate">{palette.name}</h2>
             <p className="text-xs sm:text-sm text-ink-2 mt-0.5 sm:mt-1 line-clamp-1">
               {palette.description}
             </p>
@@ -272,10 +272,10 @@ function BrandColorCard({ brand }: { brand: typeof brandColors[0] }) {
   return (
     <div className="bg-surface  border border-line rounded-xl overflow-hidden">
       <div className="p-3 sm:p-4 border-b border-line">
-        <h3 className="text-base sm:text-lg font-semibold text-ink flex items-center gap-2">
+        <h2 className="text-base sm:text-lg font-semibold text-ink flex items-center gap-2">
           <Building2 className="w-4 h-4 sm:w-5 sm:h-5 text-ink-2" />
           {brand.brand}
-        </h3>
+        </h2>
       </div>
       <div className="p-3 sm:p-4">
         <div className="flex flex-wrap gap-1.5 sm:gap-2">

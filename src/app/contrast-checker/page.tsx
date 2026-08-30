@@ -183,7 +183,7 @@ export default function ContrastCheckerPage() {
       <div className="grid gap-4 sm:gap-6 lg:gap-8 lg:grid-cols-3">
         {/* Color inputs */}
         <div className="bg-surface  border border-line rounded-2xl p-4 sm:p-5 lg:col-span-1">
-          <h3 className="text-sm font-semibold text-ink mb-1">Colors</h3>
+          <h2 className="text-sm font-semibold text-ink mb-1">Colors</h2>
           <p className="text-xs text-ink-3 mb-4">Enter foreground and background</p>
 
           <div className="space-y-3 sm:space-y-4">
@@ -263,7 +263,7 @@ export default function ContrastCheckerPage() {
 
         {/* Results */}
         <div className="bg-surface  border border-line rounded-2xl p-4 sm:p-5 lg:col-span-2">
-          <h3 className="text-sm font-semibold text-ink mb-1">Contrast Analysis</h3>
+          <h2 className="text-sm font-semibold text-ink mb-1">Contrast Analysis</h2>
           <p className="text-xs text-ink-3 mb-4">WCAG 2.1 compliance</p>
 
           {result && (
@@ -432,7 +432,7 @@ export default function ContrastCheckerPage() {
         <div className="mt-6 sm:mt-8 bg-surface  border border-line rounded-2xl p-4 sm:p-6">
           <div className="flex items-center gap-2 mb-1">
             <Lightbulb className="h-4 w-4 sm:h-5 sm:w-5 text-ink-3" />
-            <h3 className="text-sm sm:text-base font-semibold text-ink">Suggested Improvements</h3>
+            <h2 className="text-sm sm:text-base font-semibold text-ink">Suggested Improvements</h2>
           </div>
           <p className="text-xs text-ink-3 mb-4">Alternative colors that meet AA or AAA standards</p>
 
@@ -503,7 +503,7 @@ export default function ContrastCheckerPage() {
             <Info className="h-4 w-4 sm:h-5 sm:w-5 text-ink-2" />
           </div>
           <div className="flex-1">
-            <h4 className="font-semibold text-ink text-sm sm:text-base mb-2">Understanding WCAG Contrast</h4>
+            <h2 className="font-semibold text-ink text-sm sm:text-base mb-2">Understanding WCAG Contrast</h2>
             <p className="text-xs sm:text-sm text-ink-2 mb-4">
               The Web Content Accessibility Guidelines (WCAG) define minimum contrast ratios to ensure text is readable by people with moderately low vision.
             </p>

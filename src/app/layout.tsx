@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     default: "Spectrum: Free Color Tools for Designers and Developers",
     template: "%s | Spectrum"
   },
-  description: "Free color tools that run entirely in your browser. Pick colors from images, check WCAG contrast, simulate color blindness, generate palettes, build CSS gradients, and learn color theory. No account. No uploads.",
+  description: "Free color tools in your browser: pick colors from images, check WCAG contrast, simulate color blindness, build palettes and gradients. No uploads.",
   authors: [{ name: "dominikkoenitzer", url: "https://github.com/dominikkoenitzer" }],
   creator: "dominikkoenitzer",
   publisher: "Spectrum",

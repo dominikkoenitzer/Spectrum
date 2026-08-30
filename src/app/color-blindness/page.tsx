@@ -138,7 +138,7 @@ export default function ColorBlindnessPage() {
         {/* Upload area */}
         <Card>
           <CardHeader className="p-3 sm:p-6">
-            <CardTitle className="text-base sm:text-xl">Original Image</CardTitle>
+            <CardTitle as="h2" className="text-base sm:text-xl">Original Image</CardTitle>
             <CardDescription className="text-xs sm:text-sm">Upload an image to see the simulation</CardDescription>
           </CardHeader>
           <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
@@ -204,7 +204,7 @@ export default function ColorBlindnessPage() {
         {/* Simulated view */}
         <Card>
           <CardHeader className="p-3 sm:p-6">
-            <CardTitle className="text-base sm:text-xl">Simulated View</CardTitle>
+            <CardTitle as="h2" className="text-base sm:text-xl">Simulated View</CardTitle>
             <CardDescription className="text-xs sm:text-sm">
               How the image appears with {selectedTypeInfo?.name}
             </CardDescription>
@@ -228,7 +228,7 @@ export default function ColorBlindnessPage() {
       {/* Type selector */}
       <Card className="mb-4 sm:mb-8">
         <CardHeader className="p-3 sm:p-6">
-          <CardTitle className="text-base sm:text-xl">Select Vision Type</CardTitle>
+          <CardTitle as="h2" className="text-base sm:text-xl">Select Vision Type</CardTitle>
           <CardDescription className="text-xs sm:text-sm">Choose a type of color vision deficiency to simulate</CardDescription>
         </CardHeader>
         <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
@@ -245,7 +245,7 @@ export default function ColorBlindnessPage() {
                 )}
               >
                 <div className="flex items-start justify-between mb-1 sm:mb-2">
-                  <h4 className="font-semibold text-xs sm:text-base text-ink">{type.name}</h4>
+                  <h3 className="font-semibold text-xs sm:text-base text-ink">{type.name}</h3>
                   {selectedType === type.type && (
                     <Check className="h-3 w-3 sm:h-4 sm:w-4 text-ink" />
                   )}
@@ -264,7 +264,7 @@ export default function ColorBlindnessPage() {
       {/* Color palette preview */}
       <Card className="mb-4 sm:mb-8">
         <CardHeader className="p-3 sm:p-6">
-          <CardTitle className="text-base sm:text-xl">Color Palette Preview</CardTitle>
+          <CardTitle as="h2" className="text-base sm:text-xl">Color Palette Preview</CardTitle>
           <CardDescription className="text-xs sm:text-sm">See how common colors appear with {selectedTypeInfo?.name}</CardDescription>
         </CardHeader>
         <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0 space-y-4 sm:space-y-6">
@@ -350,7 +350,7 @@ export default function ColorBlindnessPage() {
         <CardHeader className="p-3 sm:p-6">
           <div className="flex items-center gap-1.5 sm:gap-2">
             <Palette className="h-4 w-4 sm:h-5 sm:w-5 text-ink-3" />
-            <CardTitle className="text-base sm:text-xl">Colorblind-Safe Palettes</CardTitle>
+            <CardTitle as="h2" className="text-base sm:text-xl">Colorblind-Safe Palettes</CardTitle>
           </div>
           <CardDescription className="text-xs sm:text-sm">These color combinations work well for most types of color vision</CardDescription>
         </CardHeader>
@@ -393,7 +393,7 @@ export default function ColorBlindnessPage() {
         <CardHeader className="p-3 sm:p-6">
           <div className="flex items-center gap-1.5 sm:gap-2">
             <Lightbulb className="h-4 w-4 sm:h-5 sm:w-5 text-ink-3" />
-            <CardTitle className="text-base sm:text-xl">Design Tips for Accessibility</CardTitle>
+            <CardTitle as="h2" className="text-base sm:text-xl">Design Tips for Accessibility</CardTitle>
           </div>
           <CardDescription className="text-xs sm:text-sm">Best practices for creating colorblind-friendly designs</CardDescription>
         </CardHeader>
@@ -405,7 +405,7 @@ export default function ColorBlindnessPage() {
                   <tip.icon className="h-4 w-4 sm:h-5 sm:w-5 text-ink" />
                 </div>
                 <div className="min-w-0">
-                  <h4 className="font-medium text-xs sm:text-base text-ink">{tip.title}</h4>
+                  <h3 className="font-medium text-xs sm:text-base text-ink">{tip.title}</h3>
                   <p className="text-[10px] sm:text-sm text-ink-3 mt-0.5 sm:mt-1">{tip.description}</p>
                 </div>
               </div>
@@ -422,7 +422,7 @@ export default function ColorBlindnessPage() {
               <Info className="h-4 w-4 sm:h-5 sm:w-5 text-ink-2" />
             </div>
             <div className="min-w-0">
-              <h4 className="font-semibold text-sm sm:text-base text-ink mb-1 sm:mb-2">About Color Vision Deficiency</h4>
+              <h2 className="font-semibold text-sm sm:text-base text-ink mb-1 sm:mb-2">About Color Vision Deficiency</h2>
               <p className="text-xs sm:text-sm text-ink-3 mb-3 sm:mb-4">
                 Color vision deficiency affects approximately 8% of men and 0.5% of women worldwide — over 300 million people globally.
               </p>
