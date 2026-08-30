@@ -11,7 +11,7 @@ import {
   Copy,
   ArrowRight,
   Grid3X3,
-  Sparkles,
+  Blend,
   Palette,
   Contrast,
   Eye,
@@ -30,8 +30,8 @@ import { useEyeDropperSupported, openEyeDropper } from '@/components/ui/EyeDropp
 
 const tools = [
   { name: 'Browse Colors', description: 'Named colors and curated palettes', href: '/browse', icon: Grid3X3 },
-  { name: 'Color Palette', description: 'Build palettes from any single color', href: '/color-generator', icon: Sparkles },
-  { name: 'Gradients', description: 'Design CSS gradients visually', href: '/gradient-maker', icon: Palette },
+  { name: 'Color Palette', description: 'Build palettes from any single color', href: '/color-generator', icon: Palette },
+  { name: 'Gradients', description: 'Design CSS gradients visually', href: '/gradient-maker', icon: Blend },
   { name: 'Contrast', description: 'Check if text is readable (WCAG)', href: '/contrast-checker', icon: Contrast },
   { name: 'Color Vision', description: 'See colors as others do', href: '/color-blindness', icon: Eye },
   { name: 'Color Theory', description: 'Psychology and meaning, hue by hue', href: '/color-theory', icon: BookOpen },

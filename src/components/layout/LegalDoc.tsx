@@ -37,7 +37,7 @@ export function LegalSection({ title, children }: { title: string; children: Rea
 
 export function LegalList({ children }: { children: ReactNode }) {
   return (
-    <ul className="ml-1 space-y-2 [&>li]:relative [&>li]:pl-5 [&>li]:before:absolute [&>li]:before:left-0 [&>li]:before:text-ink-3 [&>li]:before:content-['—']">
+    <ul className="ml-1 space-y-2 [&>li]:relative [&>li]:pl-5 [&>li]:before:absolute [&>li]:before:left-0 [&>li]:before:text-ink-3 [&>li]:before:content-['·']">
       {children}
     </ul>
   );

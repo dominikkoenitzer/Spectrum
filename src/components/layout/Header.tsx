@@ -10,7 +10,7 @@ import {
   Palette,
   Menu,
   X,
-  Sparkles,
+  Blend,
   Grid3X3,
   BookOpen,
   ArrowUpRight,
@@ -29,8 +29,8 @@ const groups: { label: string; items: NavItem[] }[] = [
     label: 'Create',
     items: [
       { name: 'Picker', href: '/', icon: Pipette, description: 'Extract colors from any image' },
-      { name: 'Generator', href: '/color-generator', icon: Sparkles, description: 'Build palettes from one color' },
-      { name: 'Gradients', href: '/gradient-maker', icon: Palette, description: 'Design CSS gradients visually' },
+      { name: 'Generator', href: '/color-generator', icon: Palette, description: 'Build palettes from one color' },
+      { name: 'Gradients', href: '/gradient-maker', icon: Blend, description: 'Design CSS gradients visually' },
     ],
   },
   {

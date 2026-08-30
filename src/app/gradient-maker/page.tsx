@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
-import { Plus, Trash2, RotateCcw, Copy, Check, Download, Code, Sparkles, Shuffle, Zap, ArrowUp, ArrowUpRight, ArrowRight, ArrowDownRight, ArrowDown, ArrowDownLeft, ArrowLeft, ArrowUpLeft } from 'lucide-react';
+import { Plus, Trash2, RotateCcw, Copy, Check, Download, Code, Palette, Shuffle, Zap, ArrowUp, ArrowUpRight, ArrowRight, ArrowDownRight, ArrowDown, ArrowDownLeft, ArrowLeft, ArrowUpLeft } from 'lucide-react';
 import {
   GradientConfig,
   GradientType,
@@ -229,7 +229,7 @@ backgroundImage: {
       {/* Live Preview - Full width */}
       <div className="mb-6">
         <div 
-          className="w-full h-40 sm:h-56 rounded-2xl shadow-2xl ring-1 ring-line"
+          className="w-full h-40 sm:h-56 rounded-2xl ring-1 ring-line"
           style={{ background: cssCode }}
         />
       </div>
@@ -416,7 +416,7 @@ backgroundImage: {
           <div className="bg-surface  border border-line rounded-xl p-4">
             <div className="flex items-center justify-between mb-3 gap-2 flex-wrap">
               <div className="flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-ink" />
+                <Palette className="h-4 w-4 text-ink" />
                 <h2 className="text-sm font-medium text-ink">Presets</h2>
               </div>
               <div className="flex gap-1 p-0.5 bg-surface rounded-lg">
