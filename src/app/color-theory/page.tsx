@@ -17,7 +17,7 @@ const jsonLd = {
   // Matches the on-page h1.
   headline: 'The Science of Color',
   description: 'The psychology, cultural meanings, and design applications of every major color.',
-  author: { '@type': 'Person', name: 'dominikkoenitzer', url: 'https://dk.punds.ch' },
+  author: { '@type': 'Person', name: 'dominikkoenitzer', url: 'https://github.com/dominikkoenitzer' },
   publisher: {
     '@type': 'Organization',
     name: 'Spectrum',

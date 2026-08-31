@@ -72,8 +72,8 @@ export default function TermsPage() {
 
       <LegalSection title="Contact">
         <p>
-          Questions about these terms? Email{' '}
-          <a href="mailto:dominikkoenitzer@users.noreply.github.com">dominikkoenitzer@users.noreply.github.com</a>.
+          Questions about these terms?{' '}
+          <a href="https://github.com/dominikkoenitzer/Spectrum/issues">open an issue on GitHub</a>.
         </p>
       </LegalSection>
     </LegalDoc>
