@@ -25,7 +25,7 @@ import {
  * white are the canonical AA (4.5) and AAA (7.0) boundary colours, so they pin
  * both the maths and the threshold logic at once.
  */
-describe('checkContrast — WCAG reference pairs', () => {
+describe('checkContrast: WCAG reference pairs', () => {
   it('gives black on white the maximum ratio of 21', () => {
     expect(checkContrast('#000000', '#ffffff').ratio).toBeCloseTo(21, 1);
   });
@@ -49,7 +49,7 @@ describe('checkContrast — WCAG reference pairs', () => {
     expect(r.score).toBe('AAA');
   });
 
-  it('is symmetric — swapping foreground and background cannot change the ratio', () => {
+  it('is symmetric: swapping foreground and background cannot change the ratio', () => {
     for (const [a, b] of [
       ['#1d9e75', '#ffffff'],
       ['#123456', '#fedcba'],
@@ -119,7 +119,7 @@ describe('colorUtils', () => {
   });
 });
 
-describe('getHueName — one canonical hue table', () => {
+describe('getHueName: one canonical hue table', () => {
   it('names the primaries', () => {
     expect(getHueName(0)).toBe('Red');
     expect(getHueName(30)).toBe('Orange');
@@ -140,7 +140,7 @@ describe('getHueName — one canonical hue table', () => {
     expect(getHueName(720 + 120)).toBe('Green');
   });
 
-  it('is total — every integer hue gets a name', () => {
+  it('is total: every integer hue gets a name', () => {
     const names = new Set<HueName>();
     for (let h = 0; h < 360; h++) {
       const n = getHueName(h);

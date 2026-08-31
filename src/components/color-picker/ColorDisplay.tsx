@@ -81,7 +81,7 @@ export function ColorDisplay({ color, className }: ColorDisplayProps) {
 
   return (
     <div className={cn('overflow-hidden rounded-2xl border border-line bg-surface', className)}>
-      {/* Color preview — the one saturated thing */}
+      {/* Color preview: the one saturated thing */}
       <div
         className="relative h-40 w-full group"
         style={{ backgroundColor: color.hex }}

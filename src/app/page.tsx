@@ -170,7 +170,7 @@ export default function ColorPickerPage() {
     <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
       {!imageSource ? (
         <>
-          {/* Landing — hero + live result preview */}
+          {/* Landing: hero + live result preview */}
           <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
             {/* Hero */}
             <div>
@@ -235,7 +235,7 @@ export default function ColorPickerPage() {
               </AnimateIn>
             </div>
 
-            {/* Result preview — swaps to the live picked color once one exists */}
+            {/* Result preview: swaps to the live picked color once one exists */}
             <AnimateIn direction="up" delay={140} className="lg:pt-1">
               {pickedColor ? (
                 <div className="space-y-4">
@@ -316,7 +316,7 @@ export default function ColorPickerPage() {
         </>
       ) : (
         <>
-          {/* Picker — image loaded */}
+          {/* Picker: image loaded */}
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="grid h-10 w-10 place-items-center rounded-lg border border-line bg-surface">

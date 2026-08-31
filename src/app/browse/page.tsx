@@ -385,7 +385,7 @@ export default function BrowseColorsPage() {
         </p>
       </div>
 
-      {/* Tabs — segmented control */}
+      {/* Tabs: segmented control */}
       <div className="-mx-4 mb-7 overflow-x-auto px-4 sm:mx-0 sm:px-0 scrollbar-hide">
         <div className="inline-flex gap-[3px] rounded-[13px] border border-line bg-surface-2 p-1">
           {tabs.map(tab => {
@@ -458,7 +458,7 @@ export default function BrowseColorsPage() {
             </div>
           </div>
 
-          {/* Category chips — subordinate to controls */}
+          {/* Category chips: subordinate to controls */}
           <div className="-mx-4 mb-6 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0 scrollbar-hide">
             {colorCategories.map(category => {
               const active = selectedCategory === category.id;

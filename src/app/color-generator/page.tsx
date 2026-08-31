@@ -148,7 +148,7 @@ export default function ColorGeneratorPage() {
       <div className="bg-surface border border-line rounded-2xl mb-5 overflow-hidden">
         <div className="p-5 sm:p-6">
           <div className="flex flex-col gap-4 sm:gap-5 lg:flex-row lg:items-center">
-            {/* Swatch — the color itself, the one saturated element */}
+            {/* Swatch: the color itself, the one saturated element */}
             <div
               className="h-24 sm:h-28 w-full rounded-xl lg:h-36 lg:w-44 flex-shrink-0 ring-1 ring-inset ring-black/10 transition-colors duration-300"
               style={{ backgroundColor: color }}

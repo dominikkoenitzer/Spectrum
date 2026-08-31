@@ -103,7 +103,7 @@ export function Header() {
               </span>
             </Link>
 
-            {/* Desktop Navigation — flat, grouped by hairline dividers */}
+            {/* Desktop Navigation: flat, grouped by hairline dividers */}
             <nav className="hidden lg:flex lg:items-center lg:gap-1.5">
               {groups.map((group, gi) => (
                 <div key={group.label} className="flex items-center gap-1.5">

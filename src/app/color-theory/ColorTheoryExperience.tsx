@@ -113,7 +113,7 @@ const colors: ColorEntry[] = [
     shadeNames: ['Lavender', 'Light', 'Violet', 'Purple', 'Deep', 'Grape'],
     complementary: { name: 'Yellow', hex: '#EAB308' },
     emotions: ['Luxury', 'Creativity', 'Mystery', 'Wisdom', 'Ambition'],
-    psychology: 'Violet sits at the extreme edge of human color perception, just before the spectrum crosses into ultraviolet. For most of history, purple dye required 12,000 shellfish per gram, which made it worth more than gold. That scarcity is still embedded in our perception: purple reads as rare, elevated, and unusual.',
+    psychology: 'Violet sits at the extreme edge of human color perception, just before the spectrum crosses into ultraviolet. For most of history, purple dye required 12,000 shellfish per gram, which made it worth more than gold. That scarcity is still embedded in our perception: purple still reads as rare and expensive.',
     inDesign: "Purple covers a wide creative range. Bright violet signals innovation: tech tools, AI products, game platforms. Deep purple signals luxury and heritage. Lavender is calming and increasingly used in wellness. What holds across all of them is that purple signals something outside the mainstream.",
     cultural: [
       { place: 'Western', note: 'Royalty, ambition, spiritual authority, creativity' },
@@ -278,7 +278,7 @@ export function ColorTheoryExperience() {
         ref={containerRef}
         className="h-[calc(100svh-4rem)] snap-y snap-mandatory overflow-x-hidden overflow-y-auto scroll-smooth"
       >
-        {/* 0 — Intro */}
+        {/* 0: Intro */}
         <section
           ref={(el) => { sectionRefs.current[0] = el; }}
           className={cn(SECTION, 'items-center bg-paper')}
@@ -302,7 +302,7 @@ export function ColorTheoryExperience() {
           </div>
         </section>
 
-        {/* 1 — Harmony */}
+        {/* 1: Harmony */}
         <section
           ref={(el) => { sectionRefs.current[1] = el; }}
           className={cn(SECTION, 'items-center bg-paper')}
@@ -339,7 +339,7 @@ export function ColorTheoryExperience() {
           </div>
         </section>
 
-        {/* 2..n — one fullscreen section per color */}
+        {/* 2..n: one fullscreen section per color */}
         {colors.map((c, idx) => {
           const i = idx + 2;
           const t = tint(c.hex);
@@ -358,7 +358,7 @@ export function ColorTheoryExperience() {
                   <span>{c.hue !== '—' ? `Hue ${c.hue}` : 'Neutral'} · {c.hex}</span>
                 </div>
 
-                {/* name — relaxed leading + descender padding so g/y clear the scale below */}
+                {/* name: relaxed leading + descender padding so g/y clear the scale below */}
                 <h2 className="font-display font-extrabold leading-[0.92] tracking-[-0.045em] text-[clamp(3.5rem,13vw,9rem)] pb-[0.06em]">
                   {c.name}
                 </h2>
