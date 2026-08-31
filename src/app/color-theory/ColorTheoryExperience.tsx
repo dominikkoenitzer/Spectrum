@@ -153,7 +153,7 @@ const colors: ColorEntry[] = [
     ],
     brands: ['UPS', "Hershey's", 'Nespresso', 'Louis Vuitton', 'Timberland'],
     fact: "Brown doesn't exist on the visible spectrum. It's what the brain reads as dark, low-saturation orange, and changing its brightness context turns it back into 'orange.'" },
-  { name: 'Black', hex: '#111827', hue: '—',
+  { name: 'Black', hex: '#111827', hue: '',
     shades: ['#6B7280', '#374151', '#1F2937', '#111827', '#030712'],
     shadeNames: ['Gray', 'Charcoal', 'Graphite', 'Jet', 'Black'],
     complementary: { name: 'White', hex: '#FFFFFF' },
@@ -168,7 +168,7 @@ const colors: ColorEntry[] = [
     ],
     brands: ['Chanel', 'Nike', 'Apple', 'Adidas', 'Lamborghini'],
     fact: "The world's blackest material, Vantablack, absorbs 99.965% of light. After an artist bought exclusive rights, others retaliated with 'the world's pinkest paint.'" },
-  { name: 'White', hex: '#F8FAFC', hue: '—',
+  { name: 'White', hex: '#F8FAFC', hue: '',
     shades: ['#FFFFFF', '#F9FAFB', '#F3F4F6', '#E5E7EB', '#D1D5DB'],
     shadeNames: ['White', 'Snow', 'Pearl', 'Silver', 'Platinum'],
     complementary: { name: 'Black', hex: '#111827' },
@@ -183,7 +183,7 @@ const colors: ColorEntry[] = [
     ],
     brands: ['Apple', 'Tesla', 'Audi', 'Dove', 'Muji'],
     fact: "White light contains all colors at once. Newton proved it in 1666 by splitting sunlight through a prism into the full spectrum." },
-  { name: 'Gray', hex: '#6B7280', hue: '—',
+  { name: 'Gray', hex: '#6B7280', hue: '',
     shades: ['#F3F4F6', '#D1D5DB', '#9CA3AF', '#6B7280', '#374151', '#111827'],
     shadeNames: ['Light', 'Silver', 'Medium', 'Gray', 'Charcoal', 'Dark'],
     complementary: { name: 'Warm Amber', hex: '#D97706' },
@@ -355,7 +355,7 @@ export function ColorTheoryExperience() {
                 {/* meta */}
                 <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider sm:text-xs" style={{ color: t.muted }}>
                   <span>{String(idx + 1).padStart(2, '0')} / {String(colors.length).padStart(2, '0')}</span>
-                  <span>{c.hue !== '—' ? `Hue ${c.hue}` : 'Neutral'} · {c.hex}</span>
+                  <span>{c.hue !== '' ? `Hue ${c.hue}` : 'Neutral'} · {c.hex}</span>
                 </div>
 
                 {/* name: relaxed leading + descender padding so g/y clear the scale below */}
